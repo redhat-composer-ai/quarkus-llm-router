@@ -25,6 +25,7 @@ import jakarta.ws.rs.core.MediaType;
  * Api For Testing the LLM.
  */
 @Path("/llm")
+@Authenticated
 public class LlmApi {
 
   Logger log = Logger.getLogger(LlmApi.class);
@@ -43,7 +44,6 @@ public class LlmApi {
    */
   @POST
   @Path("/generate")
-  @Authenticated
   public String syncRequest(LLMRequest request, @QueryParam("message") String message) {
     log.info("Generating response for message: " + message);
     if (request == null) {

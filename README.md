@@ -141,6 +141,31 @@ The `assistantName` can be swapped out for other assistants inside of the table 
 
 Information about the creation/updating of Assistants, ContentRetrievers, and LLMs can be found in the [admin flow docs](documentation/ADMIN_WORKFLOW.MD)
 
+## Authentication
+
+Authentication is disabled by default.  It can be enabled by using the environment variable `DISABLE_AUTHORIZATION=false`.  If enabled in dev mode, a keycloak instance will be spun up locally and populated with a default realm.  The authentication can be tested with the following steps:
+
+```
+
+# Keycloak runs on a random port, retrieve the port and update the curl command based on that.
+docker ps
+
+export access_token=$(\
+    curl --insecure -X POST http://localhost:32886/realms/quarkus/protocol/openid-connect/token \
+    --user backend-service:secret \
+    -H 'content-type: application/x-www-form-urlencoded' \
+    -d 'username=alice&password=alice&grant_type=password' | jq --raw-output '.access_token' \
+ )
+
+curl -X 'POST'  'http://localhost:8080/assistant/chat/streaming' -H 'Authorization: Bearer '$access_token -H 'Content-Type: application/json'   -d '{
+  "message": "What is this product?",
+  "assistantName": "default_assistant"
+}' -N -v
+
+```
+
+See https://quarkus.io/guides/security-keycloak-authorization if an external keycloak instance is required.
+
 ## Contributing
 
 We welcome contributions from the community\! Here's how you can get involved:
