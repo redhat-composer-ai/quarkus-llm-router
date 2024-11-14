@@ -9,6 +9,7 @@ import com.redhat.composer.model.enums.ContentRetrieverType;
 import com.redhat.composer.model.mongo.LlmConnectionEntity;
 import com.redhat.composer.model.mongo.RetrieverConnectionEntity;
 import com.redhat.composer.model.mongo.contentretrieverentites.BaseRetrieverConnectionEntity;
+import com.redhat.composer.model.mongo.contentretrieverentites.ElasticsearchConnectionEntity;
 import com.redhat.composer.model.mongo.contentretrieverentites.Neo4jEntity;
 import com.redhat.composer.model.mongo.contentretrieverentites.WeaviateConnectionEntity;
 import com.redhat.composer.model.request.LLMRequest;
@@ -16,6 +17,7 @@ import com.redhat.composer.model.request.RetrieverRequest;
 import com.redhat.composer.model.request.retriever.BaseRetrieverRequest;
 import com.redhat.composer.model.request.retriever.Neo4JRequest;
 import com.redhat.composer.model.request.retriever.WeaviateRequest;
+import com.redhat.composer.model.request.retriever.ElasticsearchRequest;
 
 import jakarta.enterprise.inject.Default;
 
@@ -77,6 +79,8 @@ public interface MapperUtil {
         return retrieverConnectionMapper.toEntity((WeaviateRequest) request);
       case ContentRetrieverType.NEO4J:
         return retrieverConnectionMapper.toEntity((Neo4JRequest) request);
+      case ContentRetrieverType.ELASTICSEARCH:
+        return retrieverConnectionMapper.toEntity((ElasticsearchRequest) request);
       default:
         return null;
     }
@@ -99,6 +103,8 @@ public interface MapperUtil {
         return retrieverConnectionMapper.toRequest((WeaviateConnectionEntity) entity);
       case ContentRetrieverType.NEO4J:
         return retrieverConnectionMapper.toRequest((Neo4jEntity) entity);
+      case ContentRetrieverType.ELASTICSEARCH:
+        return retrieverConnectionMapper.toRequest((ElasticsearchConnectionEntity) entity);
       default:
         return null;
     }

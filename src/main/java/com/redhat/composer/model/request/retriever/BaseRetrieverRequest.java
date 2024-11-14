@@ -9,7 +9,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "contentRetrieverType", visible = true)
 @JsonSubTypes({
     @JsonSubTypes.Type(value = WeaviateRequest.class, name = "weaviate"),
-    @JsonSubTypes.Type(value = Neo4JRequest.class, name = "neo4j")
+    @JsonSubTypes.Type(value = Neo4JRequest.class, name = "neo4j"),
+    @JsonSubTypes.Type(value = ElasticsearchRequest.class, name = "elasticsearch")
 })
 public class BaseRetrieverRequest {
 

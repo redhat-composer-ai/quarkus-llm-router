@@ -16,8 +16,10 @@ public class ContentRetrieverClientFactory {
   
   @Inject
   Neo4jContentRetrieverClient neo4jContentRetrieverClient;
-  
 
+  @Inject
+  ElasticsearchContentRetrieverClient elasticsearchContentRetrieverClient;
+  
   static final ContentRetrieverType DEFAULT_CONTENT_RETRIEVER = ContentRetrieverType.WEAVIATE;
 
   /**
@@ -35,6 +37,8 @@ public class ContentRetrieverClientFactory {
         return weaviateEmbeddingStoreClient;
       case ContentRetrieverType.NEO4J:
         return neo4jContentRetrieverClient;
+      case ContentRetrieverType.ELASTICSEARCH:
+        return elasticsearchContentRetrieverClient;
       default:
         throw new RuntimeException("Content Retriever type not found: " + contentRetrieverType);
     }

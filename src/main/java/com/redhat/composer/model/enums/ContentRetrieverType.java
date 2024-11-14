@@ -6,7 +6,8 @@ package com.redhat.composer.model.enums;
 public enum ContentRetrieverType {
 
   WEAVIATE("weaviate"),
-  NEO4J("neo4j");
+  NEO4J("neo4j"),
+  ELASTICSEARCH("elasticsearch");
 
   private final String type;
 

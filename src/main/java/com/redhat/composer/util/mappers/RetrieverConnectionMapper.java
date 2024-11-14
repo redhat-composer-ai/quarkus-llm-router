@@ -5,8 +5,10 @@ import org.mapstruct.Mapper;
 import com.redhat.composer.model.enums.ContentRetrieverType;
 import com.redhat.composer.model.mongo.contentretrieverentites.Neo4jEntity;
 import com.redhat.composer.model.mongo.contentretrieverentites.WeaviateConnectionEntity;
+import com.redhat.composer.model.mongo.contentretrieverentites.ElasticsearchConnectionEntity;
 import com.redhat.composer.model.request.retriever.Neo4JRequest;
 import com.redhat.composer.model.request.retriever.WeaviateRequest;
+import com.redhat.composer.model.request.retriever.ElasticsearchRequest;
 
 /**
  * RetrieverConnectionMapper interface.
@@ -36,6 +38,14 @@ public interface RetrieverConnectionMapper {
    * @param entity the WeaviateConnectionEntity to map
    * @return the WeaviateRequest
    */
+  ElasticsearchConnectionEntity toEntity(ElasticsearchRequest request);
+
+  /**
+   * Maps a ElasticsearchEntity to a ElasticsearchRequest.
+
+   * @param request the ElasticsearchEntity to map
+   * @return the ElasticSearchRequest
+   */
   WeaviateRequest toRequest(WeaviateConnectionEntity entity);
 
   /**
@@ -45,6 +55,14 @@ public interface RetrieverConnectionMapper {
    * @return the Neo4JRequest
    */
   Neo4JRequest toRequest(Neo4jEntity entity);
+
+  /**
+   * Maps a ContentRetrieverType to a String.
+
+   * @param contentRetrieverType the ContentRetrieverType to map
+   * @return type value
+   */
+  ElasticsearchRequest toRequest(ElasticsearchConnectionEntity entity);
 
   /**
    * Maps a ContentRetrieverType to a String.
