@@ -20,6 +20,7 @@
         <org.mapstruct.version>1.6.2</org.mapstruct.version>
         <owasp-dependency-check-plugin.version>11.1.0</owasp-dependency-check-plugin.version>
         <checkstyle-maven-plugin.version>3.6.0</checkstyle-maven-plugin.version>
+        <openapi-generator.version>7.10.0</openapi-generator.version>
     </properties>
 
     <dependencyManagement>
@@ -46,6 +47,10 @@
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-rest-jackson</artifactId>
+        </dependency>
+        <dependency>
+          <groupId>io.quarkus</groupId>
+          <artifactId>quarkus-hibernate-validator</artifactId>
         </dependency>
         <dependency>
           <groupId>io.quarkus</groupId>
@@ -176,6 +181,98 @@
 
         <plugins>
             <plugin>
+              <groupId>org.openapitools</groupId>
+              <artifactId>openapi-generator-maven-plugin</artifactId>
+              <version>${openapi-generator.version}</version>
+              <executions>
+                <execution>
+                  <id>generate-api-and-models</id>
+                  <phase>generate-sources</phase>
+                  <goals>
+                    <goal>generate</goal>
+                  </goals>
+                  <configuration>
+                    <inputSpec>
+                      ${project.basedir}/src/main/resources/META-INF/openapi.yml
+                    </inputSpec>
+                    <output>${project.build.directory}/generated-sources/openapi-spec</output>
+
+                    <skipValidateSpec>true</skipValidateSpec>
+
+                    <skipIfSpecIsUnchanged>true</skipIfSpecIsUnchanged>
+                    <cleanupOutput>false</cleanupOutput>
+
+                    <generatorName>jaxrs-spec</generatorName>
+                    <templateDirectory>${project.basedir}/src/main/openapi-generator/JavaJaxRs/spec</templateDirectory>
+
+                    <globalProperties>
+                      <skipFormModel>false</skipFormModel>
+                    </globalProperties>
+
+                    <packageName>com.redhat.composer</packageName>
+                    <invokerPackage>com.redhat.composer</invokerPackage>
+                    <apiPackage>com.redhat.composer.api</apiPackage>
+                    <modelPackage>com.redhat.composer.api.model</modelPackage>
+
+                    <generateAliasAsModel>true</generateAliasAsModel>
+
+                    <generateApis>true</generateApis>
+                    <generateApiTests>false</generateApiTests>
+                    <generateApiDocumentation>false</generateApiDocumentation>
+                    <generateModels>true</generateModels>
+                    <generateModelTests>false</generateModelTests>
+                    <generateModelDocumentation>false</generateModelDocumentation>
+                    <generateSupportingFiles>false</generateSupportingFiles>
+
+                    <!-- Don't include multipart APIs, since openapi-generator doesn't handle multipart correctly with jaxrs-spec yet -->
+                    <apisToGenerate>Assistant,AssistantAdmin</apisToGenerate>
+
+                    <importMappings>
+                      <mapping>FileUpload=org.jboss.resteasy.reactive.multipart.FileUpload</mapping>
+                    </importMappings>
+                    <typeMappings>
+                      <mapping>string+binary=FileUpload</mapping>
+                    </typeMappings>
+                    <schemaMappings>
+                      <mapping>BsonObjectId=org.bson.types.ObjectId</mapping>
+                    </schemaMappings>
+
+                    <configOptions>
+                      <interfaceOnly>true</interfaceOnly>
+                      <library>quarkus</library>
+                      <dateLibrary>java8</dateLibrary>
+                      <serializationLibrary>jackson</serializationLibrary>
+
+                      <sourceFolder>src/main/java</sourceFolder>
+
+                      <additionalModelTypeAnnotations>
+                        @io.quarkus.runtime.annotations.RegisterForReflection
+                      </additionalModelTypeAnnotations>
+                      <additionalEnumTypeAnnotations>
+                        @io.quarkus.runtime.annotations.RegisterForReflection
+                      </additionalEnumTypeAnnotations>
+
+                      <booleanGetterPrefix>get</booleanGetterPrefix>
+                      <disallowAdditionalPropertiesIfNotPresent>false</disallowAdditionalPropertiesIfNotPresent>
+                      <enumUnknownDefaultCase>false</enumUnknownDefaultCase>
+                      <hideGenerationTimestamp>true</hideGenerationTimestamp>
+                      <openApiNullable>false</openApiNullable>
+                      <returnResponse>false</returnResponse>
+                      <serializableModel>true</serializableModel>
+                      <sortModelPropertiesByRequiredFlag>false</sortModelPropertiesByRequiredFlag>
+                      <supportAsync>false</supportAsync>
+                      <useBeanValidation>true</useBeanValidation>
+                      <useJakartaEe>true</useJakartaEe>
+                      <useSwaggerAnnotations>false</useSwaggerAnnotations>
+                      <useMicroProfileOpenAPIAnnotations>true</useMicroProfileOpenAPIAnnotations>
+                      <useMutiny>true</useMutiny>
+                      <useTags>true</useTags>
+                    </configOptions>
+                  </configuration>
+                </execution>
+              </executions>
+            </plugin>
+            <plugin>
                 <groupId>${quarkus.platform.group-id}</groupId>
                 <artifactId>quarkus-maven-plugin</artifactId>
                 <version>${quarkus.platform.version}</version>
@@ -226,8 +323,8 @@
                         <maven.home>${maven.home}</maven.home>
                     </systemPropertyVariables>
                 </configuration>
-            </plugin>    
-            
+            </plugin>
+
             <!-- Checkstyle Plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -246,7 +343,7 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>        
+            </plugin>
         </plugins>
     </build>
 
@@ -264,7 +361,7 @@
             </properties>
         </profile>
 
-        <!-- Profile used in the Github Action -->
+<!-- Profile used in the Github Action -->
         <profile>
             <id>github-action</id>
             <build>
@@ -286,12 +383,12 @@
                             </goals>
                         </execution>
                     </executions>
-                </plugin>  
+                </plugin>
                 </plugins>
             </build>
         </profile>
 
-  
+
         <profile>
             <id>security-scanner</id>
             <build>
@@ -299,7 +396,7 @@
                     <plugin>
                         <groupId>org.owasp</groupId>
                         <artifactId>dependency-check-maven</artifactId>
-                        <version>${owasp-dependency-check-plugin.version}</version>  
+                        <version>${owasp-dependency-check-plugin.version}</version>
                         <executions>
                             <execution>
                                 <goals>
@@ -342,7 +439,7 @@
                           </goals>
                       </execution>
                   </executions>
-              </plugin>      
+              </plugin>
             </plugins>
           </build>
         </profile>

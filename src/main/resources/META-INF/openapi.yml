@@ -1,0 +1,433 @@
+---
+openapi: 3.0.3
+info:
+  title: router API
+  version: 1.0.0-SNAPSHOT
+tags:
+  - name: Assistant
+    description: Assistant APIs
+  - name: Assistant Admin
+    description: Assistant Management APIs
+  - name: Assistant Multipart
+    description: Assistant APIs that allow multipart file uploads
+paths:
+  /admin/assistant:
+    get:
+      operationId: list-assistants
+      summary: List Assistants
+      tags:
+        - Assistant Admin
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                nullable: false
+                items:
+                  $ref: '#/components/schemas/Assistant'
+        '401':
+          $ref: '#/components/responses/Common401Response'
+        '403':
+          $ref: '#/components/responses/Common403Response'
+      security:
+        - OIDC: [ ]
+    post:
+      operationId: create-assistant
+      summary: Create Assistant
+      tags:
+        - Assistant Admin
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              title: CreateAssistantRequest
+              type: object
+              required:
+                - name
+                - llmConnectionId
+                - retrieverConnectionId
+              properties:
+                name:
+                  type: string
+                displayName:
+                  type: string
+                description:
+                  type: string
+                llmConnectionId:
+                  $ref: '#/components/schemas/LLMConnectionId'
+                retrieverConnectionId:
+                  $ref: '#/components/schemas/RetrieverConnectionId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Assistant'
+        '401':
+          $ref: '#/components/responses/Common401Response'
+        '403':
+          $ref: '#/components/responses/Common403Response'
+      security:
+        - OIDC: [ ]
+
+  /admin/assistant/llm:
+    get:
+      operationId: list-llm-connections
+      summary: List LLM Connections
+      tags:
+        - Assistant Admin
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                nullable: false
+                items:
+                  $ref: '#/components/schemas/LLMConnection'
+        '401':
+          $ref: '#/components/responses/Common401Response'
+        '403':
+          $ref: '#/components/responses/Common403Response'
+      security:
+        - OIDC: [ ]
+    post:
+      operationId: create-llm-connection
+      summary: Create LLM Connection
+      tags:
+        - Assistant Admin
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                modelType:
+                  type: string
+                url:
+                  type: string
+                apiKey:
+                  type: string
+                modelName:
+                  type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LLMConnection'
+        '401':
+          $ref: '#/components/responses/Common401Response'
+        '403':
+          $ref: '#/components/responses/Common403Response'
+      security:
+        - OIDC: [ ]
+
+  /admin/assistant/retrieverConnection:
+    get:
+      operationId: list-retriever-connections
+      summary: List Retriever Connections
+      tags:
+        - Assistant Admin
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                nullable: false
+                items:
+                  $ref: '#/components/schemas/RetrieverConnection'
+        '401':
+          $ref: '#/components/responses/Common401Response'
+        '403':
+          $ref: '#/components/responses/Common403Response'
+      security:
+        - OIDC: [ ]
+    post:
+      operationId: create-retriever-connection
+      summary: Create Retriever Connection
+      tags:
+        - Assistant Admin
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              title: CreateRetrieverConnectionRequest
+              type: object
+              properties:
+                baseRetrieverRequest:
+                  $ref: "#/components/schemas/BaseRetrieverConnection"
+                embeddingType:
+                  type: string
+                name:
+                  type: string
+                description:
+                  type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RetrieverConnection'
+        '401':
+          $ref: '#/components/responses/Common401Response'
+        '403':
+          $ref: '#/components/responses/Common403Response'
+      security:
+        - OIDC: [ ]
+
+  /assistant/chat/streamingWithFileUpload:
+    post:
+      operationId: assistant-chat-streaming-mp
+      summary: Assistant Chat With FileUpload (Streaming)
+      description: >-
+        Temporary endpoint to allow upload of files alongside chat request.
+        This endpoint will be deprecated when separate file-upload is implemented and file-references may
+        be included into chat messages.
+      tags:
+        - Assistant Multipart
+      x-streamed-response: true
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              title: AssistantChatRequestMultipart
+              type: object
+              additionalProperties: false
+              required:
+                - jsonRequest
+              properties:
+                jsonRequest:
+                  $ref: '#/components/schemas/AssistantChatMessage'
+                file:
+                  type: array
+                  minItems: 0
+                  maxItems: 2
+                  items:
+                    type: string
+                    format: binary
+                  x-field-extra-annotation: |+
+                    @org.jboss.resteasy.reactive.RestForm
+                    @org.jboss.resteasy.reactive.PartType(jakarta.ws.rs.core.MediaType.APPLICATION_OCTET_STREAM)
+            encoding:
+              jsonRequest:
+                contentType: application/json
+              file:
+                contentType: application/octet-stream
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '401':
+          $ref: '#/components/responses/Common401Response'
+        '403':
+          $ref: '#/components/responses/Common403Response'
+      security:
+        - OIDC: [ ]
+
+  /assistant/chat/streaming:
+    post:
+      operationId: assistant-chat-streaming
+      summary: Assistant Chat (Streaming)
+      x-streamed-response: true
+      tags:
+        - Assistant
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssistantChatMessage'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '401':
+          $ref: '#/components/responses/Common401Response'
+        '403':
+          $ref: '#/components/responses/Common403Response'
+      security:
+        - OIDC: [ ]
+components:
+  schemas:
+    # Primitive types
+    Date:
+      format: date
+      type: string
+      example: 2022-03-10
+    BsonObjectId:
+      description: BSON Object Identifier (eg, as used by MongoDB)
+      type: object
+      properties:
+        timestamp:
+          format: int32
+          type: integer
+        counter:
+          format: int32
+          type: integer
+        randomValue1:
+          format: int32
+          type: integer
+        randomValue2:
+          type: integer
+        date:
+          $ref: "#/components/schemas/Date"
+    ContentRetrieverType:
+      type: string
+      enum:
+        - weaviate
+        - neo4j
+
+    # IDs
+    AssistantId:
+      type: string
+      minLength: 1
+      nullable: false
+    LLMConnectionId:
+      type: string
+      minLength: 1
+      nullable: false
+    RetrieverConnectionId:
+      type: string
+      minLength: 1
+      nullable: false
+
+    # Configuration Types
+    Assistant:
+      type: object
+      properties: 
+        name:
+          type: string
+        displayName:
+          type: string
+        description:
+          type: string
+        llmConnectionId:
+          $ref: '#/components/schemas/LLMConnectionId'
+        llmConnection:
+          $ref: '#/components/schemas/LLMConnection'
+        retrieverConnectionId:
+          $ref: '#/components/schemas/RetrieverConnectionId'
+        retrieverConnection:
+          $ref: '#/components/schemas/RetrieverConnection'
+    BaseRetrieverConnection:
+      type: object
+      required:
+        - contentRetrieverType
+      properties:
+        contentRetrieverType:
+          $ref: '#/components/schemas/ContentRetrieverType'
+      oneOf:
+        - $ref: '#/components/schemas/WeaviateConnection'
+        - $ref: '#/components/schemas/Neo4JConnection'
+      discriminator:
+        propertyName: contentRetrieverType
+        mapping:
+          weaviate: '#/components/schemas/WeaviateConnection'
+          neo4j: '#/components/schemas/Neo4JConnection'
+    WeaviateConnection:
+      type: object
+      x-discriminator-value: weaviate
+      allOf:
+        - $ref: '#/components/schemas/BaseRetrieverConnection'
+        - properties:
+            textKey:
+              type: string
+            metadataFields:
+              type: array
+              items:
+                type: string
+            index:
+              type: string
+            scheme:
+              type: string
+            host:
+              type: string
+            apiKey:
+              type: string
+    Neo4JConnection:
+      type: object
+      x-discriminator-value: neo4j
+      allOf:
+        - $ref: '#/components/schemas/BaseRetrieverConnection'
+        - properties: { }
+    LLMConnection:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        modelType:
+          type: string
+        url:
+          type: string
+        apiKey:
+          type: string
+        modelName:
+          type: string
+    RetrieverConnection:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        embeddingType:
+          type: string
+        connectionEntity:
+          $ref: '#/components/schemas/BaseRetrieverConnection'
+
+    # Common Command Types
+    AssistantChatMessage:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+          nullable: false
+        context:
+          type: string
+          nullable: true
+        assistantId:
+          $ref: '#/components/schemas/AssistantId'
+        assistantName:
+          type: string
+          nullable: false
+          minLength: 1
+  responses:
+    Common401Response:
+      description: Not Authorized
+    Common403Response:
+      description: Not Allowed
+  securitySchemes:
+    OIDC:
+      type: openIdConnect
+      description: Authentication
