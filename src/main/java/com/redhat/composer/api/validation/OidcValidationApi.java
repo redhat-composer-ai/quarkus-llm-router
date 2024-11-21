@@ -9,7 +9,7 @@ import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 
 /**
- * OIDCValidationAPI
+ * OIDCValidationAPI.
  */
 @Path("/auth")
 @Authenticated
