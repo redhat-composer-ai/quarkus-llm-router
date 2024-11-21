@@ -32,7 +32,7 @@ jobs:
       run: |
         curl -L https://huggingface.co/nomic-ai/nomic-embed-text-v1/resolve/main/onnx/model_quantized.onnx?download=true --output src/main/resources/embeddings/nomic/model.onnx
     - name: Build with Maven
-      run: mvn -B package --file pom.xml
+      run: mvn -B package --file pom.xml -P github-action
     - name: Archive target folder
       uses: actions/upload-artifact@v4
       with:

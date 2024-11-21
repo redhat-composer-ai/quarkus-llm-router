@@ -236,9 +236,11 @@
                 <configuration>
                     <configLocation>checkstyle.xml</configLocation>
                     <suppressionsLocation>checkstyle-suppressions.xml</suppressionsLocation>
+                    <failOnViolation>true</failOnViolation>
                 </configuration>
                 <executions>
                     <execution>
+                        <phase>validate</phase>
                         <goals>
                             <goal>check</goal>
                         </goals>
@@ -260,6 +262,33 @@
                 <skipITs>false</skipITs>
                 <quarkus.native.enabled>true</quarkus.native.enabled>
             </properties>
+        </profile>
+
+        <!-- Profile used in the Github Action -->
+        <profile>
+            <id>github-action</id>
+            <build>
+                <plugins>
+                  <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-checkstyle-plugin</artifactId>
+                    <version>${checkstyle-maven-plugin.version}</version>
+                    <configuration>
+                        <configLocation>checkstyle.xml</configLocation>
+                        <suppressionsLocation>checkstyle-suppressions.xml</suppressionsLocation>
+                        <violationSeverity>warning</violationSeverity>
+                        <failOnViolation>true</failOnViolation>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>check</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>  
+                </plugins>
+            </build>
         </profile>
 
   
@@ -289,6 +318,34 @@
                 </plugins>
             </build>
         </profile>
+
+        <profile>
+          <id>checkstyle</id>
+          <build>
+            <plugins>
+              <!-- Checkstyle Plugin -->
+              <plugin>
+                  <groupId>org.apache.maven.plugins</groupId>
+                  <artifactId>maven-checkstyle-plugin</artifactId>
+                  <version>${checkstyle-maven-plugin.version}</version>
+                  <configuration>
+                      <configLocation>checkstyle.xml</configLocation>
+                      <suppressionsLocation>checkstyle-suppressions.xml</suppressionsLocation>
+                      <failOnViolation>true</failOnViolation>
+                      <violationSeverity>warning</violationSeverity>
+                  </configuration>
+                  <executions>
+                      <execution>
+                          <phase>validate</phase>
+                          <goals>
+                              <goal>check</goal>
+                          </goals>
+                      </execution>
+                  </executions>
+              </plugin>      
+            </plugins>
+          </build>
+        </profile>
     </profiles>
 
     <reporting>
@@ -300,6 +357,7 @@
               <configuration>
                   <configLocation>checkstyle.xml</configLocation>
                   <suppressionsLocation>checkstyle-suppressions.xml</suppressionsLocation>
+                  <failOnViolation>true</failOnViolation>
               </configuration>
           </plugin>
       </plugins>
