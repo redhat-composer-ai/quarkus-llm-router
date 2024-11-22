@@ -33,18 +33,18 @@ public interface RetrieverConnectionMapper {
   Neo4jEntity toEntity(Neo4JRequest request);
 
   /**
-   * Maps a WeaviateConnectionEntity to a WeaviateRequest.
+   * Maps a ElasticsearchConnectionEntity to a ElasticsearchRequest.
 
-   * @param entity the WeaviateConnectionEntity to map
+   * @param request the ElasticsearchConnectionEntity to map
    * @return the WeaviateRequest
    */
   ElasticsearchConnectionEntity toEntity(ElasticsearchRequest request);
 
   /**
-   * Maps a ElasticsearchEntity to a ElasticsearchRequest.
+   * Maps a WeaviateEntity to a WeaviateRequest.
 
-   * @param request the ElasticsearchEntity to map
-   * @return the ElasticSearchRequest
+   * @param entity the WeaviateEntity to map
+   * @return the WeaviateRequest
    */
   WeaviateRequest toRequest(WeaviateConnectionEntity entity);
 
@@ -57,10 +57,10 @@ public interface RetrieverConnectionMapper {
   Neo4JRequest toRequest(Neo4jEntity entity);
 
   /**
-   * Maps a ContentRetrieverType to a String.
+   * Maps a ElasticsearchEntity to a ElasticsearchRequest.
 
-   * @param contentRetrieverType the ContentRetrieverType to map
-   * @return type value
+   * @param entity the ElasticsearchEntity to map
+   * @return the ElasticsearchRequest
    */
   ElasticsearchRequest toRequest(ElasticsearchConnectionEntity entity);
 

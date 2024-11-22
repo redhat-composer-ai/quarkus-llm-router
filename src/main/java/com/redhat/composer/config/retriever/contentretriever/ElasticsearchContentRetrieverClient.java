@@ -59,6 +59,7 @@ public class ElasticsearchContentRetrieverClient extends BaseContentRetrieverCli
     String pass = elasticsearchRequest.getPassword() != null ? elasticsearchRequest.getPassword() : elasticPassword;
     String index = elasticsearchRequest.getIndex() != null ? elasticsearchRequest.getIndex() : elasticIndex;
 
+    // TODO: Make this configurable for different authentication types
     final CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
     credentialsProvider.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(user, pass));
 
@@ -67,10 +68,10 @@ public class ElasticsearchContentRetrieverClient extends BaseContentRetrieverCli
         .setHttpClientConfigCallback(httpClientBuilder -> {
           httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider);
           return httpClientBuilder;
-      })
+        })
         .build();
   
-    log.info("Attempting to connect to Elasticsearch at " + "https://" + host + " with index " + index);
+    log.debug("Attempting to connect to Elasticsearch at " + host + " with index " + index);
 
     EmbeddingStore<TextSegment> store = ElasticsearchEmbeddingStore.builder()
                     .indexName(index)

@@ -106,7 +106,7 @@ public class ElasticsearchRequest extends BaseRetrieverRequest {
     return this;
   }
 
-  public ElasticsearchRequest User(String user) {
+  public ElasticsearchRequest user(String user) {
     setUser(user);
     return this;
   }

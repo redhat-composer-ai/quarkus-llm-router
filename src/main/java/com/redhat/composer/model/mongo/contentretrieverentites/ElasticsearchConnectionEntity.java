@@ -25,7 +25,9 @@ public class ElasticsearchConnectionEntity extends BaseRetrieverConnectionEntity
 
   String host;
 
-  String apiKey;
+  String user;
+
+  String password;
 
   public ElasticsearchConnectionEntity() {
     contentRetrieverType = ContentRetrieverType.ELASTICSEARCH;
@@ -63,12 +65,20 @@ public class ElasticsearchConnectionEntity extends BaseRetrieverConnectionEntity
     this.host = host;
   }
 
-  public String getApiKey() {
-    return this.apiKey;
+  public String getUser() {
+    return this.user;
   }
 
-  public void setApiKey(String apiKey) {
-    this.apiKey = apiKey;
+  public String getPassword() {
+    return this.password;
+  }
+
+  public void setUser(String user) {
+    this.user = user;
+  }
+
+  public void setPassword(String password) {
+    this.password = password;
   }
 
   public ElasticsearchConnectionEntity textKey(String textKey) {
@@ -91,8 +101,13 @@ public class ElasticsearchConnectionEntity extends BaseRetrieverConnectionEntity
     return this;
   }
 
-  public ElasticsearchConnectionEntity apiKey(String apiKey) {
-    setApiKey(apiKey);
+  public ElasticsearchConnectionEntity user(String user) {
+    setUser(user);
+    return this;
+  }
+
+  public ElasticsearchConnectionEntity password(String password) {
+    setPassword(password);
     return this;
   }
 
@@ -103,7 +118,7 @@ public class ElasticsearchConnectionEntity extends BaseRetrieverConnectionEntity
 
   @Override
   public int hashCode() {
-    return Objects.hash(textKey, metadataFields, index, host, apiKey);
+    return Objects.hash(textKey, metadataFields, index, host, user, password);
   }
 
   @Override
@@ -113,7 +128,8 @@ public class ElasticsearchConnectionEntity extends BaseRetrieverConnectionEntity
       ", metadataFields='" + getMetadataFields() + "'" +
       ", index='" + getIndex() + "'" +
       ", host='" + getHost() + "'" +
-      ", apiKey='" + getApiKey() + "'" +
+      ", apiKey='" + getUser() + "'" +
+      ", apiKey='" + getPassword() + "'" +
       "}";
   }
   
