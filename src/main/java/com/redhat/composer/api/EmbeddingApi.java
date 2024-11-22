@@ -2,7 +2,6 @@ package com.redhat.composer.api;
 
 import com.redhat.composer.services.EmbeddingService;
 
-import io.quarkus.security.Authenticated;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.POST;
@@ -15,7 +14,6 @@ import jakarta.ws.rs.core.MediaType;
  * Api For Testing Embedding.
  */
 @Path("/embedding")
-@Authenticated
 public class EmbeddingApi {
 
   @Inject
@@ -23,7 +21,8 @@ public class EmbeddingApi {
 
   /**
    * Embedd a string.
-   * @param text the text to embedd
+   * 
+   * @param text          the text to embedd
    * @param embeddingType the type of embedding to use
    * @return the embedded string
    */

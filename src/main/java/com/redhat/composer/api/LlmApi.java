@@ -1,7 +1,6 @@
 package com.redhat.composer.api;
 
 import org.jboss.logging.Logger;
-import org.jboss.resteasy.reactive.RestStreamElementType;
 
 import com.redhat.composer.config.llm.models.streaming.StreamingBaseModel;
 import com.redhat.composer.config.llm.models.streaming.StreamingModelFactory;
@@ -17,9 +16,7 @@ import io.smallrye.mutiny.Multi;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
-import jakarta.ws.rs.core.MediaType;
 
 /**
  * Api For Testing the LLM.

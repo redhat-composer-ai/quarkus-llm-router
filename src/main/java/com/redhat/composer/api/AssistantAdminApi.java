@@ -11,7 +11,6 @@ import com.redhat.composer.model.request.RetrieverRequest;
 import com.redhat.composer.model.response.AssistantResponse;
 import com.redhat.composer.services.AssistantInfoService;
 
-import io.quarkus.security.Authenticated;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
@@ -21,7 +20,6 @@ import jakarta.ws.rs.Path;
  * Admin API for Creating and Managing Assistants.
  */
 @Path("/admin/assistant")
-@Authenticated
 public class AssistantAdminApi {
 
   @Inject

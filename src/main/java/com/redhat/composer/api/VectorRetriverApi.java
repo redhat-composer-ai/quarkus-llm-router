@@ -1,7 +1,6 @@
 package com.redhat.composer.api;
 
 import java.util.List;
-import java.util.Map;
 
 import com.redhat.composer.model.request.RetrieverRequest;
 import com.redhat.composer.model.response.SourceResponse;
@@ -9,7 +8,6 @@ import com.redhat.composer.services.RetrieveService;
 import com.redhat.composer.util.mappers.MapperUtil;
 
 import dev.langchain4j.rag.content.Content;
-import io.quarkus.security.Authenticated;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
@@ -19,7 +17,6 @@ import jakarta.ws.rs.QueryParam;
  * Api For Testing Store Retrievers.
  */
 @Path("/retriver")
-@Authenticated
 public class VectorRetriverApi {
 
   @Inject

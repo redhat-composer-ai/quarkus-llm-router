@@ -5,7 +5,6 @@ import org.jboss.logging.Logger;
 import com.redhat.composer.model.request.AssistantChatRequest;
 import com.redhat.composer.services.ChatBotService;
 
-import io.quarkus.security.Authenticated;
 import io.smallrye.mutiny.Multi;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
@@ -17,7 +16,6 @@ import jakarta.ws.rs.core.MediaType;
  * Assistant API for Chatting using assistants.
  */
 @Path("/assistant/chat")
-@Authenticated
 public class AssistantApi {
 
   Logger log = Logger.getLogger(AssistantApi.class);
