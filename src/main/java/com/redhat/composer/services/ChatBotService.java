@@ -1,5 +1,8 @@
 package com.redhat.composer.services;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.jboss.logging.Logger;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -108,20 +111,24 @@ public class ChatBotService {
     BaseAiService aiService = builder.build();
 
     try {
+      List<ContentResponse> contentSources = new ArrayList<ContentResponse>();
       Multi<String> multi = Multi.createFrom().emitter(em -> {
         aiService.chatToken(request.getContext(), request.getMessage())
         .onNext(em::emit)
         .onRetrieved(sources -> {
-          try {
-            em.emit("START_SOURCES_STRING\n");
-            em.emit(objectMapper.writeValueAsString(new ContentResponse(sources)));
-            em.emit("\nEND_SOURCES_STRING\n");
-          } catch (JsonProcessingException e) {
-            log.error("Sources not processable: %e", e);
-          }
+          contentSources.add(new ContentResponse(sources));
         })
         .onError(em::fail)
         .onComplete(response -> {
+          em.emit("START_SOURCES_STRING\n");
+          contentSources.forEach(source -> {
+            try {
+              em.emit(objectMapper.writeValueAsString(source));
+            } catch (JsonProcessingException e) {
+              log.error("Source not processable: %e", e);
+            }
+          });
+          em.emit("\nEND_SOURCES_STRING\n");
           em.complete();
         })
             .start();
