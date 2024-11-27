@@ -28,51 +28,56 @@ public class AssistantInfoService {
 
   /**
    * Create an Assistant.
+   *
    * @param request the AssistantCreationRequest
    * @return the AssistantEntity
    */
   public AssistantEntity createAssistant(AssistantCreationRequest request) {
     AssistantEntity assistant = new AssistantEntity();
     LlmConnectionEntity llm = (LlmConnectionEntity) LlmConnectionEntity.findByIdOptional(
-                                        new ObjectId(request.getLlmConnectionId()))
-                                        .orElseThrow(() -> new IllegalArgumentException("LLM Connection not found"));
-    
+            new ObjectId(request.getLlmConnectionId()))
+        .orElseThrow(() -> new IllegalArgumentException("LLM Connection not found"));
+
     assistant.setLlmConnectionId(llm.id);
 
-    if (request.getRetrieverConnectionId() != null) {    
+    if (request.getRetrieverConnectionId() != null) {
       RetrieverConnectionEntity retriever = (RetrieverConnectionEntity) RetrieverConnectionEntity
-                                  .findByIdOptional(new ObjectId(request.getRetrieverConnectionId()))
-                                  .orElseThrow(() -> new IllegalArgumentException("Retriever Connection not found"));
+          .findByIdOptional(new ObjectId(request.getRetrieverConnectionId()))
+          .orElseThrow(() -> new IllegalArgumentException("Retriever Connection not found"));
       assistant.setRetrieverConnectionId(retriever.id);
     }
     assistant.setName(request.getName());
     assistant.setDisplayName(request.getDisplayName());
     assistant.setDescription(request.getDescription());
+    assistant.setUserPrompt(request.getUserPrompt());
+    assistant.setExampleQuestions(request.getExampleQuestions());
     assistant.persist();
     return assistant;
   }
 
   /**
    * Get all Assistants.
+   *
    * @return a list of AssistantResponse
    */
   public List<AssistantResponse> getAssistant() {
     Stream<AssistantEntity> stream = AssistantEntity.streamAll();
     return stream.map(entity -> {
-      AssistantResponse response = new AssistantResponse();
-      response.id = entity.id;
-      response.setName(entity.getName()); 
-      response.setDisplayName(entity.getDisplayName());
-      response.setDescription(entity.getDescription());
-      response.setLlmConnection(LlmConnectionEntity.findById(entity.getLlmConnectionId()));
-      response.setRetrieverConnection(RetrieverConnectionEntity.findById(entity.getRetrieverConnectionId()));
-      return response;
-    }
+          AssistantResponse response = new AssistantResponse();
+          response.id = entity.id;
+          response.setName(entity.getName());
+          response.setDisplayName(entity.getDisplayName());
+          response.setDescription(entity.getDescription());
+          response.setLlmConnection(LlmConnectionEntity.findById(entity.getLlmConnectionId()));
+          response.setRetrieverConnection(RetrieverConnectionEntity.findById(entity.getRetrieverConnectionId()));
+          return response;
+        }
     ).toList();
   }
 
   /**
    * Create a RetrieverConnectionEntity.
+   *
    * @param request the RetrieverRequest
    * @return the RetrieverConnectionEntity
    */
@@ -85,9 +90,10 @@ public class AssistantInfoService {
   public List<RetrieverConnectionEntity> getRetrieverConnections() {
     return RetrieverConnectionEntity.listAll();
   }
-  
+
   /**
    * Create a LLMConnectionEntity.
+   *
    * @param request the LLMRequest
    * @return the LLMConnectionEntity
    */
@@ -104,10 +110,11 @@ public class AssistantInfoService {
 
   /**
    * Get all LLMConnections.
+   *
    * @return a list of LlmConnectionEntity
    */
   public List<LlmConnectionEntity> getLlmConnections() {
     return LlmConnectionEntity.listAll();
   }
-  
+
 }
