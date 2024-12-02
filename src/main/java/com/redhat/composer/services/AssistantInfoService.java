@@ -5,9 +5,11 @@ import java.util.stream.Stream;
 
 import org.bson.types.ObjectId;
 
+import com.redhat.composer.model.mongo.AIGatewayConnectionEntity;
 import com.redhat.composer.model.mongo.AssistantEntity;
 import com.redhat.composer.model.mongo.LlmConnectionEntity;
 import com.redhat.composer.model.mongo.RetrieverConnectionEntity;
+import com.redhat.composer.model.request.AIGatewayConnectionRequest;
 import com.redhat.composer.model.request.AssistantCreationRequest;
 import com.redhat.composer.model.request.LLMRequest;
 import com.redhat.composer.model.request.RetrieverRequest;
@@ -66,6 +68,7 @@ public class AssistantInfoService {
       response.setDescription(entity.getDescription());
       response.setLlmConnection(LlmConnectionEntity.findById(entity.getLlmConnectionId()));
       response.setRetrieverConnection(RetrieverConnectionEntity.findById(entity.getRetrieverConnectionId()));
+      response.setAiGatewayConnection(AIGatewayConnectionEntity.findById(entity.getAiGatewayConnectionId()));
       return response;
     }
     ).toList();
@@ -84,6 +87,25 @@ public class AssistantInfoService {
 
   public List<RetrieverConnectionEntity> getRetrieverConnections() {
     return RetrieverConnectionEntity.listAll();
+  }
+
+  /**
+   * Create an AIGatewayConnectionEntity.
+   * @param request the AIGatewayConnectionRequest
+   * @return the AIGatewayConnectionEntity
+   */
+  public AIGatewayConnectionEntity createAiGatewayConnectionEntity(AIGatewayConnectionRequest request) {
+    AIGatewayConnectionEntity entity = mapperUtil.toEntity(request);
+    entity.persist();
+    return entity;
+  }
+
+  /**
+   * Get all AIGatewayConnections.
+   * @return a list of AIGatewayConnectionEntity
+   */
+  public List<AIGatewayConnectionEntity> getAiGatewayConnections() {
+    return AIGatewayConnectionEntity.listAll();
   }
   
   /**

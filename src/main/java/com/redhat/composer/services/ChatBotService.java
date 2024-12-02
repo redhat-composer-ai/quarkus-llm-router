@@ -1,5 +1,7 @@
 package com.redhat.composer.services;
 
+import java.util.Map;
+
 import org.jboss.logging.Logger;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -7,6 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.redhat.composer.config.llm.aiservices.AiServicesFactory;
 import com.redhat.composer.config.llm.aiservices.BaseAiService;
 import com.redhat.composer.config.llm.models.streaming.StreamingModelFactory;
+import com.redhat.composer.model.mongo.AIGatewayConnectionEntity;
 import com.redhat.composer.model.mongo.AssistantEntity;
 import com.redhat.composer.model.mongo.LlmConnectionEntity;
 import com.redhat.composer.model.mongo.RetrieverConnectionEntity;
@@ -21,6 +24,9 @@ import dev.langchain4j.service.AiServices;
 import io.opentelemetry.api.trace.Span;
 import io.quarkus.runtime.util.StringUtil;
 import io.smallrye.mutiny.Multi;
+import io.vertx.mutiny.core.streams.WriteStream;
+import io.vertx.mutiny.ext.web.client.WebClient;
+import io.vertx.mutiny.ext.web.codec.BodyCodec;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
@@ -50,6 +56,9 @@ public class ChatBotService {
   @Inject
   ObjectMapper objectMapper;
 
+  @Inject
+  WebClient webClient;
+
   /**
    * Chat with an assistant.
    * @param request the AssistantChatRequest
@@ -66,10 +75,30 @@ public class ChatBotService {
       throw new RuntimeException("Assistant Name or ID Required");
     }
 
+    AIGatewayConnectionEntity aiGateway = AIGatewayConnectionEntity.findById(assistant.getAiGatewayConnectionId());
+    if (aiGateway != null) {
+      String url = aiGateway.getHost() + (aiGateway.getPath().startsWith("/") ? aiGateway.getPath() : "/" + aiGateway.getPath());
+      Map<String, Object> forwardRequest = aiGateway.getMessageProperties();
+      // TODO: Make Message configurable in some way
+      forwardRequest.put("message", request.getMessage()); 
+      
+      // webClient.post(url)
+      //       .as(BodyCodec.pipe(writeStream))
+      //       .sendJson(forwardRequest);
+      // writeStream.
+      return Multi.createFrom().emitter(emitter -> {
+        webClient.post(url)
+            .sendJson(forwardRequest)
+            .subscribe().with(response -> {
+                emitter.emit(response.bodyAsString());
+                emitter.complete();
+            }, emitter::fail);
+    });
+    }
+
     LlmConnectionEntity llmConnection = LlmConnectionEntity.findById(assistant.getLlmConnectionId());
 
-    RetrieverConnectionEntity retrieverConnection = RetrieverConnectionEntity
-                                      .findById(assistant.getRetrieverConnectionId());
+    RetrieverConnectionEntity retrieverConnection = RetrieverConnectionEntity.findById(assistant.getRetrieverConnectionId());
 
     ChatBotRequest chatBotRequest = new ChatBotRequest();
     chatBotRequest.setMessage(request.getMessage());

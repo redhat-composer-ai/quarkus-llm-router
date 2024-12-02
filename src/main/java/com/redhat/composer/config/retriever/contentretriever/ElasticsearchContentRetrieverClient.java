@@ -1,6 +1,12 @@
 package com.redhat.composer.config.retriever.contentretriever;
 
+import org.apache.http.HttpHost;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.CredentialsProvider;
+import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
+import org.elasticsearch.client.RestClient;
 import org.jboss.logging.Logger;
 
 //import com.redhat.composer.config.retriever.contentretriever.custom.WeaviateEmbeddingStoreCustom;
@@ -14,14 +20,6 @@ import dev.langchain4j.rag.content.retriever.ContentRetriever;
 import dev.langchain4j.rag.content.retriever.EmbeddingStoreContentRetriever;
 import dev.langchain4j.store.embedding.EmbeddingStore;
 import dev.langchain4j.store.embedding.elasticsearch.ElasticsearchEmbeddingStore;
-import org.apache.http.impl.client.BasicCredentialsProvider;
-import org.apache.http.message.BasicHeader;
-import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.CredentialsProvider;
-import org.apache.http.auth.AuthScope;
-import org.apache.http.Header;
-import org.apache.http.HttpHost;
-import org.elasticsearch.client.RestClient;
 import jakarta.inject.Singleton;
 
 /**

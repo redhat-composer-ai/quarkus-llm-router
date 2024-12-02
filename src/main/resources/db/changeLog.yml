@@ -101,3 +101,26 @@ databaseChangeLog:
         - insertOne:
             collectionName: assistant
             document: "{_id: new ObjectId('672c1da8cc502c4c6ccad746'), llmConnectionId: ${llm.default.id}, name: 'default_assistant', displayName: 'Default Assistant'}"
+
+  # Create AI Gateway
+
+  -  property:
+        name:  rc.ai_gateway.id
+        value:  "new ObjectId('674626273c8e76a6761edf6e')"
+  - changeSet:
+      id: 5
+      author: quarkus
+      labels: aiGatewayExamples
+      context: createDefaultAssistantsUsingAIGateway
+      comment: Creates a default assistant that uses AI Gateway
+      changes:
+        # Create AI Gateway collection and default object
+        - createCollection:
+            collectionName: ai_gateway_connection
+        - insertOne:
+            collectionName: ai_gateway_connection
+            document: "{_id: ${rc.ai_gateway.id}, host: 'http://localhost:8080', path: '/streaming/test/map', description: 'AI Gateway Example', name: 'default_ai_gateway'}"
+        # Create Assistant using AI Gateway
+        - insertOne:
+            collectionName: assistant
+            document: "{_id: new ObjectId('6746268b6b3a886c5655b496'), aiGatewayConnectionId: ${rc.ai_gateway.id}, name: 'default_aigateway_assisatant', displayName: 'Default AI Gateway Assistant'}"

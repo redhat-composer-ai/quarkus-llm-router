@@ -14,23 +14,23 @@ public class AssistantEntity extends BaseEntity {
   String description;
   String displayName;
 
-
-  
   ObjectId llmConnectionId;
 
   ObjectId retrieverConnectionId;
 
+  ObjectId aiGatewayConnectionId;
 
 
   public AssistantEntity() {
   }
 
-  public AssistantEntity(String name, String description, String displayName, ObjectId llmConnectionId, ObjectId retrieverConnectionId) {
+  public AssistantEntity(String name, String description, String displayName, ObjectId llmConnectionId, ObjectId retrieverConnectionId, ObjectId aiGatewayConnectionId) {
     this.name = name;
     this.description = description;
     this.displayName = displayName;
     this.llmConnectionId = llmConnectionId;
     this.retrieverConnectionId = retrieverConnectionId;
+    this.aiGatewayConnectionId = aiGatewayConnectionId;
   }
 
   public String getName() {
@@ -73,6 +73,14 @@ public class AssistantEntity extends BaseEntity {
     this.retrieverConnectionId = retrieverConnectionId;
   }
 
+  public ObjectId getAiGatewayConnectionId() {
+    return this.aiGatewayConnectionId;
+  }
+
+  public void setAiGatewayConnectionId(ObjectId aiGatewayConnectionId) {
+    this.aiGatewayConnectionId = aiGatewayConnectionId;
+  }
+
   public AssistantEntity name(String name) {
     setName(name);
     return this;
@@ -98,6 +106,11 @@ public class AssistantEntity extends BaseEntity {
     return this;
   }
 
+  public AssistantEntity aiGatewayConnectionId(ObjectId aiGatewayConnectionId) {
+    setAiGatewayConnectionId(aiGatewayConnectionId);
+    return this;
+  }
+
   @Override
     public boolean equals(Object o) {
       return EqualsBuilder.reflectionEquals(this, o);
@@ -105,7 +118,7 @@ public class AssistantEntity extends BaseEntity {
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, description, displayName, llmConnectionId, retrieverConnectionId);
+    return Objects.hash(name, description, displayName, llmConnectionId, retrieverConnectionId, aiGatewayConnectionId);
   }
 
   @Override
@@ -116,7 +129,9 @@ public class AssistantEntity extends BaseEntity {
       ", displayName='" + getDisplayName() + "'" +
       ", llmConnectionId='" + getLlmConnectionId() + "'" +
       ", retrieverConnectionId='" + getRetrieverConnectionId() + "'" +
+      ", aiGatewayConnectionId='" + getAiGatewayConnectionId() + "'" +
       "}";
   }
+
 
 }

@@ -6,12 +6,14 @@ import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
 import com.redhat.composer.model.enums.ContentRetrieverType;
+import com.redhat.composer.model.mongo.AIGatewayConnectionEntity;
 import com.redhat.composer.model.mongo.LlmConnectionEntity;
 import com.redhat.composer.model.mongo.RetrieverConnectionEntity;
 import com.redhat.composer.model.mongo.contentretrieverentites.BaseRetrieverConnectionEntity;
 import com.redhat.composer.model.mongo.contentretrieverentites.ElasticsearchConnectionEntity;
 import com.redhat.composer.model.mongo.contentretrieverentites.Neo4jEntity;
 import com.redhat.composer.model.mongo.contentretrieverentites.WeaviateConnectionEntity;
+import com.redhat.composer.model.request.AIGatewayConnectionRequest;
 import com.redhat.composer.model.request.LLMRequest;
 import com.redhat.composer.model.request.RetrieverRequest;
 import com.redhat.composer.model.request.retriever.BaseRetrieverRequest;
@@ -47,6 +49,13 @@ public interface MapperUtil {
   @Mapping(target = "id", ignore = true)
   LlmConnectionEntity toEntity(LLMRequest request);
 
+  /**
+   * Maps a AIGatewayConnectionRequest to a AIGatewayConnectionEntity.
+   * @param request the AIGatewayConnectionRequest to map
+   * @return the AIGatewayConnectionEntity
+   */
+  @Mapping(target = "id", ignore = true)
+  AIGatewayConnectionEntity toEntity(AIGatewayConnectionRequest request);
 
   /**
    * Maps a RetrieverConnectionEntity to a RetrieverRequest.
@@ -62,6 +71,14 @@ public interface MapperUtil {
    * @return the LLMRequest
    */
   LLMRequest toRequest(LlmConnectionEntity entity);
+
+  /**
+   * Maps a AIGatewayConnectionEntity to a AIGatewayConnectionRequest.
+   * @param entity the AIGatewayConnectionEntity to map
+   * @return the AIGatewayConnectionRequest
+   */
+  AIGatewayConnectionRequest toRequest(AIGatewayConnectionEntity entity);
+
 
   /**
    * Maps a BaseRetrieverRequest to a BaseRetrieverConnectionEntity.

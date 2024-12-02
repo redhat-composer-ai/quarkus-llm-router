@@ -9,6 +9,8 @@ import com.redhat.composer.config.llm.models.streaming.StreamingModelFactory;
 @SuppressWarnings("all")
 public class LLMRequest {
 
+  private String id;
+  
   private String name;
   private String description;
 

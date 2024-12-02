@@ -2,9 +2,11 @@ package com.redhat.composer.api;
 
 import java.util.List;
 
+import com.redhat.composer.model.mongo.AIGatewayConnectionEntity;
 import com.redhat.composer.model.mongo.AssistantEntity;
 import com.redhat.composer.model.mongo.LlmConnectionEntity;
 import com.redhat.composer.model.mongo.RetrieverConnectionEntity;
+import com.redhat.composer.model.request.AIGatewayConnectionRequest;
 import com.redhat.composer.model.request.AssistantCreationRequest;
 import com.redhat.composer.model.request.LLMRequest;
 import com.redhat.composer.model.request.RetrieverRequest;
@@ -84,6 +86,29 @@ public class AssistantAdminApi {
   @GET
   public List<AssistantResponse> getAssistant() {
     return assistantService.getAssistant();
+  }
+
+
+
+  /**
+   * Create a AI Gateway Connection.
+   * @param request the AIGatewayConnectionRequest
+   * @return the AIGatewayConnectionEntity
+   */
+  @POST
+  @Path("aiGatewayConnection")
+  public AIGatewayConnectionEntity createAiGatewayConnection(AIGatewayConnectionRequest request) {
+    return assistantService.createAiGatewayConnectionEntity(request);
+  }
+
+  /**
+   * Get all Retriever Connections.
+   * @return the list of RetrieverConnectionEntity
+   */
+  @GET
+  @Path("aiGatewayConnection")
+  public List<AIGatewayConnectionEntity> getAiGatewayConnection() {
+    return assistantService.getAiGatewayConnections();
   }
   
 }
