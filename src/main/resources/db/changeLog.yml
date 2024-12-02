@@ -1,19 +1,19 @@
 databaseChangeLog:
-  -  property:
-        name:  rc.ocp.id
-        value:  "new ObjectId('66ec94c319c6d4b0c5a27cee')"
-  -  property:
-        name:  rc.rhel.id
-        value:  "new ObjectId('66ed89833baf3b4ab30da4e2')"
-  -  property:
-        name:  rc.ansible.id
-        value:  "new ObjectId('66ed8cb7bfed0c6c6d324dc6')"
-  -  property:
-        name:  rc.rhoai.id
-        value:  "new ObjectId('66ed8cc3ad4df17295dc7a16')"
-  -  property:
-        name:  llm.default.id
-        value:  "new ObjectId('66edae13e03073de9ef24204')"
+  - property:
+      name: rc.ocp.id
+      value: "new ObjectId('66ec94c319c6d4b0c5a27cee')"
+  - property:
+      name: rc.rhel.id
+      value: "new ObjectId('66ed89833baf3b4ab30da4e2')"
+  - property:
+      name: rc.ansible.id
+      value: "new ObjectId('66ed8cb7bfed0c6c6d324dc6')"
+  - property:
+      name: rc.rhoai.id
+      value: "new ObjectId('66ed8cc3ad4df17295dc7a16')"
+  - property:
+      name: llm.default.id
+      value: "new ObjectId('66edae13e03073de9ef24204')"
   # Create default assistants for weaviate
   - changeSet:
       id: 2
@@ -52,21 +52,21 @@ databaseChangeLog:
             collectionName: assistant
         - insertOne:
             collectionName: assistant
-            document: "{_id: new ObjectId('66edae0a18642fee8cb88587'), retrieverConnectionId: ${rc.ocp.id}, llmConnectionId: ${llm.default.id}, name: 'default_ocp', displayName: 'Default Openshift Container Platform Assistant'}"
+            document: "{_id: new ObjectId('66edae0a18642fee8cb88587'), retrieverConnectionId: ${rc.ocp.id}, llmConnectionId: ${llm.default.id}, name: 'default_ocp', displayName: 'Default Openshift Container Platform Assistant', userPrompt: 'you are an expert in Openshift platform', exampleQuestions: ['how can I allow external access to my pod?','what can I use to externalize secrets?']}"
         - insertOne:
             collectionName: assistant
-            document: "{_id: new ObjectId('66edae19c9a1bd1c8905b865'), retrieverConnectionId: ${rc.rhel.id}, llmConnectionId: ${llm.default.id}, name: 'default_rhel' , displayName: 'Default Red Hat Enterprise Linux Assistant'}"
+            document: "{_id: new ObjectId('66edae19c9a1bd1c8905b865'), retrieverConnectionId: ${rc.rhel.id}, llmConnectionId: ${llm.default.id}, name: 'default_rhel' , displayName: 'Default Red Hat Enterprise Linux Assistant', userPrompt:'user prompt text', exampleQuestions:['question1','question2']}"
         - insertOne:
             collectionName: assistant
-            document: "{_id: new ObjectId('66edae2255ce9f7058f2c472'), retrieverConnectionId: ${rc.ansible.id}, llmConnectionId: ${llm.default.id}, name: 'default_ansible' , displayName: 'Default Ansible Automation Platform Assistant'}"
+            document: "{_id: new ObjectId('66edae2255ce9f7058f2c472'), retrieverConnectionId: ${rc.ansible.id}, llmConnectionId: ${llm.default.id}, name: 'default_ansible' , displayName: 'Default Ansible Automation Platform Assistant', userPrompt:'user prompt text', exampleQuestions:['question1','question2']}"
         - insertOne:
             collectionName: assistant
-            document: "{_id: new ObjectId('66edae2738a7f2388fb02cd8'), retrieverConnectionId: ${rc.rhoai.id}, llmConnectionId: ${llm.default.id}, name: 'default_rhoai' , displayName: 'Default Red Hat Openshift AI Self Managed Assistant'}"
+            document: "{_id: new ObjectId('66edae2738a7f2388fb02cd8'), retrieverConnectionId: ${rc.rhoai.id}, llmConnectionId: ${llm.default.id}, name: 'default_rhoai' , displayName: 'Default Red Hat Openshift AI Self Managed Assistant', userPrompt:'user prompt text', exampleQuestions:['question1','question2']}"
 
   # Create default assistants for neo4j
-  -  property:
-        name:  neo4j.default.id
-        value:  "new ObjectId('66f3fbffd7e04770c03ee123')"
+  - property:
+      name: neo4j.default.id
+      value: "new ObjectId('66f3fbffd7e04770c03ee123')"
   - changeSet:
       id: 3
       author: quarkus
@@ -87,7 +87,7 @@ databaseChangeLog:
             collectionName: assistant
         - insertOne:
             collectionName: assistant
-            document: "{_id: new ObjectId('66f3fc14de104310e21acd67'), retrieverConnectionId: ${neo4j.default.id}, llmConnectionId: ${llm.default.id}, name: 'default_neo4j', displayName: 'Default Neo4J Assistant'}"
+            document: "{_id: new ObjectId('66f3fc14de104310e21acd67'), retrieverConnectionId: ${neo4j.default.id}, llmConnectionId: ${llm.default.id}, name: 'default_neo4j', displayName: 'Default Neo4J Assistant', userPrompt:'user prompt text', exampleQuestions:['question1','question2']}"
 
   # Create default assistant just using the default LLM connection
   - changeSet:
@@ -100,4 +100,4 @@ databaseChangeLog:
         # Create Assistants collection
         - insertOne:
             collectionName: assistant
-            document: "{_id: new ObjectId('672c1da8cc502c4c6ccad746'), llmConnectionId: ${llm.default.id}, name: 'default_assistant', displayName: 'Default Assistant'}"
+            document: "{_id: new ObjectId('672c1da8cc502c4c6ccad746'), llmConnectionId: ${llm.default.id}, name: 'default_assistant', displayName: 'Default Assistant', userPrompt:'user prompt text', exampleQuestions:['question1','question2']}"

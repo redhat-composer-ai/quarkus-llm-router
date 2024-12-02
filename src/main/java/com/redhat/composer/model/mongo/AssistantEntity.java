@@ -129,6 +129,19 @@ public class AssistantEntity extends BaseEntity
     return this;
   }
 
+  public AssistantEntity userPrompt(String userPrompt)
+  {
+    setUserPrompt(userPrompt);
+    return this;
+  }
+
+  public AssistantEntity exampleQuestions(List<String> exampleQuestions)
+  {
+    setExampleQuestions(exampleQuestions);
+    return this;
+  }
+
+
   public AssistantEntity llmConnectionId(ObjectId llmConnectionId)
   {
     setLlmConnectionId(llmConnectionId);

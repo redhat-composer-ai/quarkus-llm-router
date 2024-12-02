@@ -68,6 +68,8 @@ public class AssistantInfoService {
           response.setName(entity.getName());
           response.setDisplayName(entity.getDisplayName());
           response.setDescription(entity.getDescription());
+          response.setUserPrompt(entity.getUserPrompt());
+          response.setExampleQuestions(entity.getExampleQuestions());
           response.setLlmConnection(LlmConnectionEntity.findById(entity.getLlmConnectionId()));
           response.setRetrieverConnection(RetrieverConnectionEntity.findById(entity.getRetrieverConnectionId()));
           return response;
