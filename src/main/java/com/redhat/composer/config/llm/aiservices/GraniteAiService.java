@@ -11,14 +11,15 @@ import io.smallrye.mutiny.Multi;
  * Mistral7BAiService.
  */
 @SuppressWarnings("LineLengthCheck")
-public interface Mistral7bAiService extends BaseAiService {
+public interface GraniteAiService extends BaseAiService {
 
+  // Note: Handling history is a little more complex than just passing it as a string
+  // See: https://www.ibm.com/granite/docs/models/granite/#using-the-multi-round-chat-example-finance 
   static final String userMessage = """
-    {{systemMessage}}
-    <<<
-    Context: {context}
-    User Message: {input}
-    >>>
+    <|start_of_role|>system<|end_of_role|>{{systemMessage}}<|end_of_text|>
+    {context}
+    <|start_of_role|>user<|end_of_role|>{{input}}<|end_of_text|>
+    <|start_of_role|>assistant<|end_of_role|>
       """;
 
   /**

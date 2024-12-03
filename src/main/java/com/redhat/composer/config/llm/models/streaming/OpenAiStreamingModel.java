@@ -31,6 +31,9 @@ public class OpenAiStreamingModel extends StreamingBaseModel {
   @ConfigProperty(name = "openai.default.temp")
   private double openaiDefaultTemp;
 
+  @ConfigProperty(name = "openai.default.maxTokens")
+  private Integer openaiDefaultMaxTokens;
+
   /**
    * Get the Chat Model.
    * @param request the LLMRequest
@@ -49,6 +52,9 @@ public class OpenAiStreamingModel extends StreamingBaseModel {
 
     // TODO: Add all the following to the request
     builder.temperature(openaiDefaultTemp);
+
+    builder.maxTokens(openaiDefaultMaxTokens);
+    
     
     // TODO: Fill all this out
     // if (modelName != null) {

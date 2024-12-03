@@ -10,9 +10,7 @@ public class AiServicesFactory {
 
   public static final String MISTRAL7B_AI_SERVICE = "mistral7b";
 
-  public static final String MISTRAL7B_QUARKUS_AI_SERVICE = "mistral7b_quarkus";
-
-  public static final String HEALTHCARE_SERVICE = "healthcare";
+  public static final String GRANITE_AI_SERVICE = "granite";
 
   /**
    * Get the AI service class.
@@ -23,8 +21,8 @@ public class AiServicesFactory {
     switch (aiServiceType) {
       case MISTRAL7B_AI_SERVICE:
         return Mistral7bAiService.class;
-      case HEALTHCARE_SERVICE:
-        return HealthCareService.class;
+      case GRANITE_AI_SERVICE:
+        return GraniteAiService.class;
       default:
         throw new RuntimeException("AI service type not found: " + aiServiceType);
     }

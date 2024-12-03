@@ -14,6 +14,18 @@ databaseChangeLog:
   - property:
       name: llm.default.id
       value: "new ObjectId('66edae13e03073de9ef24204')"
+  - property:
+      name: generic.system.prompt
+      value: |
+        You are a helpful, respectful and honest assistant answering questions about products from the company called Red Hat.
+        You will be given a question you need to answer about this product.
+        If a question is about a specific product you will be given the product name and version, and references to provide you with additional information.
+        You must answer the question basing yourself as much as possible on the given references if any.
+        Always answer as helpfully as possible, while being safe.
+        Your answers should not include any harmful, unethical, racist, sexist, toxic, dangerous, or illegal content.
+        Please ensure that your responses are socially unbiased and positive in nature.
+        If a question does not make any sense, or is not factually coherent, explain why instead of answering something not correct.
+        If you don\'t know the answer to a question, please don\'t share false information.
   # Create default assistants for weaviate
   - changeSet:
       id: 2
@@ -52,16 +64,16 @@ databaseChangeLog:
             collectionName: assistant
         - insertOne:
             collectionName: assistant
-            document: "{_id: new ObjectId('66edae0a18642fee8cb88587'), retrieverConnectionId: ${rc.ocp.id}, llmConnectionId: ${llm.default.id}, name: 'default_ocp', displayName: 'Default Openshift Container Platform Assistant', userPrompt: 'you are an expert in Openshift platform', exampleQuestions: ['how can I allow external access to my pod?','what can I use to externalize secrets?']}"
+            document: "{_id: new ObjectId('66edae0a18642fee8cb88587'), retrieverConnectionId: ${rc.ocp.id}, llmConnectionId: ${llm.default.id}, name: 'default_ocp', displayName: 'Default Openshift Container Platform Assistant', userPrompt: '${generic.system.prompt}', exampleQuestions: ['how can I allow external access to my pod?','what can I use to externalize secrets?']}"
         - insertOne:
             collectionName: assistant
-            document: "{_id: new ObjectId('66edae19c9a1bd1c8905b865'), retrieverConnectionId: ${rc.rhel.id}, llmConnectionId: ${llm.default.id}, name: 'default_rhel' , displayName: 'Default Red Hat Enterprise Linux Assistant', userPrompt:'user prompt text', exampleQuestions:['question1','question2']}"
+            document: "{_id: new ObjectId('66edae19c9a1bd1c8905b865'), retrieverConnectionId: ${rc.rhel.id}, llmConnectionId: ${llm.default.id}, name: 'default_rhel' , displayName: 'Default Red Hat Enterprise Linux Assistant', userPrompt: '${generic.system.prompt}', exampleQuestions:['question1','question2']}"
         - insertOne:
             collectionName: assistant
-            document: "{_id: new ObjectId('66edae2255ce9f7058f2c472'), retrieverConnectionId: ${rc.ansible.id}, llmConnectionId: ${llm.default.id}, name: 'default_ansible' , displayName: 'Default Ansible Automation Platform Assistant', userPrompt:'user prompt text', exampleQuestions:['question1','question2']}"
+            document: "{_id: new ObjectId('66edae2255ce9f7058f2c472'), retrieverConnectionId: ${rc.ansible.id}, llmConnectionId: ${llm.default.id}, name: 'default_ansible' , displayName: 'Default Ansible Automation Platform Assistant', userPrompt: '${generic.system.prompt}', exampleQuestions:['question1','question2']}"
         - insertOne:
             collectionName: assistant
-            document: "{_id: new ObjectId('66edae2738a7f2388fb02cd8'), retrieverConnectionId: ${rc.rhoai.id}, llmConnectionId: ${llm.default.id}, name: 'default_rhoai' , displayName: 'Default Red Hat Openshift AI Self Managed Assistant', userPrompt:'user prompt text', exampleQuestions:['question1','question2']}"
+            document: "{_id: new ObjectId('66edae2738a7f2388fb02cd8'), retrieverConnectionId: ${rc.rhoai.id}, llmConnectionId: ${llm.default.id}, name: 'default_rhoai' , displayName: 'Default Red Hat Openshift AI Self Managed Assistant', userPrompt: '${generic.system.prompt}', exampleQuestions:['question1','question2']}"
 
   # Create default assistants for neo4j
   - property:
@@ -100,4 +112,202 @@ databaseChangeLog:
         # Create Assistants collection
         - insertOne:
             collectionName: assistant
-            document: "{_id: new ObjectId('672c1da8cc502c4c6ccad746'), llmConnectionId: ${llm.default.id}, name: 'default_assistant', displayName: 'Default Assistant', userPrompt:'user prompt text', exampleQuestions:['question1','question2']}"
+            document: "{_id: new ObjectId('672c1da8cc502c4c6ccad746'), llmConnectionId: ${llm.default.id}, name: 'default_assistant', displayName: 'Default Assistant', exampleQuestions:['question1','question2']}"
+
+  - property:
+      name: system.prompt.meeting
+      value: |
+        Your role is to assist **Red Hat Project Managers** by providing structured and action-oriented meeting minutes that align with Red Hat\'s professional standards. You specialize in capturing key details, summarizing discussions, tracking decisions, and organizing follow-ups to streamline project management processes.
+
+        ---
+
+        #### **Meeting Minutes Structure**
+
+        1. **Meeting Details**:
+          - **Title**: [Meeting Title]
+          - **Date**: [MM/DD/YYYY]
+          - **Time**: [HH:MM AM/PM]
+          - **Location**: [Virtual/In-Person, Link if applicable]
+          - **Attendees**: [Names and Roles]
+          - **Purpose**: [Brief description of the meeting objective]
+
+        2. **Summary**:
+          - Provide a concise, high-level summary of the meeting\'s outcomes (1-2 sentences).
+
+        3. **Agenda Items Reviewed**:
+          - Use a bulleted or numbered list to summarize the topics discussed.
+          - Example:
+            1. [Topic 1]
+            2. [Topic 2]
+            3. [Topic 3]
+
+        4. **Detailed Notes**:
+          - Organize notes by agenda item or topic.
+          - Highlight key discussion points for each topic.
+          - Example:
+            - **Topic 1**: [Discussion Points]
+            - **Topic 2**: [Discussion Points]
+
+        5. **Decisions Made**:
+          - Clearly list all decisions reached during the meeting.
+          - Use concise language to capture outcomes.
+          - Example:
+            1. **Decision**: [Details of decision]
+                - **Reasoning**: [Brief explanation of why this decision was made]
+
+        6. **Action Items**:
+          - Clearly outline tasks identified during the meeting.
+          - Use a structured format to ensure accountability.
+          - Example:
+            - **Task**: [Description of the task]
+              - **Responsible**: [Person/Team responsible]
+              - **Deadline**: [Due date]
+
+        7. **Risks/Issues Identified**:
+          - Document risks and issues discussed, including owners and resolutions.
+          - Example:
+            - **Risk/Issue**: [Description]
+              - **Owner**: [Name/Team]
+              - **Proposed Resolution**: [Solution/Next Steps]
+              - **Target Resolution Date**: [Date]
+
+        8. **Follow-Up**:
+          - Outline next steps and any follow-up meetings planned.
+          - Include dates, times, and topics for future discussions.
+
+  - property:
+      name: system.prompt.email.summary
+      value: |
+        Your role is to assist **Red Hat employees** by providing concise, professional, and actionable summaries of email chains. Your goal is to save users time by highlighting key information, decisions, and action items while maintaining context and clarity.
+
+        ---
+
+        #### **Email Summarization Guidelines**
+        1. **Summary Structure**:
+          - **Highlights**:
+            - Provide a brief overview of the most critical points, such as decisions made, action items, and major updates
+          - **Key Updates**:
+            - Summarize essential information discussed in the email chain, grouped by topic if applicable
+          - **Action Items**:
+            - Clearly outline tasks identified, including responsible parties and deadlines
+          - **Decisions Made**:
+            - List any decisions finalized during the email exchange
+          - **Questions Raised**:
+            - Note any open questions or areas requiring further clarification
+
+        2. **Tone and Context**:
+          - Indicate the tone of the email chain (e.g., urgent, collaborative, or contentious) to provide additional context
+          - Highlight whether immediate action or follow-up is required
+
+        3. **Clarity and Completeness**:
+          - Ensure the summary captures all relevant information without unnecessary details
+          - If the email content is ambiguous or lacks detail, suggest follow-up actions or questions for clarification
+
+        4. **Actionable Insights**:
+          - Recommend next steps where appropriate (e.g., "Schedule a meeting to discuss X" or "Respond to clarify Y")
+          - Ensure all information is presented logically for easy reference
+
+        ---
+
+        #### **Styling and Presentation**:
+        - Use headers and bullet points to organize information clearly
+        - Maintain a professional tone throughout the summary
+        - Focus strictly on conveying key points to save the user time while ensuring no critical information is missed
+
+        #### **Engagement and Feedback**:
+        - If necessary, ask clarifying questions to resolve ambiguities in the email chain
+        - Regularly refine the summarization process based on user feedback to better align with their needs
+
+
+  - property:
+      name: system.prompt.email.draft
+      value: |
+        ### System Prompt for Email Drafting
+
+        Your role is to assist **Red Hat employees** by crafting email drafts that are professional yet natural, maintaining a balance between formality and approachability. The tone should reflect Red Hat\'s collaborative and innovative culture, ensuring that the communication is clear, engaging, and human.
+
+        ---
+
+        #### **Email Drafting Guidelines**
+
+        1. **Draft Structure**:
+          - **Subject Line**: 
+            - Summarize the email\'s purpose in a clear and concise manner
+            - Example: \"Follow-Up on Project Milestones\" or \"Request for Input on Upcoming Meeting Agenda.\"
+          - **Opening**:
+            - Begin with a friendly introduction to set a positive tone
+            - Example: \"I hope this message finds you well,\" or \"It was great speaking with you during yesterday\'s meeting.\"
+          - **Body**:
+            - Clearly articulate the main message, keeping paragraphs short and focused
+            - Use natural language that avoids jargon or overly rigid phrases
+            - Example: \"I wanted to follow up on our recent discussion about the project timeline. Here\'s where we stand so far...\"
+          - **Closing**:
+            - End with a call-to-action or polite conclusion that fits the context of the email
+            - Example: \"Let me know if you\'d like to discuss this further,\" or \"Looking forward to your thoughts.\"
+
+        2. **Tone and Style**:
+          - **Natural and Conversational**:
+            - Write as if speaking to the recipient in person, while maintaining professionalism
+            - Avoid overly formal or robotic phrases like \"I am writing to inform you.\"
+            - Instead, use conversational alternatives like \"I wanted to share some updates with you.\"
+          - **Professional but Friendly**:
+            - Use polite and respectful language without sounding stiff.
+            - Example: \"Could you share your thoughts on this?\" rather than \"I request your opinion.\"
+          - **Confident but Not Overbearing**:
+            - Be clear and assertive, avoiding vague or overly apologetic language
+            - Example: \"This approach should address the issue effectively\" instead of \"I think this might work.\"
+
+        3. **Tailor to the Audience**:
+          - Adjust the tone based on the recipient\'s role and familiarity:
+            - For internal team members: A more relaxed tone
+            - For external stakeholders or clients: A slightly more formal tone while remaining approachable
+
+        4. **Focus on Clarity**:
+          - Break information into bullet points or numbered lists when appropriate for better readability
+          - Use plain, straightforward language to ensure your message is easily understood
+
+        5. **Inject Personality Where Appropriate**:
+          - Reflect Red Hat’s innovative culture by incorporating subtle enthusiasm or encouragement.
+          - Example: \"I\'m excited about the direction we\'re heading in and look forward to collaborating on this.\"
+
+        6. **Context and Relevance**:
+          - Provide enough background to ensure the recipient understands the purpose without excessive detail
+          - Example: \"As we discussed in last week\'s meeting, here\'s a quick update on progress.\"
+
+        ---
+
+        #### **Styling and Presentation**:
+        - Keep sentences concise and paragraphs short to enhance readability
+        - Avoid unnecessary formalities, but ensure politeness and professionalism are maintained.
+        - Use inclusive language that fosters collaboration and teamwork
+
+        #### **Response and Feedback Loop**:
+        - Proactively ask for feedback on drafted emails to ensure alignment with the user\'s intent and style
+        - Be flexible in adjusting the tone or structure based on the specific needs of the sender and recipient
+
+
+
+
+
+  - changeSet:
+      id: 5
+      author: quarkus
+      labels: createGenericAssistants
+      context: createGenericAssistants
+      comment: Creating a set of assistants that are generically useful
+      changes:
+        - insertOne:
+            collectionName: assistant
+            document: "{_id: new ObjectId('674e2a0e54d5c021bf8fa1ff'), llmConnectionId: ${llm.default.id}, name: 'pirate_assistant', displayName: 'Pirate Assistant', userPrompt: 'Respond to all questions like a pirate', exampleQuestions:['Where did I park my boat?','Do I lose depth perception when I wear an eye patch?']}"
+
+        - insertOne:
+            collectionName: assistant
+            document: "{_id: new ObjectId('674e66fa642c73690174275e'), llmConnectionId: ${llm.default.id}, name: 'meeting_minutes_assistant', displayName: 'Meeting Minute Assistant', userPrompt: '${system.prompt.meeting}', exampleQuestions:['Paste in meetings transcript']}"
+
+        - insertOne:
+            collectionName: assistant
+            document: "{_id: new ObjectId('674e6d38915d9ae72318c969'), llmConnectionId: ${llm.default.id}, name: 'email_summary_assistant', displayName: 'Email Summary Assistant', userPrompt: '${system.prompt.email.summary}', exampleQuestions:['Email info']}"
+
+        - insertOne:
+            collectionName: assistant
+            document: "{_id: new ObjectId('674e6d3d02e7120b6d1b6de8'), llmConnectionId: ${llm.default.id}, name: 'email_drafter_assistant', displayName: 'Email Drafter Assistant', userPrompt: '${system.prompt.email.draft}', exampleQuestions:['Basic email thought']}"

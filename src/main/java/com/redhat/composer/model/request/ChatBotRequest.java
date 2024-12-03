@@ -9,6 +9,7 @@ public class ChatBotRequest{
   private String message = "";
   // This is where you can pass in chat history or other context
   private String context = "";
+  private String systemMessage = "";
   private RetrieverRequest retrieverRequest = new RetrieverRequest();
   private LLMRequest modelRequest = new LLMRequest();
 
@@ -16,9 +17,10 @@ public class ChatBotRequest{
   public ChatBotRequest() {
   }
 
-  public ChatBotRequest(String message, String context, RetrieverRequest retrieverRequest, LLMRequest modelRequest) {
+  public ChatBotRequest(String message, String context, String systemMessage, RetrieverRequest retrieverRequest, LLMRequest modelRequest) {
     this.message = message;
     this.context = context;
+    this.systemMessage = systemMessage;
     this.retrieverRequest = retrieverRequest;
     this.modelRequest = modelRequest;
   }
@@ -37,6 +39,14 @@ public class ChatBotRequest{
 
   public void setContext(String context) {
     this.context = context;
+  }
+
+  public String getSystemMessage() {
+    return this.systemMessage;
+  }
+
+  public void setSystemMessage(String systemMessage) {
+    this.systemMessage = systemMessage;
   }
 
   public RetrieverRequest getRetrieverRequest() {
@@ -65,6 +75,11 @@ public class ChatBotRequest{
     return this;
   }
 
+  public ChatBotRequest systemMessage(String systemMessage) {
+    setSystemMessage(systemMessage);
+    return this;
+  }
+
   public ChatBotRequest retrieverRequest(RetrieverRequest retrieverRequest) {
     setRetrieverRequest(retrieverRequest);
     return this;
@@ -82,7 +97,7 @@ public class ChatBotRequest{
 
   @Override
   public int hashCode() {
-    return Objects.hash(message, context, retrieverRequest, modelRequest);
+    return Objects.hash(message, context, systemMessage, retrieverRequest, modelRequest);
   }
 
   @Override
@@ -90,6 +105,7 @@ public class ChatBotRequest{
     return "{" +
       " message='" + getMessage() + "'" +
       ", context='" + getContext() + "'" +
+      ", systemMessage='" + getSystemMessage() + "'" +
       ", retrieverRequest='" + getRetrieverRequest() + "'" +
       ", modelRequest='" + getModelRequest() + "'" +
       "}";

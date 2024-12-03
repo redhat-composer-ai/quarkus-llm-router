@@ -3,6 +3,7 @@ package com.redhat.composer.services;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.jboss.logging.Logger;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -34,6 +35,9 @@ import jakarta.inject.Inject;
 public class ChatBotService {
 
   Logger log = Logger.getLogger(ChatBotService.class);
+
+  @ConfigProperty(name = "prompt.default.system.message")
+  private String defaultSystemMessage;
 
   @Inject
   StreamingModelFactory modelTemplateFactory;
@@ -79,6 +83,7 @@ public class ChatBotService {
     chatBotRequest.setContext(request.getContext());
     chatBotRequest.setRetrieverRequest(mapperUtil.toRequest(retrieverConnection));
     chatBotRequest.setModelRequest(mapperUtil.toRequest(llmConnection));
+    chatBotRequest.setSystemMessage(assistant.getUserPrompt());
 
     return chat(chatBotRequest);
   }
@@ -112,8 +117,9 @@ public class ChatBotService {
 
     try {
       List<ContentResponse> contentSources = new ArrayList<ContentResponse>();
+      String systemMessage = request.getSystemMessage() == null ? defaultSystemMessage : request.getSystemMessage();
       Multi<String> multi = Multi.createFrom().emitter(em -> {
-        aiService.chatToken(request.getContext(), request.getMessage())
+        aiService.chatToken(request.getContext(), request.getMessage(), systemMessage)
         .onNext(em::emit)
         .onRetrieved(sources -> {
           contentSources.add(new ContentResponse(sources));

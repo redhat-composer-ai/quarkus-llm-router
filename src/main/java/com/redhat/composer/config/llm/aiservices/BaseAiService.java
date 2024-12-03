@@ -14,7 +14,7 @@ public interface BaseAiService {
    * @param input User Message
    * @return the TokenStream
    */
-  TokenStream chatToken(String context, String input);
+  TokenStream chatToken(String context, String input, String systemMessage);
 
   /**
    * Returns a Multi of String given input.
@@ -22,6 +22,6 @@ public interface BaseAiService {
    * @param input User Message
    * @return the Multi of String
    */
-  Multi<String> chatStream(String context, String input);
+  Multi<String> chatStream(String context, String input, String systemMessage);
   
 } 
