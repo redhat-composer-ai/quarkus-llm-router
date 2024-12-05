@@ -8,6 +8,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 @SuppressWarnings("all")
 public class AssistantCreationRequest {
 
+    String id;
     String name;
     String displayName;
     String description;
@@ -27,6 +28,14 @@ public class AssistantCreationRequest {
         this.exampleQuestions = exampleQuestions;
         this.llmConnectionId = llmConnectionId;
         this.retrieverConnectionId = retrieverConnectionId;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -87,6 +96,11 @@ public class AssistantCreationRequest {
     }
 
 
+    public AssistantCreationRequest id(String id) {
+        setId(id);
+        return this;
+    }
+
     public AssistantCreationRequest name(String name) {
         setName(name);
         return this;
@@ -135,6 +149,7 @@ public class AssistantCreationRequest {
     @Override
     public String toString() {
         return "{" +
+                " id='" + getId() + "'" +
                 " name='" + getName() + "'" +
                 ", displayName='" + getDisplayName() + "'" +
                 ", description='" + getDescription() + "'" +

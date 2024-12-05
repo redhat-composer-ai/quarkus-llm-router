@@ -1,14 +1,16 @@
 package com.redhat.composer.model.request;
 
 import com.redhat.composer.model.request.retriever.BaseRetrieverRequest;
+
 import java.util.Objects;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
 @SuppressWarnings("all")
-public class RetrieverRequest  {
-  
+public class RetrieverRequest {
+
   BaseRetrieverRequest baseRetrieverRequest;
+  String id;
   String embeddingType;
 
   String name;
@@ -18,8 +20,10 @@ public class RetrieverRequest  {
   public RetrieverRequest() {
   }
 
-  public RetrieverRequest(BaseRetrieverRequest baseRetrieverRequest, String embeddingType, String name, String description) {
+  public RetrieverRequest(BaseRetrieverRequest baseRetrieverRequest, String id,
+                          String embeddingType, String name, String description) {
     this.baseRetrieverRequest = baseRetrieverRequest;
+    this.id = id;
     this.embeddingType = embeddingType;
     this.name = name;
     this.description = description;
@@ -31,6 +35,14 @@ public class RetrieverRequest  {
 
   public void setBaseRetrieverRequest(BaseRetrieverRequest baseRetrieverRequest) {
     this.baseRetrieverRequest = baseRetrieverRequest;
+  }
+
+  public String getId() {
+    return id;
+  }
+
+  public void setId(String id) {
+    this.id = id;
   }
 
   public String getEmbeddingType() {
@@ -62,6 +74,11 @@ public class RetrieverRequest  {
     return this;
   }
 
+  public RetrieverRequest retrieverConnectionObjectId(String retrieverConnectionObjectId) {
+    setId(retrieverConnectionObjectId);
+    return this;
+  }
+
   public RetrieverRequest embeddingType(String embeddingType) {
     setEmbeddingType(embeddingType);
     return this;
@@ -78,24 +95,25 @@ public class RetrieverRequest  {
   }
 
   @Override
-    public boolean equals(Object o) {
-      return EqualsBuilder.reflectionEquals(this, o);
+  public boolean equals(Object o) {
+    return EqualsBuilder.reflectionEquals(this, o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(baseRetrieverRequest, embeddingType, name, description);
+    return Objects.hash(baseRetrieverRequest, id, embeddingType, name, description);
   }
 
   @Override
   public String toString() {
     return "{" +
-      " baseRetrieverRequest='" + getBaseRetrieverRequest() + "'" +
-      ", embeddingType='" + getEmbeddingType() + "'" +
-      ", name='" + getName() + "'" +
-      ", description='" + getDescription() + "'" +
-      "}";
+        " baseRetrieverRequest='" + getBaseRetrieverRequest() + "'" +
+        ", id='" + getId() + "'" +
+        ", embeddingType='" + getEmbeddingType() + "'" +
+        ", name='" + getName() + "'" +
+        ", description='" + getDescription() + "'" +
+        "}";
   }
 
-  
+
 }

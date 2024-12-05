@@ -1,24 +1,21 @@
 package com.redhat.composer.api;
 
-import java.util.List;
-
 import com.redhat.composer.model.mongo.AssistantEntity;
 import com.redhat.composer.model.mongo.LlmConnectionEntity;
 import com.redhat.composer.model.mongo.RetrieverConnectionEntity;
 import com.redhat.composer.model.request.AssistantCreationRequest;
-import com.redhat.composer.model.request.LLMRequest;
 import com.redhat.composer.model.request.RetrieverRequest;
 import com.redhat.composer.model.response.AssistantResponse;
 import com.redhat.composer.services.AssistantInfoService;
-
 import jakarta.inject.Inject;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
-import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import org.bson.types.ObjectId;
+
+import java.util.List;
 
 /**
  * Admin API for Creating and Managing Assistants.
@@ -37,7 +34,7 @@ public class AssistantAdminApi {
    */
   @POST
   @Path("llm")
-  public LlmConnectionEntity createLlm(LlmConnectionEntity entity) {
+  public LlmConnectionEntity createUpdateLlm(LlmConnectionEntity entity) {
     return assistantService.createUpdateLlmConnection(entity);
   }
 
@@ -50,10 +47,7 @@ public class AssistantAdminApi {
   @DELETE
   @Path("llm/{llmConnectionObjectIdHexString}")
   public void deleteLlm(@PathParam("llmConnectionObjectIdHexString") String llmConnectionObjectIdHexString) {
-    // Attempt to remove the llmConnection if it does not exist raise NotFound exception.
-    if (!assistantService.deleteLlmConnection(new ObjectId(llmConnectionObjectIdHexString))) {
-      throw new NotFoundException("Llm with object id {" + llmConnectionObjectIdHexString + "} not found");
-    }
+    assistantService.deleteLlmConnection(new ObjectId(llmConnectionObjectIdHexString));
   }
 
   /**
@@ -65,8 +59,7 @@ public class AssistantAdminApi {
   @Path("llm/{llmConnectionObjectIdHexString}")
   public LlmConnectionEntity getLlm(
       @PathParam("llmConnectionObjectIdHexString") String llmConnectionObjectIdHexString) {
-    return assistantService.getLlmConnection(new ObjectId(llmConnectionObjectIdHexString)).orElseThrow(
-        () -> new NotFoundException("Llm with object id {" + llmConnectionObjectIdHexString + "} not found"));
+    return assistantService.getLlmConnection(new ObjectId(llmConnectionObjectIdHexString));
   }
 
   /**
@@ -88,8 +81,8 @@ public class AssistantAdminApi {
    */
   @POST
   @Path("retrieverConnection")
-  public RetrieverConnectionEntity createRetrieverConnection(RetrieverRequest request) {
-    return assistantService.createRetrieverConnectionEntity(request);
+  public RetrieverConnectionEntity createUpdateRetrieverConnection(RetrieverRequest request) {
+    return assistantService.createUpdateRetrieverConnectionEntity(request);
   }
 
   /**
@@ -112,11 +105,7 @@ public class AssistantAdminApi {
   @Path("retrieverConnection/{retrieverConnectionObjectIdHexString}")
   public void deleteRetrieverConnection(
       @PathParam("retrieverConnectionObjectIdHexString") String retrieverConnectionObjectIdHexString) {
-    // Attempt to remove the llmConnection if it does not exist raise NotFound exception.
-    if (!assistantService.deleteRetrieverConnection(new ObjectId(retrieverConnectionObjectIdHexString))) {
-      throw new NotFoundException(
-          "Retriever Connection with object id {" + retrieverConnectionObjectIdHexString + "} not found");
-    }
+    assistantService.deleteRetrieverConnection(new ObjectId(retrieverConnectionObjectIdHexString));
   }
 
   /**
@@ -138,8 +127,8 @@ public class AssistantAdminApi {
    * @return the AssistantEntity
    */
   @POST
-  public AssistantEntity createAssistant(AssistantCreationRequest request) {
-    return assistantService.createAssistant(request);
+  public AssistantResponse createAssistant(AssistantCreationRequest request) {
+    return assistantService.createUpdateAssistant(request);
   }
 
   /**
@@ -161,11 +150,7 @@ public class AssistantAdminApi {
   @Path("/{assistantObjectIdHexString}")
   public void deleteAssistant(
       @PathParam("assistantObjectIdHexString") String assistantObjectIdHexString) {
-    // Attempt to remove the llmConnection if it does not exist raise NotFound exception.
-    if (!assistantService.deleteAssistant(new ObjectId(assistantObjectIdHexString))) {
-      throw new NotFoundException(
-          "Assistant with object id {" + assistantObjectIdHexString + "} not found");
-    }
+    assistantService.deleteAssistant(new ObjectId(assistantObjectIdHexString));
   }
 
   /**
@@ -177,9 +162,7 @@ public class AssistantAdminApi {
   @Path("/{assistantObjectIdHexString}")
   public AssistantEntity getAssistant(
       @PathParam("assistantObjectIdHexString") String assistantObjectIdHexString) {
-    return assistantService.getAssistant(new ObjectId(assistantObjectIdHexString)).orElseThrow(
-        () -> new NotFoundException(
-            "Assistant with object id {" + assistantObjectIdHexString + "} not found"));
+    return assistantService.getAssistant(new ObjectId(assistantObjectIdHexString));
   }
 
 
