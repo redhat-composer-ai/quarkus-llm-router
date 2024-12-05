@@ -20,6 +20,10 @@ public class MongoDbSetup {
   @Inject
   MongoClient mongoClient;
 
+  /**
+   * Setup unique constraints on Mongo collections.
+   * @param event the startup event
+   */
   public void onStart(@Observes StartupEvent event) {
     MongoDatabase database = mongoClient.getDatabase("composer");
     MongoCollection<Document> llmConnectionCollection = database.getCollection("llm_connection");
