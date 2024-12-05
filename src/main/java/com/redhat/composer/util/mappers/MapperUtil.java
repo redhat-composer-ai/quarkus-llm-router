@@ -54,6 +54,7 @@ public interface MapperUtil {
    * @return the RetrieverRequest
    */
   @Mapping(source = "connectionEntity", target = "baseRetrieverRequest")
+  @Mapping(target = "id", ignore = true)
   RetrieverRequest toRequest(RetrieverConnectionEntity entity);
   
   /**

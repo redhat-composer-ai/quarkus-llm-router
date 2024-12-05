@@ -74,8 +74,8 @@ public class RetrieverRequest {
     return this;
   }
 
-  public RetrieverRequest retrieverConnectionObjectId(String retrieverConnectionObjectId) {
-    setId(retrieverConnectionObjectId);
+  public RetrieverRequest id(String id) {
+    setId(id);
     return this;
   }
 
