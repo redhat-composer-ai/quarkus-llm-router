@@ -5,6 +5,7 @@ import io.smallrye.mutiny.Multi;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.BeanParam;
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.MediaType;
@@ -13,7 +14,7 @@ import jakarta.ws.rs.core.MediaType;
  * A manual interface in jaxrs-spec style to be used until openapi-generator
  * properly generates API interfaces for endpoints that support multipart requests.
  */
-@Path("/assistant/chat")
+@Path("/assistant/chat/streamingWithFileUpload")
 public interface AssistantMultipartApi {
 
   /**
@@ -23,8 +24,8 @@ public interface AssistantMultipartApi {
    * @return streamed responses from the assistant
    */
   @POST
-  @Path("streaming")
   @Consumes(MediaType.MULTIPART_FORM_DATA)
+  @Produces(MediaType.APPLICATION_JSON)
   Multi<String> assistantChatStreamingMp(
       @Valid @BeanParam AssistantChatRequestMultipart multipartRequest
   );

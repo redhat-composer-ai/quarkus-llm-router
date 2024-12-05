@@ -215,7 +215,7 @@ paths:
               properties:
                 jsonRequest:
                   $ref: '#/components/schemas/AssistantChatMessage'
-                file:
+                document:
                   type: array
                   minItems: 0
                   maxItems: 2
@@ -321,7 +321,7 @@ components:
     # Configuration Types
     Assistant:
       type: object
-      properties: 
+      properties:
         name:
           type: string
         displayName:
@@ -422,6 +422,9 @@ components:
           type: string
           nullable: false
           minLength: 1
+      x-field-extra-annotation: |+
+        @org.jboss.resteasy.reactive.RestForm
+        @org.jboss.resteasy.reactive.PartType(jakarta.ws.rs.core.MediaType.APPLICATION_JSON)
   responses:
     Common401Response:
       description: Not Authorized
