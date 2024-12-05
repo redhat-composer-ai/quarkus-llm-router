@@ -1,21 +1,21 @@
 package com.redhat.composer.services;
 
-import java.util.List;
-import java.util.stream.Stream;
-
-import org.bson.types.ObjectId;
-
 import com.redhat.composer.model.mongo.AssistantEntity;
+import com.redhat.composer.model.mongo.BaseEntity;
 import com.redhat.composer.model.mongo.LlmConnectionEntity;
 import com.redhat.composer.model.mongo.RetrieverConnectionEntity;
 import com.redhat.composer.model.request.AssistantCreationRequest;
-import com.redhat.composer.model.request.LLMRequest;
 import com.redhat.composer.model.request.RetrieverRequest;
 import com.redhat.composer.model.response.AssistantResponse;
 import com.redhat.composer.util.mappers.MapperUtil;
-
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.ws.rs.NotFoundException;
+import org.bson.types.ObjectId;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 /**
  * AssistantInfoService.
@@ -60,7 +60,7 @@ public class AssistantInfoService {
    *
    * @return a list of AssistantResponse
    */
-  public List<AssistantResponse> getAssistant() {
+  public List<AssistantResponse> getAssistants() {
     Stream<AssistantEntity> stream = AssistantEntity.streamAll();
     return stream.map(entity -> {
           AssistantResponse response = new AssistantResponse();
@@ -75,6 +75,27 @@ public class AssistantInfoService {
           return response;
         }
     ).toList();
+  }
+
+
+  /**
+   * Delete assistant.
+   *
+   * @param assistantObjectId the id
+   * @return boolean
+   */
+  public boolean deleteAssistant(ObjectId assistantObjectId) {
+    return AssistantEntity.deleteById(assistantObjectId);
+  }
+
+  /**
+   * Get single assistant.
+   *
+   * @param assistantObjectId
+   * @return assistantResponse
+   */
+  public Optional<AssistantEntity> getAssistant(ObjectId assistantObjectId) {
+    return AssistantEntity.findByIdOptional(assistantObjectId);
   }
 
   /**
@@ -96,17 +117,16 @@ public class AssistantInfoService {
   /**
    * Create a LLMConnectionEntity.
    *
-   * @param request the LLMRequest
+   * @param entity the LlmConnectionEntity
    * @return the LLMConnectionEntity
    */
-  public LlmConnectionEntity createLlmConnection(LLMRequest request) {
-    LlmConnectionEntity entity = new LlmConnectionEntity();
-    entity.setName(request.getName());
-    entity.setDescription(request.getDescription());
-    entity.setUrl(request.getUrl());
-    entity.setApiKey(request.getApiKey());
-    entity.setModelName(request.getModelName());
-    entity.persist();
+  public LlmConnectionEntity createUpdateLlmConnection(LlmConnectionEntity entity) {
+    if (entity.id != null) {
+      getEntity(entity.id, LlmConnectionEntity.class);
+      entity.update();
+    } else {
+      entity.persist();
+    }
     return entity;
   }
 
@@ -117,6 +137,59 @@ public class AssistantInfoService {
    */
   public List<LlmConnectionEntity> getLlmConnections() {
     return LlmConnectionEntity.listAll();
+  }
+
+  /**
+   * Delete existing llmConnection by object id.
+   *
+   * @param llmConnectionObjectId the object id
+   * @return boolean true if the llmConnection was successfully deleted
+   */
+  public Boolean deleteLlmConnection(ObjectId llmConnectionObjectId) {
+    return LlmConnectionEntity.deleteById(llmConnectionObjectId);
+  }
+
+  /**
+   * Get single llm connection.
+   *
+   * @param llmConnectionObjectId the llmConnectionObjectId
+   * @return Optional
+   */
+  public Optional<LlmConnectionEntity> getLlmConnection(ObjectId llmConnectionObjectId) {
+    return LlmConnectionEntity.findByIdOptional(llmConnectionObjectId);
+  }
+
+  /**
+   * Delete Retriever Connection.
+   *
+   * @param retrieverConnectionObjectId the Retriever Connection Id
+   * @return boolean
+   */
+  public boolean deleteRetrieverConnection(ObjectId retrieverConnectionObjectId) {
+    return RetrieverConnectionEntity.deleteById(retrieverConnectionObjectId);
+  }
+
+
+  /**
+   * Get single Retriever Connection.
+   *
+   * @param retrieverConnectionObjectId the id
+   * @return Optional
+   */
+  public RetrieverConnectionEntity getRetrieverConnection(ObjectId retrieverConnectionObjectId) {
+    return getEntity(retrieverConnectionObjectId, RetrieverConnectionEntity.class);
+    //    return (RetrieverConnectionEntity) RetrieverConnectionEntity.findByIdOptional(retrieverConnectionObjectId)
+    //        .orElseThrow(
+    //            () -> new NotFoundException(
+    //           "Retriever Connection with object id {" + retrieverConnectionObjectId.toHexString() + "} not found"));
+  }
+
+  @SuppressWarnings("unchecked")
+  private <T extends BaseEntity> T getEntity(ObjectId objectId, Class<T> type) {
+    return (T) T.findByIdOptional(objectId)
+        .orElseThrow(
+            () -> new NotFoundException(
+                type.getSimpleName() + " with object id {" + objectId.toHexString() + "} not found"));
   }
 
 }
