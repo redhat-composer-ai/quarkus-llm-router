@@ -36,7 +36,7 @@ class AssistantAdminApiAssistantTest {
 
   @Test
   @Order(10)
-  public void createAsssitantShouldSucceed() {
+  public void createAssistantShouldSucceed() {
 
 
     String llmConnectionId = given()

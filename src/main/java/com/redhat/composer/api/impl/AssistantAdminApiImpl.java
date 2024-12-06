@@ -2,13 +2,9 @@ package com.redhat.composer.api.impl;
 
 import com.redhat.composer.api.AssistantAdminApi;
 import com.redhat.composer.api.mapper.AssistantAdminMapper;
-import com.redhat.composer.api.model.Assistant;
-import com.redhat.composer.api.model.CreateAssistantRequest;
-import com.redhat.composer.api.model.CreateLlmConnectionRequest;
-import com.redhat.composer.api.model.CreateRetrieverConnectionRequest;
-import com.redhat.composer.api.model.LLMConnection;
-import com.redhat.composer.api.model.RetrieverConnection;
+import com.redhat.composer.api.model.*;
 import com.redhat.composer.services.AssistantInfoService;
+import com.redhat.composer.util.mappers.BsonMapper;
 import io.quarkus.security.Authenticated;
 import jakarta.inject.Inject;
 
@@ -24,87 +20,41 @@ public class AssistantAdminApiImpl implements AssistantAdminApi {
   AssistantAdminMapper restMapper;
 
   @Inject
+  BsonMapper bsonMapper;
+
+  @Inject
   AssistantInfoService assistantService;
 
-  /**
-   * Create a LLM Connection.
-   *
-   * @param request the LLMRequest
-   * @return the LLMConnectionEntity
-   */
-  @Override
-  public LLMConnection createLlmConnection(CreateLlmConnectionRequest request) {
-    return restMapper.toRest(
-        assistantService.createLlmConnection(
-            restMapper.fromRest(request)
-        )
-    );
-  }
-
-  /**
-   * Get all LLM Connections.
-   *
-   * @return the list of LLMConnectionEntity
-   */
-  @Override
-  public List<LLMConnection> listLlmConnections() {
-    return assistantService.getLlmConnections()
-        .stream().map(restMapper::toRest)
-        .toList();
-  }
-
-  /**
-   * Create a Retriever Connection.
-   *
-   * @param request the RetrieverRequest
-   * @return the RetrieverConnectionEntity
-   */
-  @Override
-  public RetrieverConnection createRetrieverConnection(CreateRetrieverConnectionRequest request) {
-    return restMapper.toRest(
-        assistantService.createRetrieverConnectionEntity(
-            restMapper.fromRest(request)
-        )
-    );
-  }
-
-  /**
-   * Get all Retriever Connections.
-   *
-   * @return the list of RetrieverConnectionEntity
-   */
-  @Override
-  public List<RetrieverConnection> listRetrieverConnections() {
-    return assistantService.getRetrieverConnections()
-        .stream().map(restMapper::toRest)
-        .toList();
-  }
-
-  /**
-   * Create an Assistant.
-   *
-   * @param request the AssistantCreationRequest
-   * @return the AssistantEntity
-   */
-  @Override
-  public Assistant createAssistant(CreateAssistantRequest request) {
-    return restMapper.toRest(
-        assistantService.createAssistant(
-            restMapper.fromRest(request)
-        )
-    );
-  }
-
-  /**
-   * Get all Assistants.
-   *
-   * @return the list of AssistantResponse
-   */
   @Override
   public List<Assistant> listAssistants() {
-    return assistantService.getAssistant()
+    return assistantService.getAssistants()
         .stream().map(restMapper::toRest)
         .toList();
+  }
+
+  @Override
+  public Assistant createOrUpdateAssistant(CreateAssistantRequest request) {
+    return restMapper.toRest(
+        assistantService.createUpdateAssistant(
+            restMapper.fromRest(request)
+        )
+    );
+  }
+
+  @Override
+  public Assistant getAssistant(String assistantObjectIdHexString) {
+    return restMapper.toRest(
+        assistantService.getAssistant(
+            bsonMapper.toBsonObjectId(assistantObjectIdHexString)
+        )
+    );
+  }
+
+  @Override
+  public void deleteAssistant(String assistantObjectIdHexString) {
+    assistantService.deleteAssistant(
+        bsonMapper.toBsonObjectId(assistantObjectIdHexString)
+    );
   }
 
 }

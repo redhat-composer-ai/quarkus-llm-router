@@ -7,9 +7,15 @@ tags:
   - name: Assistant
     description: Assistant APIs
   - name: Assistant Admin
-    description: Assistant Management APIs
+    description: APIs to manage Assistants
   - name: Assistant Multipart
     description: Assistant APIs that allow multipart file uploads
+  - name: Content Retriever Connection Admin
+    description: APIs to manage Content Retriever connections
+  - name: LLM Connection Admin
+    description: APIs to manage LLM connections
+security:
+  - OIDC: [ ]
 paths:
   /admin/assistant:
     get:
@@ -31,11 +37,10 @@ paths:
           $ref: '#/components/responses/Common401Response'
         '403':
           $ref: '#/components/responses/Common403Response'
-      security:
-        - OIDC: [ ]
     post:
-      operationId: create-assistant
-      summary: Create Assistant
+      # TODO: POST is typically for create, where PUT or PATCH are for update... why are these concepts grouped?
+      operationId: create-or-update-assistant
+      summary: Create/Update Assistant
       tags:
         - Assistant Admin
       requestBody:
@@ -50,12 +55,20 @@ paths:
                 - llmConnectionId
                 - retrieverConnectionId
               properties:
+                id:
+                  $ref: '#/components/schemas/AssistantId'
                 name:
                   type: string
                 displayName:
                   type: string
                 description:
                   type: string
+                userPrompt:
+                  type: string
+                exampleQuestions:
+                  type: array
+                  items:
+                    type: string
                 llmConnectionId:
                   $ref: '#/components/schemas/LLMConnectionId'
                 retrieverConnectionId:
@@ -71,15 +84,45 @@ paths:
           $ref: '#/components/responses/Common401Response'
         '403':
           $ref: '#/components/responses/Common403Response'
-      security:
-        - OIDC: [ ]
+  /admin/assistant/{assistantObjectIdHexString}:
+    parameters:
+      - name: assistantObjectIdHexString
+        in: path
+        required: true
+        allowEmptyValue: false
+        schema:
+          $ref: '#/components/schemas/AssistantId'
+    get:
+      operationId: get-assistant
+      summary: Get Assistant
+      tags:
+        - Assistant Admin
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Assistant'
+        '401':
+          $ref: '#/components/responses/Common401Response'
+        '403':
+          $ref: '#/components/responses/Common403Response'
+    delete:
+      operationId: delete-assistant
+      summary: Delete Assistant
+      tags:
+        - Assistant Admin
+      responses:
+        '200':
+          $ref: '#/components/responses/CommonDeleteResponse'
 
   /admin/assistant/llm:
     get:
       operationId: list-llm-connections
       summary: List LLM Connections
       tags:
-        - Assistant Admin
+        - LLM Connection Admin
       responses:
         '200':
           description: OK
@@ -94,20 +137,22 @@ paths:
           $ref: '#/components/responses/Common401Response'
         '403':
           $ref: '#/components/responses/Common403Response'
-      security:
-        - OIDC: [ ]
     post:
-      operationId: create-llm-connection
-      summary: Create LLM Connection
+      # TODO: POST is typically for create, where PUT or PATCH are for update... why are these concepts grouped?
+      operationId: create-or-update-llm-connection
+      summary: Create/Update LLM Connection
       tags:
-        - Assistant Admin
+        - LLM Connection Admin
       requestBody:
         required: true
         content:
           application/json:
             schema:
+              title: CreateLlmConnectionRequest
               type: object
               properties:
+                id:
+                  $ref: '#/components/schemas/LLMConnectionId'
                 name:
                   type: string
                 description:
@@ -131,15 +176,45 @@ paths:
           $ref: '#/components/responses/Common401Response'
         '403':
           $ref: '#/components/responses/Common403Response'
-      security:
-        - OIDC: [ ]
+  /admin/assistant/llm/{llmConnectionObjectIdHexString}:
+    parameters:
+      - name: llmConnectionObjectIdHexString
+        in: path
+        required: true
+        allowEmptyValue: false
+        schema:
+          $ref: '#/components/schemas/LLMConnectionId'
+    get:
+      operationId: get-llm-connection
+      summary: Get LLM Connection
+      tags:
+        - LLM Connection Admin
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LLMConnection'
+        '401':
+          $ref: '#/components/responses/Common401Response'
+        '403':
+          $ref: '#/components/responses/Common403Response'
+    delete:
+      operationId: delete-llm-connection
+      summary: Delete LLM Connection
+      tags:
+        - LLM Connection Admin
+      responses:
+        '200':
+          $ref: '#/components/responses/CommonDeleteResponse'
 
   /admin/assistant/retrieverConnection:
     get:
       operationId: list-retriever-connections
       summary: List Retriever Connections
       tags:
-        - Assistant Admin
+        - Content Retriever Connection Admin
       responses:
         '200':
           description: OK
@@ -154,13 +229,11 @@ paths:
           $ref: '#/components/responses/Common401Response'
         '403':
           $ref: '#/components/responses/Common403Response'
-      security:
-        - OIDC: [ ]
     post:
-      operationId: create-retriever-connection
-      summary: Create Retriever Connection
+      operationId: create-or-update-retriever-connection
+      summary: Create/Update Retriever Connection
       tags:
-        - Assistant Admin
+        - Content Retriever Connection Admin
       requestBody:
         required: true
         content:
@@ -169,6 +242,8 @@ paths:
               title: CreateRetrieverConnectionRequest
               type: object
               properties:
+                id:
+                  $ref: '#/components/schemas/RetrieverConnectionId'
                 baseRetrieverRequest:
                   $ref: "#/components/schemas/BaseRetrieverConnection"
                 embeddingType:
@@ -188,8 +263,38 @@ paths:
           $ref: '#/components/responses/Common401Response'
         '403':
           $ref: '#/components/responses/Common403Response'
-      security:
-        - OIDC: [ ]
+  /admin/assistant/retrieverConnection/{retrieverConnectionObjectIdHexString}:
+    parameters:
+      - name: retrieverConnectionObjectIdHexString
+        in: path
+        required: true
+        allowEmptyValue: false
+        schema:
+          $ref: '#/components/schemas/RetrieverConnectionId'
+    get:
+      operationId: get-retriever-connection
+      summary: Get Retriever Connection
+      tags:
+        - Content Retriever Connection Admin
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RetrieverConnection'
+        '401':
+          $ref: '#/components/responses/Common401Response'
+        '403':
+          $ref: '#/components/responses/Common403Response'
+    delete:
+      operationId: delete-retriever-connection
+      summary: Delete Retriever Connection
+      tags:
+        - Content Retriever Connection Admin
+      responses:
+        '200':
+          $ref: '#/components/responses/CommonDeleteResponse'
 
   /assistant/chat/streamingWithFileUpload:
     post:
@@ -228,7 +333,7 @@ paths:
             encoding:
               jsonRequest:
                 contentType: application/json
-              file:
+              document:
                 contentType: application/octet-stream
       responses:
         '200':
@@ -243,8 +348,6 @@ paths:
           $ref: '#/components/responses/Common401Response'
         '403':
           $ref: '#/components/responses/Common403Response'
-      security:
-        - OIDC: [ ]
 
   /assistant/chat/streaming:
     post:
@@ -272,32 +375,10 @@ paths:
           $ref: '#/components/responses/Common401Response'
         '403':
           $ref: '#/components/responses/Common403Response'
-      security:
-        - OIDC: [ ]
+
 components:
   schemas:
     # Primitive types
-    Date:
-      format: date
-      type: string
-      example: 2022-03-10
-    BsonObjectId:
-      description: BSON Object Identifier (eg, as used by MongoDB)
-      type: object
-      properties:
-        timestamp:
-          format: int32
-          type: integer
-        counter:
-          format: int32
-          type: integer
-        randomValue1:
-          format: int32
-          type: integer
-        randomValue2:
-          type: integer
-        date:
-          $ref: "#/components/schemas/Date"
     ContentRetrieverType:
       type: string
       enum:
@@ -305,30 +386,47 @@ components:
         - neo4j
         - elasticsearch
 
-    # IDs
+    # Domain IDs
     AssistantId:
+      description: Assistant ID in the form of a BSON Object ID's Hex String
       type: string
-      minLength: 1
+      pattern: ^[A-Fa-f0-9]{24}$
+      minLength: 24
+      maxLength: 24
       nullable: false
     LLMConnectionId:
+      description: LLM Connection ID in the form of a BSON Object ID's Hex String
       type: string
-      minLength: 1
+      pattern: ^[A-Fa-f0-9]{24}$
+      minLength: 24
+      maxLength: 24
       nullable: false
     RetrieverConnectionId:
+      description: Retriever Connection ID in the form of a BSON Object ID's Hex String
       type: string
-      minLength: 1
+      pattern: ^[A-Fa-f0-9]{24}$
+      minLength: 24
+      maxLength: 24
       nullable: false
 
     # Configuration Types
     Assistant:
       type: object
       properties:
+        id:
+          $ref: '#/components/schemas/AssistantId'
         name:
           type: string
         displayName:
           type: string
         description:
           type: string
+        userPrompt:
+          type: string
+        exampleQuestions:
+          type: array
+          items:
+            type: string
         llmConnectionId:
           $ref: '#/components/schemas/LLMConnectionId'
         llmConnection:
@@ -345,13 +443,15 @@ components:
         contentRetrieverType:
           $ref: '#/components/schemas/ContentRetrieverType'
       oneOf:
-        - $ref: '#/components/schemas/WeaviateConnection'
+        - $ref: '#/components/schemas/ElasticsearchConnection'
         - $ref: '#/components/schemas/Neo4JConnection'
+        - $ref: '#/components/schemas/WeaviateConnection'
       discriminator:
         propertyName: contentRetrieverType
         mapping:
-          weaviate: '#/components/schemas/WeaviateConnection'
+          elasticsearch: '#/components/schemas/ElasticsearchConnection'
           neo4j: '#/components/schemas/Neo4JConnection'
+          weaviate: '#/components/schemas/WeaviateConnection'
     ElasticsearchConnection:
       type: object
       x-discriminator-value: elasticsearch
@@ -371,6 +471,10 @@ components:
             host:
               type: string
             apiKey:
+              type: string
+            user:
+              type: string
+            password:
               type: string
     Neo4JConnection:
       type: object
@@ -446,12 +550,28 @@ components:
       x-field-extra-annotation: |+
         @org.jboss.resteasy.reactive.RestForm
         @org.jboss.resteasy.reactive.PartType(jakarta.ws.rs.core.MediaType.APPLICATION_JSON)
+
+    # Common Error Types
+    CommonError:
+      type: object
+      # TODO: Define common error response structure
+      additionalProperties: true
   responses:
     Common401Response:
       description: Not Authorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommonError'
     Common403Response:
       description: Not Allowed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommonError'
+    CommonDeleteResponse:
+      description: Empty response, since DELETE method disallows content body
   securitySchemes:
     OIDC:
       type: openIdConnect
-      description: Authentication
+      description: Authentication via OpenID Connect

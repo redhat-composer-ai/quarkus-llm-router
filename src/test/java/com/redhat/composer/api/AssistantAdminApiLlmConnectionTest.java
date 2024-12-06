@@ -21,7 +21,7 @@ import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.notNullValue;
 
 @QuarkusTest
-@TestHTTPEndpoint(AssistantAdminApi.class)
+@TestHTTPEndpoint(LlmConnectionAdminApi.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class AssistantAdminApiLlmConnectionTest {
 

@@ -22,7 +22,7 @@ import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.notNullValue;
 
 @QuarkusTest
-@TestHTTPEndpoint(AssistantAdminApi.class)
+@TestHTTPEndpoint(ContentRetrieverConnectionAdminApi.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class AssistantAdminApiRetrieverConnectionTest {
 
