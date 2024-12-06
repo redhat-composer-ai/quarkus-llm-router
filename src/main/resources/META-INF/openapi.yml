@@ -303,6 +303,7 @@ components:
       enum:
         - weaviate
         - neo4j
+        - elasticsearch
 
     # IDs
     AssistantId:
@@ -351,9 +352,9 @@ components:
         mapping:
           weaviate: '#/components/schemas/WeaviateConnection'
           neo4j: '#/components/schemas/Neo4JConnection'
-    WeaviateConnection:
+    ElasticsearchConnection:
       type: object
-      x-discriminator-value: weaviate
+      x-discriminator-value: elasticsearch
       allOf:
         - $ref: '#/components/schemas/BaseRetrieverConnection'
         - properties:
@@ -377,6 +378,26 @@ components:
       allOf:
         - $ref: '#/components/schemas/BaseRetrieverConnection'
         - properties: { }
+    WeaviateConnection:
+      type: object
+      x-discriminator-value: weaviate
+      allOf:
+        - $ref: '#/components/schemas/BaseRetrieverConnection'
+        - properties:
+            textKey:
+              type: string
+            metadataFields:
+              type: array
+              items:
+                type: string
+            index:
+              type: string
+            scheme:
+              type: string
+            host:
+              type: string
+            apiKey:
+              type: string
     LLMConnection:
       type: object
       properties:

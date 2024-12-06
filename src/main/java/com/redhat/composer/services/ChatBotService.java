@@ -7,17 +7,10 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 import com.redhat.composer.config.retriever.embeddingmodel.EmbeddingModelFactory;
 import com.redhat.composer.model.request.RetrieverRequest;
 import dev.langchain4j.data.document.Document;
-import dev.langchain4j.data.document.DocumentTransformer;
-import dev.langchain4j.data.document.splitter.DocumentSplitters;
-import dev.langchain4j.data.segment.TextSegment;
-import dev.langchain4j.model.embedding.EmbeddingModel;
 import dev.langchain4j.rag.DefaultRetrievalAugmentor;
 import dev.langchain4j.rag.content.retriever.ContentRetriever;
-import dev.langchain4j.rag.content.retriever.EmbeddingStoreContentRetriever;
 import dev.langchain4j.rag.query.router.DefaultQueryRouter;
 import dev.langchain4j.store.embedding.EmbeddingStore;
-import dev.langchain4j.store.embedding.EmbeddingStoreIngestor;
-import dev.langchain4j.store.embedding.inmemory.InMemoryEmbeddingStore;
 import io.quarkus.logging.Log;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -42,20 +35,14 @@ import io.smallrye.mutiny.Multi;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 
 /**
  * ChatBotService class.
  */
 @ApplicationScoped
 public class ChatBotService {
-
-  // Should these be configurable by assistant?
-  private static final int MAX_SEGMENT_SIZE_IN_CHARS = 4000;
-  private static final int MAX_OVERLAP_SIZE_IN_CHARS = 200;
 
   @ConfigProperty(name = "prompt.default.system.message")
   private String defaultSystemMessage;
@@ -71,9 +58,6 @@ public class ChatBotService {
 
   @Inject
   AssistantRepository assistantRepository;
-
-  @Inject
-  EmbeddingModelFactory embeddingModelFactory;
 
   @Inject
   MapperUtil mapperUtil;
@@ -217,7 +201,7 @@ public class ChatBotService {
     }
 
     if (documents != null && !documents.isEmpty()) {
-      retrievers.add(contentRetrieverForDocuments(
+      retrievers.add(ragService.contentRetrieverForDocuments(
           documents,
           5,
           0.75
@@ -231,49 +215,6 @@ public class ChatBotService {
     }
 
     return builder.build();
-  }
-
-  /**
-   * A quick-and-dirty method to build a {@link ContentRetriever} from a collection of {@link Document}s. This uses
-   * a temporary {@link InMemoryEmbeddingStore} for storage of the documents; however, a better implementation may
-   * be to use a more permanent {@link EmbeddingStore}, and tag the ingested metadata (via use of
-   * {@link EmbeddingStoreIngestor.Builder#documentTransformer(DocumentTransformer)}) to include metadata about the
-   * specific user or specific chat session.
-   *
-   * @param documents collection of input documents
-   * @param maxResults the value for
-   *     {@link EmbeddingStoreContentRetriever.EmbeddingStoreContentRetrieverBuilder#maxResults(Integer)}
-   * @param minScore the value for
-   *     {@link EmbeddingStoreContentRetriever.EmbeddingStoreContentRetrieverBuilder#minScore(Double)}
-   * @return an {@link EmbeddingStoreContentRetriever} that will retrieve across
-   *     {@link dev.langchain4j.data.embedding.Embedding}s created from the input documents
-   */
-  private ContentRetriever contentRetrieverForDocuments(
-      Collection<Document> documents,
-      int maxResults,
-      double minScore
-  ) {
-    InMemoryEmbeddingStore<TextSegment> embeddingStore = new InMemoryEmbeddingStore<>();
-
-    // TODO: Make this configurable?
-    String embeddingModelName = EmbeddingModelFactory.DEFAULT_EMBEDDING;
-    EmbeddingModel embeddingModel = embeddingModelFactory.getEmbeddingModel(embeddingModelName);
-
-    EmbeddingStoreIngestor ingestor = EmbeddingStoreIngestor.builder()
-        .documentSplitter(DocumentSplitters.recursive(MAX_SEGMENT_SIZE_IN_CHARS, MAX_OVERLAP_SIZE_IN_CHARS))
-        .embeddingModel(embeddingModel)
-        .embeddingStore(embeddingStore)
-        .build();
-
-    ingestor.ingest(documents.toArray(new Document[0]));
-
-    return EmbeddingStoreContentRetriever.builder()
-        .displayName("Uploaded Documents")
-        .embeddingModel(embeddingModel)
-        .embeddingStore(embeddingStore)
-        .maxResults(maxResults)
-        .minScore(minScore)
-        .build();
   }
 
   private void validateRequest(ChatBotRequest request) {

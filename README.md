@@ -139,6 +139,17 @@ curl -X 'POST'   'http://localhost:8080/assistant/chat/streaming' -H 'Content-Ty
 
 The `assistantName` can be swapped out for other assistants inside of the table above, but the other assistants will required a connection to a weaviate db with the correct indexes. The App Of Apps repository contains a [validation script](https://github.com/redhat-composer-ai/appOfApps/blob/main/data-ingestion/weaviate/validation.sh) that can be used to show which indexes currently exist.
 
+## Local Curl with File Upload
+
+To send a local curl request with an uploaded file, the following command may be used:
+
+```sh
+curl 'http://localhost:8080/assistant/chat/streaming' -F 'jsonRequest={
+  "message": "Please summarize the document that I uploaded",
+  "assistantName": "default_assistant"
+};type=application/json' -F 'document=@/path/to/my/file.txt'
+```
+
 ## Admin Flow
 
 Information about the creation/updating of Assistants, ContentRetrievers, and LLMs can be found in the [admin flow docs](documentation/ADMIN_WORKFLOW.MD)
