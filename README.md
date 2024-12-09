@@ -10,7 +10,7 @@ Quarkus Service that allows for the routing to different RAG sources and LLMs.
 
 * **Assistants** - An assistant is the top level component that describes how all the components below are connected.
 * **Content Retrievers**- Content Retrievers is the RAG(Retrieval-Augmented Generation) connection info used to retrieve data that will be included in the message to the LLM
-  * **Embedding Models**- These are generally the model used to convert data that is stored/retrieved from a vector database, which is a common pattern for RAG Datasources 
+  * **Embedding Models**- These are generally the model used to convert data that is stored/retrieved from a vector database, which is a common pattern for RAG Datasources
 * **LLMs**- The connection information to the Runtime Serving Environment hosting the Large Language Model
 * **AI Services** - The component orchestrating the calls to the Content Retrievers and LLMs
 
@@ -77,7 +77,7 @@ mvn quarkus:dev -Dquarkus.profile=local
 ```
 
 > [!TIP]
-> Recommended that properties below are set in the `application-local.properties` file which is get ignored. This will prevent any accidental check-ins of secret information
+> Recommended that properties below are set in the `application-local.properties` file which is gitignored. This will prevent any accidental check-ins of secret information
 
 ### LLM Connection
 
@@ -123,6 +123,8 @@ Currently the supported models are added to the resources folder and [loaded dir
 > The embedding model is too large to check into our repo.
 > Download it from [huggingface](https://huggingface.co/nomic-ai/nomic-embed-text-v1/resolve/main/onnx/model_quantized.onnx?download=true) or [here](https://drive.google.com/drive/folders/1jZe0cEw8p_E-fghd6IFPjwiabDNAhtp7?usp=drive_link) if internal to RH.
 > Then add it to `resources/embedding/nomic` with the name `model.onnx`, it should be gitignored if done correctly.
+> The download can be performed by running the [download-nomic-embeddings-model.sh](./scripts/download-nomic-embeddings-model.sh)
+> script.
 
 ## Local Curl
 
@@ -136,6 +138,17 @@ curl -X 'POST'   'http://localhost:8080/assistant/chat/streaming' -H 'Content-Ty
 ```
 
 The `assistantName` can be swapped out for other assistants inside of the table above, but the other assistants will required a connection to a weaviate db with the correct indexes. The App Of Apps repository contains a [validation script](https://github.com/redhat-composer-ai/appOfApps/blob/main/data-ingestion/weaviate/validation.sh) that can be used to show which indexes currently exist.
+
+## Local Curl with File Upload
+
+To send a local curl request with an uploaded file, the following command may be used:
+
+```sh
+curl 'http://localhost:8080/assistant/chat/streaming' -F 'jsonRequest={
+  "message": "Please summarize the document that I uploaded",
+  "assistantName": "default_assistant"
+};type=application/json' -F 'document=@/path/to/my/file.txt'
+```
 
 ## Admin Flow
 

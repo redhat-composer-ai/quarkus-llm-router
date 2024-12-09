@@ -13,7 +13,7 @@ public class NomicLocalEmbeddingModelClient extends BaseLocalEmbeddingModelClien
 
   private static final String MODEL_FOLDER = "embeddings/nomic/";
 
-
+  // TODO: Don't do work that can fail during static initialization. If it fails, the JVM gives very misleading ClassDefNotFoundException
   private static final OnnxBertBiEncoder MODEL = loadFromJar(
           MODEL_FOLDER + MODEL_NAME,
           MODEL_FOLDER + TOKENIZER_NAME,

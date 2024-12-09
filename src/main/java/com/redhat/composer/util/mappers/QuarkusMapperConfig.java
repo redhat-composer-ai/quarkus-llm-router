@@ -5,6 +5,6 @@ import org.mapstruct.MapperConfig;
 /**
  * Quarkus Mapper Config.
  */
-@MapperConfig(componentModel = "cdi")
+@MapperConfig(componentModel = "jakarta-cdi")
 public interface QuarkusMapperConfig {
 }

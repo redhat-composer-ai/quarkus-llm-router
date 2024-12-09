@@ -1,6 +1,6 @@
 package com.redhat.composer.api;
 
-import com.redhat.composer.model.request.AssistantCreationRequest;
+import com.redhat.composer.api.model.CreateAssistantRequest;
 import io.quarkus.test.common.http.TestHTTPEndpoint;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.http.ContentType;
@@ -22,22 +22,22 @@ import static org.hamcrest.Matchers.notNullValue;
 
 @QuarkusTest
 @TestHTTPEndpoint(AssistantAdminApi.class)
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)  // TODO: Remove test ordering requirements
 class AssistantAdminApiAssistantTest {
 
-  private static AssistantCreationRequest assistantCreationRequest;
+  // TODO: Don't keep state between tests; each test method should manage preconditions and validate postconditions to be self-contained
+  private static CreateAssistantRequest createAssistantRequest;
 
   @BeforeAll
   public static void beforeAll() {
-    assistantCreationRequest = new AssistantCreationRequest();
-    assistantCreationRequest.setName("assistant");
-    assistantCreationRequest.setDescription("Assistant X");
+    createAssistantRequest = new CreateAssistantRequest();
+    createAssistantRequest.setName("assistant");
+    createAssistantRequest.setDescription("Assistant X");
   }
 
   @Test
   @Order(10)
-  public void createAsssitantShouldSucceed() {
-
+  public void createAssistantShouldSucceed() {
 
     String llmConnectionId = given()
         .contentType(ContentType.JSON)
@@ -55,12 +55,12 @@ class AssistantAdminApiAssistantTest {
         .path("id");
 
 
-    assistantCreationRequest.setLlmConnectionId(llmConnectionId);
+    createAssistantRequest.setLlmConnectionId(llmConnectionId);
 
     String assistantHexStringId = given()
         .contentType(ContentType.JSON)
         .and()
-        .body(assistantCreationRequest)
+        .body(createAssistantRequest)
         .when()
         .post()
         .then()
@@ -71,7 +71,7 @@ class AssistantAdminApiAssistantTest {
         .extract()
         .path("id");
 
-    assistantCreationRequest.setId(assistantHexStringId);
+    createAssistantRequest.setId(assistantHexStringId);
   }
 
 
@@ -87,7 +87,7 @@ class AssistantAdminApiAssistantTest {
         .assertThat()
         .body("$", Matchers.is(not(emptyArray())))
         .and()
-        .body("", hasItem(hasEntry("id", assistantCreationRequest.getId())))
+        .body("", hasItem(hasEntry("id", createAssistantRequest.getId())))
         .statusCode(
             Response.Status.OK.getStatusCode());
   }
@@ -100,11 +100,11 @@ class AssistantAdminApiAssistantTest {
         .contentType(ContentType.JSON)
         .and()
         .when()
-        .pathParams("assistantId", assistantCreationRequest.getId())
+        .pathParams("assistantId", createAssistantRequest.getId())
         .get("/{assistantId}")
         .then()
         .assertThat()
-        .body("", hasEntry("id", assistantCreationRequest.getId()))
+        .body("", hasEntry("id", createAssistantRequest.getId()))
         .statusCode(
             Response.Status.OK.getStatusCode());
   }
@@ -132,7 +132,7 @@ class AssistantAdminApiAssistantTest {
         .contentType(ContentType.JSON)
         .and()
         .when()
-        .pathParams("assistantId", assistantCreationRequest.getId())
+        .pathParams("assistantId", createAssistantRequest.getId())
         .delete("/{assistantId}")
         .then()
         .assertThat()
@@ -143,7 +143,7 @@ class AssistantAdminApiAssistantTest {
         .contentType(ContentType.JSON)
         .and()
         .when()
-        .pathParams("assistantId", assistantCreationRequest.getId())
+        .pathParams("assistantId", createAssistantRequest.getId())
         .get("/{assistantId}")
         .then()
         .assertThat()

@@ -1,0 +1,13 @@
+root = true
+
+[*]
+max_line_length = 120
+trim_trailing_whitespace = true
+
+[*.java]
+indent_style = space
+indent_size = 2
+java_continuation_indent_size = 4
+
+[*.mustache]
+insert_final_newline = false

@@ -1,6 +1,5 @@
 package com.redhat.composer.api;
 
-import com.redhat.composer.model.mongo.LlmConnectionEntity;
 import com.redhat.composer.model.mongo.RetrieverConnectionEntity;
 import io.quarkus.test.common.http.TestHTTPEndpoint;
 import io.quarkus.test.junit.QuarkusTest;
@@ -8,24 +7,18 @@ import io.restassured.http.ContentType;
 import jakarta.ws.rs.core.Response;
 import org.bson.types.ObjectId;
 import org.hamcrest.Matchers;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.*;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.emptyArray;
-import static org.hamcrest.Matchers.hasEntry;
-import static org.hamcrest.Matchers.hasItem;
-import static org.hamcrest.Matchers.not;
-import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.*;
 
 @QuarkusTest
-@TestHTTPEndpoint(AssistantAdminApi.class)
+@TestHTTPEndpoint(ContentRetrieverConnectionAdminApi.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class AssistantAdminApiRetrieverConnectionTest {
 
+  // TODO: Don't keep state between tests; each test method should be fully self-contained
+  // TODO: Use REST model for interacting with REST API, not database entity model
   private static RetrieverConnectionEntity retrieverConnectionEntity;
 
   @BeforeAll
@@ -43,7 +36,7 @@ class AssistantAdminApiRetrieverConnectionTest {
         .and()
         .body(retrieverConnectionEntity)
         .when()
-        .post("/retrieverConnection")
+        .post()
         .then()
         .assertThat()
         .body("id", notNullValue())
@@ -63,7 +56,7 @@ class AssistantAdminApiRetrieverConnectionTest {
         .contentType(ContentType.JSON)
         .and()
         .when()
-        .get("/retrieverConnection")
+        .get()
         .then()
         .assertThat()
         .body("$", Matchers.is(not(emptyArray())))
@@ -82,7 +75,7 @@ class AssistantAdminApiRetrieverConnectionTest {
         .and()
         .when()
         .pathParams("retrieverConnectionId", retrieverConnectionEntity.id.toHexString())
-        .get("/retrieverConnection/{retrieverConnectionId}")
+        .get("/{retrieverConnectionId}")
         .then()
         .assertThat()
         .body("", hasEntry("id", retrieverConnectionEntity.id.toHexString()))
@@ -99,7 +92,7 @@ class AssistantAdminApiRetrieverConnectionTest {
         .and()
         .when()
         .pathParams("retrieverConnectionId", new ObjectId().toHexString())
-        .get("/retrieverConnection/{retrieverConnectionId}")
+        .get("/{retrieverConnectionId}")
         .then()
         .assertThat()
         .statusCode(
@@ -114,7 +107,7 @@ class AssistantAdminApiRetrieverConnectionTest {
         .and()
         .when()
         .pathParams("retrieverConnectionId", retrieverConnectionEntity.id.toHexString())
-        .delete("/retrieverConnection/{retrieverConnectionId}")
+        .delete("/{retrieverConnectionId}")
         .then()
         .assertThat()
         .statusCode(
@@ -125,7 +118,7 @@ class AssistantAdminApiRetrieverConnectionTest {
         .and()
         .when()
         .pathParams("retrieverConnectionId", retrieverConnectionEntity.id.toHexString())
-        .get("/retrieverConnection/{retrieverConnectionId}")
+        .get("/{retrieverConnectionId}")
         .then()
         .assertThat()
         .statusCode(

@@ -1,4 +1,4 @@
-package com.redhat.composer.api.validation;
+package com.redhat.composer.api.nonspec.validation;
 
 import java.util.Set;
 

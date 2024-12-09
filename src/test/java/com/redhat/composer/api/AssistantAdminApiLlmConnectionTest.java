@@ -21,10 +21,12 @@ import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.notNullValue;
 
 @QuarkusTest
-@TestHTTPEndpoint(AssistantAdminApi.class)
+@TestHTTPEndpoint(LlmConnectionAdminApi.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class AssistantAdminApiLlmConnectionTest {
 
+  // TODO: Don't keep state between tests; each test method should be fully self-contained
+  // TODO: Use REST model for interacting with REST API, not database entity model
   private static LlmConnectionEntity llmConnectionEntity;
 
   @BeforeAll
@@ -42,7 +44,7 @@ class AssistantAdminApiLlmConnectionTest {
         .and()
         .body(llmConnectionEntity)
         .when()
-        .post("/llm")
+        .post()
         .then()
         .assertThat()
         .body("id", notNullValue())
@@ -62,7 +64,7 @@ class AssistantAdminApiLlmConnectionTest {
         .contentType(ContentType.JSON)
         .and()
         .when()
-        .get("/llm")
+        .get()
         .then()
         .assertThat()
         .body("$", Matchers.is(not(emptyArray())))
@@ -81,7 +83,7 @@ class AssistantAdminApiLlmConnectionTest {
         .and()
         .when()
         .pathParams("llmConnectionId", llmConnectionEntity.id.toHexString())
-        .get("/llm/{llmConnectionId}")
+        .get("/{llmConnectionId}")
         .then()
         .assertThat()
         .body("", hasEntry("id", llmConnectionEntity.id.toHexString()))
@@ -98,7 +100,7 @@ class AssistantAdminApiLlmConnectionTest {
         .and()
         .when()
         .pathParams("llmConnectionId", new ObjectId().toHexString())
-        .get("/llm/{llmConnectionId}")
+        .get("/{llmConnectionId}")
         .then()
         .assertThat()
         .statusCode(
@@ -113,7 +115,7 @@ class AssistantAdminApiLlmConnectionTest {
         .and()
         .when()
         .pathParams("llmConnectionId", llmConnectionEntity.id.toHexString())
-        .delete("/llm/{llmConnectionId}")
+        .delete("/{llmConnectionId}")
         .then()
         .assertThat()
         .statusCode(
@@ -124,7 +126,7 @@ class AssistantAdminApiLlmConnectionTest {
         .and()
         .when()
         .pathParams("llmConnectionId", llmConnectionEntity.id.toHexString())
-        .get("/llm/{llmConnectionId}")
+        .get("/{llmConnectionId}")
         .then()
         .assertThat()
         .statusCode(

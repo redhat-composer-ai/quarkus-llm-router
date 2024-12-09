@@ -1,4 +1,4 @@
-package com.redhat.composer.api;
+package com.redhat.composer.api.nonspec;
 
 import org.jboss.logging.Logger;
 
