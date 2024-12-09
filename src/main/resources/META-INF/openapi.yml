@@ -53,7 +53,6 @@ paths:
               required:
                 - name
                 - llmConnectionId
-                - retrieverConnectionId
               properties:
                 id:
                   $ref: '#/components/schemas/AssistantId'
@@ -440,6 +439,8 @@ components:
       required:
         - contentRetrieverType
       properties:
+        id:
+          $ref: '#/components/schemas/RetrieverConnectionId'
         contentRetrieverType:
           $ref: '#/components/schemas/ContentRetrieverType'
       oneOf:
@@ -505,6 +506,8 @@ components:
     LLMConnection:
       type: object
       properties:
+        id:
+          $ref: '#/components/schemas/LLMConnectionId'
         name:
           type: string
         description:
@@ -520,6 +523,8 @@ components:
     RetrieverConnection:
       type: object
       properties:
+        id:
+          $ref: '#/components/schemas/RetrieverConnectionId'
         name:
           type: string
         description:
