@@ -42,7 +42,7 @@ import java.util.Objects;
 public class ChatBotService {
 
   @ConfigProperty(name = "prompt.default.system.message")
-  private String defaultSystemMessage;
+  String defaultSystemMessage;
 
   @Inject
   StreamingModelFactory modelTemplateFactory;
@@ -200,10 +200,15 @@ public class ChatBotService {
     }
 
     if (documents != null && !documents.isEmpty()) {
+      // TODO: Make these configurable in the Assistant or LLM descriptions; for now, they're null to use defaults that
+      //  are configured in application.properties (or simialr config sources, such as environment variables)
+      Integer maxResults = null;
+      Double minScore = null;
+
       retrievers.add(ragService.contentRetrieverForDocuments(
           documents,
-          5,
-          0.75
+          maxResults,
+          minScore
       ));
     }
 
