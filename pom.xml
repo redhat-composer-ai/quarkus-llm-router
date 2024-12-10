@@ -208,6 +208,7 @@
                     </inputSpec>
                     <output>${project.build.directory}/generated-sources/openapi-spec</output>
 
+                    <!-- Validation would fail due to no Identity Provider in the OpenAPI spec document -->
                     <skipValidateSpec>true</skipValidateSpec>
 
                     <skipIfSpecIsUnchanged>false</skipIfSpecIsUnchanged>
@@ -246,6 +247,10 @@
                     </typeMappings>
 
                     <configOptions>
+                      <!--
+                        The options for this `jaxrs-spec` generator are documented here:
+                        https://openapi-generator.tech/docs/generators/jaxrs-spec
+                      -->
                       <interfaceOnly>true</interfaceOnly>
                       <library>quarkus</library>
                       <dateLibrary>java8</dateLibrary>

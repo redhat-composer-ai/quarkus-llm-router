@@ -1,18 +1,5 @@
 package com.redhat.composer.services;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.eclipse.microprofile.config.inject.ConfigProperty;
-import com.redhat.composer.config.retriever.embeddingmodel.EmbeddingModelFactory;
-import com.redhat.composer.model.request.RetrieverRequest;
-import dev.langchain4j.data.document.Document;
-import dev.langchain4j.rag.DefaultRetrievalAugmentor;
-import dev.langchain4j.rag.content.retriever.ContentRetriever;
-import dev.langchain4j.rag.query.router.DefaultQueryRouter;
-import dev.langchain4j.store.embedding.EmbeddingStore;
-import io.quarkus.logging.Log;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.redhat.composer.config.llm.aiservices.AiServicesFactory;
@@ -23,20 +10,30 @@ import com.redhat.composer.model.mongo.LlmConnectionEntity;
 import com.redhat.composer.model.mongo.RetrieverConnectionEntity;
 import com.redhat.composer.model.request.AssistantChatRequest;
 import com.redhat.composer.model.request.ChatBotRequest;
+import com.redhat.composer.model.request.RetrieverRequest;
 import com.redhat.composer.model.response.ContentResponse;
 import com.redhat.composer.repositories.AssistantRepository;
 import com.redhat.composer.util.mappers.MapperUtil;
-
+import dev.langchain4j.data.document.Document;
 import dev.langchain4j.model.chat.StreamingChatLanguageModel;
+import dev.langchain4j.rag.DefaultRetrievalAugmentor;
+import dev.langchain4j.rag.content.retriever.ContentRetriever;
+import dev.langchain4j.rag.query.router.DefaultQueryRouter;
 import dev.langchain4j.service.AiServices;
+import dev.langchain4j.store.embedding.EmbeddingStore;
 import io.opentelemetry.api.trace.Span;
+import io.quarkus.logging.Log;
 import io.quarkus.runtime.util.StringUtil;
 import io.smallrye.mutiny.Multi;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * ChatBotService class.
@@ -138,7 +135,7 @@ public class ChatBotService {
     BaseAiService aiService = prepareAiService(
         aiServiceClass,
         llm,
-        request.getRetrieverRequest(),
+        Collections.singleton(request.getRetrieverRequest()),
         documents
     );
 
@@ -179,14 +176,15 @@ public class ChatBotService {
    * @param <T> the type of AI service to build
    * @param aiServiceClass the class of AI service to build
    * @param llm the language model to use in the AI service
-   * @param retrieverRequest an optional {@link RetrieverRequest} to provide additional knowledge to the AI
+   * @param retrieverRequests an optional collection of  {@link RetrieverRequest} to provide additional knowledge
+   *     to the AI
    * @param documents an optional collection of {@link Document} in which the AI may infer knowledge
    * @return the built AI service
    */
   private <T extends BaseAiService> T prepareAiService(
       Class<T> aiServiceClass,
       StreamingChatLanguageModel llm,
-      RetrieverRequest retrieverRequest,
+      Collection<RetrieverRequest> retrieverRequests,
       Collection<Document> documents
   ) {
     AiServices<T> builder = AiServices.builder(aiServiceClass)
@@ -194,10 +192,11 @@ public class ChatBotService {
 
     List<ContentRetriever> retrievers = new ArrayList<>();
 
-    if (retrieverRequest != null) {
-      retrievers.add(
-          ragService.getContentRetriever(retrieverRequest)
-      );
+    if (retrieverRequests != null) {
+      retrieverRequests.stream()
+          .filter(Objects::nonNull)
+          .map(ragService::getContentRetriever)
+          .forEach(retrievers::add);
     }
 
     if (documents != null && !documents.isEmpty()) {

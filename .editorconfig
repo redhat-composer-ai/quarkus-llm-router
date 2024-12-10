@@ -1,13 +1,25 @@
+# EditorConfig (https://editorconfig.org)
+#
+# This file helps standardize code style across editors. If your editor doesn't have built-in support,
+# see https://editorconfig.org/#download for links to available plugins that you may install.
+# Plugins are available for Eclipse, Emacs, NetBeans, VSCodium, VSCode, and many others.
+
+# root = true signals that this is the top-level editorconfig for the project. EditorConfig won't scan any
+# directory above this file.
 root = true
 
 [*]
+# Default settings across all file patterns
 max_line_length = 120
 trim_trailing_whitespace = true
 
 [*.java]
+# Settings specific to Java files
 indent_style = space
 indent_size = 2
+continuation_indent_size = 4
 java_continuation_indent_size = 4
 
 [*.mustache]
+# Settings specific to Mustache templates (eg, used in openapi-generator)
 insert_final_newline = false

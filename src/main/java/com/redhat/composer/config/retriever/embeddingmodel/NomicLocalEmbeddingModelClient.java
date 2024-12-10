@@ -13,18 +13,18 @@ public class NomicLocalEmbeddingModelClient extends BaseLocalEmbeddingModelClien
 
   private static final String MODEL_FOLDER = "embeddings/nomic/";
 
-  // TODO: Don't do work that can fail during static initialization. If it fails, the JVM gives very misleading ClassDefNotFoundException
-  private static final OnnxBertBiEncoder MODEL = loadFromJar(
-          MODEL_FOLDER + MODEL_NAME,
-          MODEL_FOLDER + TOKENIZER_NAME,
-            PoolingMode.CLS
-    );
+  private final OnnxBertBiEncoder model;
 
   /**
    * Constructor.
    */
   public NomicLocalEmbeddingModelClient() {
     super(Infrastructure.getDefaultExecutor());
+    model = loadFromJar(
+        MODEL_FOLDER + MODEL_NAME,
+        MODEL_FOLDER + TOKENIZER_NAME,
+        PoolingMode.CLS
+    );
   }
 
 
@@ -34,7 +34,7 @@ public class NomicLocalEmbeddingModelClient extends BaseLocalEmbeddingModelClien
    */
   @Override
   protected OnnxBertBiEncoder model() {
-    return MODEL;
+    return model;
   }
 
 }

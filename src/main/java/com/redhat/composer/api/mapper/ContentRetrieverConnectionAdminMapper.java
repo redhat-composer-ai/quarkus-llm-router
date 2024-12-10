@@ -1,6 +1,11 @@
 package com.redhat.composer.api.mapper;
 
-import com.redhat.composer.api.model.*;
+import com.redhat.composer.api.model.BaseRetrieverConnection;
+import com.redhat.composer.api.model.CreateRetrieverConnectionRequest;
+import com.redhat.composer.api.model.ElasticsearchConnection;
+import com.redhat.composer.api.model.Neo4JConnection;
+import com.redhat.composer.api.model.RetrieverConnection;
+import com.redhat.composer.api.model.WeaviateConnection;
 import com.redhat.composer.model.mongo.RetrieverConnectionEntity;
 import com.redhat.composer.model.mongo.contentretrieverentites.BaseRetrieverConnectionEntity;
 import com.redhat.composer.model.mongo.contentretrieverentites.ElasticsearchConnectionEntity;

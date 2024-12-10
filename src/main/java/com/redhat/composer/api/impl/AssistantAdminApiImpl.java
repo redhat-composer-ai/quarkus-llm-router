@@ -2,7 +2,8 @@ package com.redhat.composer.api.impl;
 
 import com.redhat.composer.api.AssistantAdminApi;
 import com.redhat.composer.api.mapper.AssistantAdminMapper;
-import com.redhat.composer.api.model.*;
+import com.redhat.composer.api.model.Assistant;
+import com.redhat.composer.api.model.CreateAssistantRequest;
 import com.redhat.composer.services.AssistantInfoService;
 import com.redhat.composer.util.mappers.BsonMapper;
 import io.quarkus.security.Authenticated;

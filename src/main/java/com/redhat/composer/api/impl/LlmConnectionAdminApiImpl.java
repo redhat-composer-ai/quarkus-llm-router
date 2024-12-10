@@ -2,7 +2,8 @@ package com.redhat.composer.api.impl;
 
 import com.redhat.composer.api.LlmConnectionAdminApi;
 import com.redhat.composer.api.mapper.LlmConnectionAdminMapper;
-import com.redhat.composer.api.model.*;
+import com.redhat.composer.api.model.CreateLlmConnectionRequest;
+import com.redhat.composer.api.model.LLMConnection;
 import com.redhat.composer.services.AssistantInfoService;
 import com.redhat.composer.util.mappers.BsonMapper;
 import io.quarkus.security.Authenticated;
