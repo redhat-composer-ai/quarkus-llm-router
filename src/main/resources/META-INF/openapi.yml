@@ -33,10 +33,14 @@ paths:
                 nullable: false
                 items:
                   $ref: '#/components/schemas/Assistant'
+        '400':
+          $ref: '#/components/responses/Common400Response'
         '401':
           $ref: '#/components/responses/Common401Response'
         '403':
           $ref: '#/components/responses/Common403Response'
+        '500':
+          $ref: '#/components/responses/Common500Response'
     post:
       # TODO: POST is typically for create, where PUT or PATCH are for update... why are these concepts grouped?
       operationId: create-or-update-assistant
@@ -79,10 +83,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Assistant'
+        '400':
+          $ref: '#/components/responses/Common400Response'
         '401':
           $ref: '#/components/responses/Common401Response'
         '403':
           $ref: '#/components/responses/Common403Response'
+        '500':
+          $ref: '#/components/responses/Common500Response'
   /admin/assistant/{assistantObjectIdHexString}:
     parameters:
       - name: assistantObjectIdHexString
@@ -103,10 +111,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Assistant'
+        '400':
+          $ref: '#/components/responses/Common400Response'
         '401':
           $ref: '#/components/responses/Common401Response'
         '403':
           $ref: '#/components/responses/Common403Response'
+        '500':
+          $ref: '#/components/responses/Common500Response'
     delete:
       operationId: delete-assistant
       summary: Delete Assistant
@@ -114,6 +126,14 @@ paths:
         - Assistant Admin
       responses:
         '200':
+          $ref: '#/components/responses/CommonDeleteResponse'
+        '400':
+          $ref: '#/components/responses/CommonDeleteResponse'
+        '401':
+          $ref: '#/components/responses/CommonDeleteResponse'
+        '403':
+          $ref: '#/components/responses/CommonDeleteResponse'
+        '500':
           $ref: '#/components/responses/CommonDeleteResponse'
 
   /admin/assistant/llm:
@@ -132,10 +152,14 @@ paths:
                 nullable: false
                 items:
                   $ref: '#/components/schemas/LLMConnection'
+        '400':
+          $ref: '#/components/responses/Common400Response'
         '401':
           $ref: '#/components/responses/Common401Response'
         '403':
           $ref: '#/components/responses/Common403Response'
+        '500':
+          $ref: '#/components/responses/Common500Response'
     post:
       # TODO: POST is typically for create, where PUT or PATCH are for update... why are these concepts grouped?
       operationId: create-or-update-llm-connection
@@ -171,10 +195,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LLMConnection'
+        '400':
+          $ref: '#/components/responses/Common400Response'
         '401':
           $ref: '#/components/responses/Common401Response'
         '403':
           $ref: '#/components/responses/Common403Response'
+        '500':
+          $ref: '#/components/responses/Common500Response'
   /admin/assistant/llm/{llmConnectionObjectIdHexString}:
     parameters:
       - name: llmConnectionObjectIdHexString
@@ -195,10 +223,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LLMConnection'
+        '400':
+          $ref: '#/components/responses/Common400Response'
         '401':
           $ref: '#/components/responses/Common401Response'
         '403':
           $ref: '#/components/responses/Common403Response'
+        '500':
+          $ref: '#/components/responses/Common500Response'
     delete:
       operationId: delete-llm-connection
       summary: Delete LLM Connection
@@ -206,6 +238,14 @@ paths:
         - LLM Connection Admin
       responses:
         '200':
+          $ref: '#/components/responses/CommonDeleteResponse'
+        '400':
+          $ref: '#/components/responses/CommonDeleteResponse'
+        '401':
+          $ref: '#/components/responses/CommonDeleteResponse'
+        '403':
+          $ref: '#/components/responses/CommonDeleteResponse'
+        '500':
           $ref: '#/components/responses/CommonDeleteResponse'
 
   /admin/assistant/retrieverConnection:
@@ -224,10 +264,14 @@ paths:
                 nullable: false
                 items:
                   $ref: '#/components/schemas/RetrieverConnection'
+        '400':
+          $ref: '#/components/responses/Common400Response'
         '401':
           $ref: '#/components/responses/Common401Response'
         '403':
           $ref: '#/components/responses/Common403Response'
+        '500':
+          $ref: '#/components/responses/Common500Response'
     post:
       operationId: create-or-update-retriever-connection
       summary: Create/Update Retriever Connection
@@ -258,10 +302,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RetrieverConnection'
+        '400':
+          $ref: '#/components/responses/Common400Response'
         '401':
           $ref: '#/components/responses/Common401Response'
         '403':
           $ref: '#/components/responses/Common403Response'
+        '500':
+          $ref: '#/components/responses/Common500Response'
   /admin/assistant/retrieverConnection/{retrieverConnectionObjectIdHexString}:
     parameters:
       - name: retrieverConnectionObjectIdHexString
@@ -282,10 +330,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RetrieverConnection'
+        '400':
+          $ref: '#/components/responses/Common400Response'
         '401':
           $ref: '#/components/responses/Common401Response'
         '403':
           $ref: '#/components/responses/Common403Response'
+        '500':
+          $ref: '#/components/responses/Common500Response'
     delete:
       operationId: delete-retriever-connection
       summary: Delete Retriever Connection
@@ -293,6 +345,14 @@ paths:
         - Content Retriever Connection Admin
       responses:
         '200':
+          $ref: '#/components/responses/CommonDeleteResponse'
+        '400':
+          $ref: '#/components/responses/CommonDeleteResponse'
+        '401':
+          $ref: '#/components/responses/CommonDeleteResponse'
+        '403':
+          $ref: '#/components/responses/CommonDeleteResponse'
+        '500':
           $ref: '#/components/responses/CommonDeleteResponse'
 
   /assistant/chat/streamingWithFileUpload:
@@ -343,10 +403,14 @@ paths:
                 type: array
                 items:
                   type: string
+        '400':
+          $ref: '#/components/responses/PlainText400Response'
         '401':
-          $ref: '#/components/responses/Common401Response'
+          $ref: '#/components/responses/PlainText401Response'
         '403':
-          $ref: '#/components/responses/Common403Response'
+          $ref: '#/components/responses/PlainText403Response'
+        '500':
+          $ref: '#/components/responses/PlainText500Response'
 
   /assistant/chat/streaming:
     post:
@@ -370,10 +434,14 @@ paths:
                 type: array
                 items:
                   type: string
+        '400':
+          $ref: '#/components/responses/PlainText400Response'
         '401':
-          $ref: '#/components/responses/Common401Response'
+          $ref: '#/components/responses/PlainText401Response'
         '403':
-          $ref: '#/components/responses/Common403Response'
+          $ref: '#/components/responses/PlainText403Response'
+        '500':
+          $ref: '#/components/responses/PlainText500Response'
 
 components:
   schemas:
@@ -562,20 +630,58 @@ components:
       # TODO: Define common error response structure
       additionalProperties: true
   responses:
+    Common400Response:
+      description: Bad Request, with error details (ie, request validation failures) as JSON object.
+      content:
+        application/json:
+          schema:
+            # TODO: Create a validation failure type
+            $ref: '#/components/schemas/CommonError'
     Common401Response:
-      description: Not Authorized
+      description: Not Authorized, with error details as a JSON object
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/CommonError'
     Common403Response:
-      description: Not Allowed
+      description: Not Allowed, with error details as a JSON object
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/CommonError'
+    Common500Response:
+      description: Server Error, with details as a JSON object
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommonError'
+    PlainText400Response:
+      description: Bad Request, with error details in plain text
+      content:
+        text/plain:
+          schema:
+            type: string
+    PlainText401Response:
+      description: Not Authorized, with error details in plain text
+      content:
+        text/plain:
+          schema:
+            type: string
+    PlainText403Response:
+      description: Not Allowed, with error details in plain text
+      content:
+        text/plain:
+          schema:
+            type: string
+    PlainText500Response:
+      description: Server Error, with error details in plain text
+      content:
+        text/plain:
+          schema:
+            type: string
     CommonDeleteResponse:
       description: Empty response, since DELETE method disallows content body
+      # Note: A lack of the `content` property here indicates that there is no response body.
   securitySchemes:
     OIDC:
       type: openIdConnect
