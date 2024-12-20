@@ -112,7 +112,7 @@ public class ElasticsearchRequest extends BaseRetrieverRequest {
   }
 
   public ElasticsearchRequest password(String password) {
-    password(password);
+    setPassword(password);
     return this;
   }
   @Override
