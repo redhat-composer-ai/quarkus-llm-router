@@ -12,7 +12,7 @@ import java.util.Objects;
  * Elasticsearch Connection Entity.
  */
 @SuppressWarnings("all")
-@BsonDiscriminator("Elasticsearch")
+@BsonDiscriminator("elasticsearch")
 public class ElasticsearchConnectionEntity extends BaseRetrieverConnectionEntity {
 
   // Key of the value containing the text used for retrieval and passed into the LLM
