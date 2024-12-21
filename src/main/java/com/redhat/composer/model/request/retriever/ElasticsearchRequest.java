@@ -23,7 +23,7 @@ public class ElasticsearchRequest extends BaseRetrieverRequest {
   String user;
 
   String password;
-  
+
 
   public ElasticsearchRequest() {
     contentRetrieverType = ContentRetrieverType.ELASTICSEARCH.getType();
@@ -112,7 +112,7 @@ public class ElasticsearchRequest extends BaseRetrieverRequest {
   }
 
   public ElasticsearchRequest password(String password) {
-    password(password);
+    setPassword(password);
     return this;
   }
   @Override
@@ -137,6 +137,6 @@ public class ElasticsearchRequest extends BaseRetrieverRequest {
       "}";
   }
 
-  
-  
+
+
 }

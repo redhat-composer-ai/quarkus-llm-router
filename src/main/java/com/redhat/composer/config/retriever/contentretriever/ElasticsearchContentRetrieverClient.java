@@ -70,14 +70,14 @@ public class ElasticsearchContentRetrieverClient extends BaseContentRetrieverCli
           return httpClientBuilder;
         })
         .build();
-  
-    log.debug("Attempting to connect to Elasticsearch at " + host + " with index " + index);
+
+    log.info("Attempting to connect to Elasticsearch at " + host + " with index " + index);
 
     EmbeddingStore<TextSegment> store = ElasticsearchEmbeddingStore.builder()
                     .indexName(index)
                     .restClient(restClient)
                     .build();
-      
+
     // Retrieve the embedding model
     EmbeddingModel embeddingModel = getEmbeddingModel(request.getEmbeddingType());
 
@@ -86,7 +86,7 @@ public class ElasticsearchContentRetrieverClient extends BaseContentRetrieverCli
           .embeddingStore(store)
           .embeddingModel(embeddingModel)
         .build();
-      
+
     return contentRetriever;
   }
 

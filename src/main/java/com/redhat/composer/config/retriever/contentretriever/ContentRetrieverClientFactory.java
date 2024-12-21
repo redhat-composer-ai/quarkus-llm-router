@@ -22,20 +22,18 @@ public class ContentRetrieverClientFactory {
   @Inject
   ElasticsearchContentRetrieverClient elasticsearchContentRetrieverClient;
 
-  @ConfigProperty(name = "vector.store.type")
-  static String contentRetrieverType;
-
-  static final ContentRetrieverType DEFAULT_CONTENT_RETRIEVER = ContentRetrieverType.fromString(contentRetrieverType);
+  @ConfigProperty(name = "vector.store.default.type", defaultValue = "ELASTICSEARCH")
+  String defaultContentRetrieverType;
 
   /**
    * Get the Content Retriever Client.
-   * 
+   *
    * @param contentRetrieverType the ContentRetrieverType
    * @return the Content Retriever Client
    */
   public BaseContentRetrieverClient getContentRetrieverClient(ContentRetrieverType contentRetrieverType) {
     if (contentRetrieverType == null) {
-      contentRetrieverType = DEFAULT_CONTENT_RETRIEVER;
+      contentRetrieverType = ContentRetrieverType.fromString(defaultContentRetrieverType);;
     }
 
     switch (contentRetrieverType) {
