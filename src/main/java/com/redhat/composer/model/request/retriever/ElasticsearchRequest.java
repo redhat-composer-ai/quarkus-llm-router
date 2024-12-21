@@ -23,7 +23,7 @@ public class ElasticsearchRequest extends BaseRetrieverRequest {
   String user;
 
   String password;
-  
+
 
   public ElasticsearchRequest() {
     contentRetrieverType = ContentRetrieverType.ELASTICSEARCH.getType();
@@ -137,6 +137,6 @@ public class ElasticsearchRequest extends BaseRetrieverRequest {
       "}";
   }
 
-  
-  
+
+
 }

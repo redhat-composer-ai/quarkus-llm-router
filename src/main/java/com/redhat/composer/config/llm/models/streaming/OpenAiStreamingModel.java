@@ -17,7 +17,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 @ApplicationScoped
 public class OpenAiStreamingModel extends StreamingBaseModel {
 
-  Logger log = Logger.getLogger(WeaviateContentRetrieverClient.class);
+  Logger log = Logger.getLogger(OpenAiStreamingModel.class);
 
   @ConfigProperty(name = "openai.default.url")
   private String mistralDefaultUrl;
@@ -41,7 +41,7 @@ public class OpenAiStreamingModel extends StreamingBaseModel {
    */
   public StreamingChatLanguageModel getChatModel(LLMRequest request) {
 
-    log.info("Attempting to create OpenAI Streaming Chat Model at: " + request.getUrl() 
+    log.info("Attempting to create OpenAI Streaming Chat Model at: " + request.getUrl()
                                       + " with model name: " + request.getModelName());
 
     OpenAiStreamingChatModelBuilder builder = OpenAiStreamingChatModel.builder();
@@ -54,8 +54,8 @@ public class OpenAiStreamingModel extends StreamingBaseModel {
     builder.temperature(openaiDefaultTemp);
 
     builder.maxTokens(openaiDefaultMaxTokens);
-    
-    
+
+
     // TODO: Fill all this out
     // if (modelName != null) {
     //   builder.modelName(modelName);
@@ -66,7 +66,7 @@ public class OpenAiStreamingModel extends StreamingBaseModel {
     // if (safePrompt != null) {
     //   builder.safePrompt(safePrompt);
     // }
-    
+
     return builder.build();
   }
 

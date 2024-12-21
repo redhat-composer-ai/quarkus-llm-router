@@ -26,7 +26,7 @@ databaseChangeLog:
         Please ensure that your responses are socially unbiased and positive in nature.
         If a question does not make any sense, or is not factually coherent, explain why instead of answering something not correct.
         If you don\'t know the answer to a question, please don\'t share false information.
-  # Create default assistants for weaviate
+  # Create default assistants for Elasticsearch
   - changeSet:
       id: 2
       author: quarkus
@@ -40,16 +40,16 @@ databaseChangeLog:
             collectionName: retriever_connection
         - insertOne:
             collectionName: retriever_connection
-            document: "{_id: ${rc.ocp.id}, name: 'ocp_4_17_default' , description: 'Openshift Container Platform Default Connection', 'connectionEntity': { '_t': 'weaviate', 'index': 'Openshift_container_platform_en_US_4_17'}}"
+            document: "{_id: ${rc.ocp.id}, name: 'ocp_4_17_default' , description: 'Openshift Container Platform Default Connection', 'connectionEntity': { '_t': 'Elasticsearch', 'index': 'openshift_container_platform_en_us_4_17'}}"
         - insertOne:
             collectionName: retriever_connection
-            document: "{_id: ${rc.rhel.id}, name: 'rhel_9_default' , description: 'Red Hat Enterprise Linux 9 Default Connection', 'connectionEntity': { '_t': 'weaviate', 'index': 'Red_hat_enterprise_linux_en_US_9'}}"
+            document: "{_id: ${rc.rhel.id}, name: 'rhel_9_default' , description: 'Red Hat Enterprise Linux 9 Default Connection', 'connectionEntity': { '_t': 'Elasticsearch', 'index': 'red_hat_enterprise_linux_en_us_9'}}"
         - insertOne:
             collectionName: retriever_connection
-            document: "{_id: ${rc.ansible.id}, name: 'ansible_2_5_default' , description: 'Ansible Automation Platform 2.5 Default Connection''connectionEntity': { '_t': 'weaviate', 'index': 'Red_hat_ansible_automation_platform_en_US_2_5'}}"
+            document: "{_id: ${rc.ansible.id}, name: 'ansible_2_5_default' , description: 'Ansible Automation Platform 2.5 Default Connection''connectionEntity': { '_t': 'Elasticsearch', 'index': 'red_hat_ansible_automation_platform_en_us_2_5'}}"
         - insertOne:
             collectionName: retriever_connection
-            document: "{_id: ${rc.rhoai.id}, name: 'rhoia_2_14_default' , description: 'Red Hat Openshift AI Self Managed 2.14 Default Connection''connectionEntity': { '_t': 'weaviate', 'index': 'Red_hat_openshift_ai_self_managed_en_US_2_14'}}"
+            document: "{_id: ${rc.rhoai.id}, name: 'rhoia_2_14_default' , description: 'Red Hat Openshift AI Self Managed 2.14 Default Connection''connectionEntity': { '_t': 'Elasticsearch', 'index': 'red_hat_openshift_ai_self_managed_en_us_2_14'}}"
 
         # Create LLM Connection collection
         - createCollection:
@@ -231,7 +231,7 @@ databaseChangeLog:
         #### **Email Drafting Guidelines**
 
         1. **Draft Structure**:
-          - **Subject Line**: 
+          - **Subject Line**:
             - Summarize the email\'s purpose in a clear and concise manner
             - Example: \"Follow-Up on Project Milestones\" or \"Request for Input on Upcoming Meeting Agenda.\"
           - **Opening**:
