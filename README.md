@@ -2,6 +2,10 @@
 
 Quarkus Service that allows for the routing to different RAG sources and LLMs.
 
+[![Build Image](https://github.com/redhat-composer-ai/quarkus-llm-router/actions/workflows/build-and-push.yaml/badge.svg)](https://github.com/redhat-composer-ai/quarkus-llm-router/actions/workflows/build-and-push.yaml)
+
+[![GitHub](https://img.shields.io/badge/GitHub-repo-blue.svg)](https://github.com/redhat-composer-ai/quarkus-llm-router) [![Quay.io](https://img.shields.io/badge/Quay.io-image-blue.svg)](https://quay.io/repository/redhat-composer-ai/conductor)
+
 ## Architecture
 
 ![](.assets/Routing%20Service.drawio.png)
