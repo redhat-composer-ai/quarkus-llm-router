@@ -31,7 +31,6 @@ databaseChangeLog:
       id: 2
       author: quarkus
       labels: createRetrieverCollection
-      context: createRetrieverCollection
       comment: Create and populate collection for retriever connection entities
       changes:
 
@@ -83,7 +82,6 @@ databaseChangeLog:
       id: 3
       author: quarkus
       labels: createNeo4jAssistants
-      context: createNeo4jAssistants
       comment: Create a series of neo4j assistants
       changes:
 
@@ -106,7 +104,6 @@ databaseChangeLog:
       id: 4
       author: quarkus
       labels: llmDefaultAssistant
-      context: createLLMDefaultAssistant
       comment: Creates a default assistant that uses the default LLM connection
       changes:
         # Create Assistants collection
@@ -293,7 +290,7 @@ databaseChangeLog:
       id: 5
       author: quarkus
       labels: createGenericAssistants
-      context: createGenericAssistants
+      context: "!lab"
       comment: Creating a set of assistants that are generically useful
       changes:
         - insertOne:
