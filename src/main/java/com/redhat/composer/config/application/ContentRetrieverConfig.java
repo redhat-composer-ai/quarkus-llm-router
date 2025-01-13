@@ -1,4 +1,4 @@
-package com.redhat.composer.components.application;
+package com.redhat.composer.config.application;
 
 import io.smallrye.config.ConfigMapping;
 import io.smallrye.config.WithDefault;

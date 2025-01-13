@@ -17,14 +17,14 @@ public class LLMRequest {
   private String apiKey;
   private String modelName;
 
-  private Double tempature;
+  private Double temperature;
   private Integer maxTokens;
 
 
   public LLMRequest() {
   }
 
-  public LLMRequest(String name, String description, String servingRuntimeType, String modelType, String url, String apiKey, String modelName, Double tempature, Integer maxTokens) {
+  public LLMRequest(String name, String description, String servingRuntimeType, String modelType, String url, String apiKey, String modelName, Double temperature, Integer maxTokens) {
     this.name = name;
     this.description = description;
     this.servingRuntimeType = servingRuntimeType;
@@ -32,7 +32,7 @@ public class LLMRequest {
     this.url = url;
     this.apiKey = apiKey;
     this.modelName = modelName;
-    this.tempature = tempature;
+    this.temperature = temperature;
     this.maxTokens = maxTokens;
   }
 
@@ -92,12 +92,12 @@ public class LLMRequest {
     this.modelName = modelName;
   }
 
-  public Double getTempature() {
-    return this.tempature;
+  public Double getTemperature() {
+    return this.temperature;
   }
 
-  public void setTempature(Double tempature) {
-    this.tempature = tempature;
+  public void setTemperature(Double temperature) {
+    this.temperature = temperature;
   }
 
   public Integer getMaxTokens() {
@@ -143,8 +143,8 @@ public class LLMRequest {
     return this;
   }
 
-  public LLMRequest tempature(Double tempature) {
-    setTempature(tempature);
+  public LLMRequest temperature(Double temperature) {
+    setTemperature(temperature);
     return this;
   }
 
@@ -160,7 +160,7 @@ public class LLMRequest {
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, description, servingRuntimeType, modelType, url, apiKey, modelName, tempature, maxTokens);
+    return Objects.hash(name, description, servingRuntimeType, modelType, url, apiKey, modelName, temperature, maxTokens);
   }
 
   @Override
@@ -173,10 +173,11 @@ public class LLMRequest {
       ", url='" + getUrl() + "'" +
       ", apiKey='" + getApiKey() + "'" +
       ", modelName='" + getModelName() + "'" +
-      ", tempature='" + getTempature() + "'" +
+      ", temperature='" + getTemperature() + "'" +
       ", maxTokens='" + getMaxTokens() + "'" +
       "}";
   }
+
 
 
 }

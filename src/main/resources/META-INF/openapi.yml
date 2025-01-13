@@ -677,7 +677,8 @@ components:
     CommonDeleteResponse:
       description: Empty response, since DELETE method disallows content body
       # Note: A lack of the `content` property here indicates that there is no response body.
-  securitySchemes:
-    OIDC:
-      type: openIdConnect
-      description: Authentication via OpenID Connect
+  # securitySchemes:
+  #   OIDC:
+  #     openIdConnectUrl: example.com
+  #     type: openIdConnect
+  #     description: Authentication via OpenID Connect

@@ -48,7 +48,7 @@ public class OpenAiStreamingServingRuntime extends StreamingServingRuntime {
     builder.apiKey(request.getApiKey() == null ? openAiDefaultApiKey : request.getApiKey());
 
     builder.modelName(request.getModelName() == null ? openAiDefaultModelName : request.getModelName());
-    builder.temperature(request.getTempature() == null ? openaiDefaultTemp : request.getTempature());
+    builder.temperature(request.getTemperature() == null ? openaiDefaultTemp : request.getTemperature());
 
     builder.maxTokens(openaiDefaultMaxTokens);
 

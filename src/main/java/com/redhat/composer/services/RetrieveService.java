@@ -1,6 +1,6 @@
 package com.redhat.composer.services;
 
-import com.redhat.composer.components.application.ContentRetrieverConfig;
+import com.redhat.composer.config.application.ContentRetrieverConfig;
 import com.redhat.composer.components.contentretriever.BaseContentRetrieverClient;
 import com.redhat.composer.components.contentretriever.ContentRetrieverClientFactory;
 import com.redhat.composer.components.embeddingmodel.EmbeddingModelFactory;

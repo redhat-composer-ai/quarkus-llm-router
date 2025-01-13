@@ -19,7 +19,7 @@ public interface MistralAiService extends BaseAiService {
     Context: {context}
     User Message: {input}
     >>>
-    """;
+      """;
 
   /**
    * Returns TokenStream given input.
