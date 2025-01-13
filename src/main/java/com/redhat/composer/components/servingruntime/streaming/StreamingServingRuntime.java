@@ -1,4 +1,4 @@
-package com.redhat.composer.components.servingRuntime.streaming;
+package com.redhat.composer.components.servingruntime.streaming;
 
 import org.testcontainers.shaded.org.apache.commons.lang3.NotImplementedException;
 

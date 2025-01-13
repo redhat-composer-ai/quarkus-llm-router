@@ -1,7 +1,7 @@
 package com.redhat.composer.api.nonspec;
 
-import com.redhat.composer.components.servingRuntime.streaming.StreamingServingRuntime;
-import com.redhat.composer.components.servingRuntime.streaming.StreamingServingRuntimeFactory;
+import com.redhat.composer.components.servingruntime.streaming.StreamingServingRuntime;
+import com.redhat.composer.components.servingruntime.streaming.StreamingServingRuntimeFactory;
 import com.redhat.composer.model.request.LLMRequest;
 import dev.langchain4j.model.chat.StreamingChatLanguageModel;
 import dev.langchain4j.service.AiServices;

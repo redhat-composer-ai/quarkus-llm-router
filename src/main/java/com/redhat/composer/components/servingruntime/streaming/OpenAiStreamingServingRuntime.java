@@ -1,4 +1,4 @@
-package com.redhat.composer.components.servingRuntime.streaming;
+package com.redhat.composer.components.servingruntime.streaming;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.jboss.logging.Logger;

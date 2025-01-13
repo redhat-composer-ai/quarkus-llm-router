@@ -1,4 +1,4 @@
-package com.redhat.composer.components.servingRuntime.streaming;
+package com.redhat.composer.components.servingruntime.streaming;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;

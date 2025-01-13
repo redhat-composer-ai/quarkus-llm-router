@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.redhat.composer.components.aiservices.AiServicesFactory;
 import com.redhat.composer.components.aiservices.BaseAiService;
-import com.redhat.composer.components.servingRuntime.streaming.StreamingServingRuntimeFactory;
+import com.redhat.composer.components.servingruntime.streaming.StreamingServingRuntimeFactory;
 import com.redhat.composer.model.mongo.AssistantEntity;
 import com.redhat.composer.model.mongo.LlmConnectionEntity;
 import com.redhat.composer.model.mongo.RetrieverConnectionEntity;
