@@ -74,6 +74,7 @@ databaseChangeLog:
             collectionName: assistant
             document: "{_id: new ObjectId('66edae2738a7f2388fb02cd8'), retrieverConnectionId: ${rc.rhoai.id}, llmConnectionId: ${llm.default.id}, name: 'default_rhoai' , displayName: 'Default Red Hat Openshift AI Self Managed Assistant', userPrompt: '${generic.system.prompt}', exampleQuestions:['question1','question2']}"
 
+
   # Create default assistant just using the default LLM connection
   - changeSet:
       id: 4
