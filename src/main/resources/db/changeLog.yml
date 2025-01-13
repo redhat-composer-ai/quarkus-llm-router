@@ -74,31 +74,6 @@ databaseChangeLog:
             collectionName: assistant
             document: "{_id: new ObjectId('66edae2738a7f2388fb02cd8'), retrieverConnectionId: ${rc.rhoai.id}, llmConnectionId: ${llm.default.id}, name: 'default_rhoai' , displayName: 'Default Red Hat Openshift AI Self Managed Assistant', userPrompt: '${generic.system.prompt}', exampleQuestions:['question1','question2']}"
 
-  # Create default assistants for neo4j
-  - property:
-      name: neo4j.default.id
-      value: "new ObjectId('66f3fbffd7e04770c03ee123')"
-  - changeSet:
-      id: 3
-      author: quarkus
-      labels: createNeo4jAssistants
-      comment: Create a series of neo4j assistants
-      changes:
-
-        # Create collection for retriever connection entities
-        - createCollection:
-            collectionName: retriever_connection
-        - insertOne:
-            collectionName: retriever_connection
-            document: "{_id: ${neo4j.default.id}, name: 'neo4j_default' , description: 'Neo4j Default Connection', 'connectionEntity': { '_t': 'neo4j'}}"
-
-        # Create Assistants collection
-        - createCollection:
-            collectionName: assistant
-        - insertOne:
-            collectionName: assistant
-            document: "{_id: new ObjectId('66f3fc14de104310e21acd67'), retrieverConnectionId: ${neo4j.default.id}, llmConnectionId: ${llm.default.id}, name: 'default_neo4j', displayName: 'Default Neo4J Assistant', userPrompt:'user prompt text', exampleQuestions:['question1','question2']}"
-
   # Create default assistant just using the default LLM connection
   - changeSet:
       id: 4

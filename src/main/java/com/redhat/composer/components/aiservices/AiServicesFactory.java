@@ -1,6 +1,7 @@
-package com.redhat.composer.config.llm.aiservices;
+package com.redhat.composer.components.aiservices;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 /**
  * Factory for AI Services.
@@ -8,9 +9,12 @@ import jakarta.enterprise.context.ApplicationScoped;
 @ApplicationScoped
 public class AiServicesFactory {
 
-  public static final String MISTRAL7B_AI_SERVICE = "mistral7b";
+  public static final String MISTRAL_AI_SERVICE = "mistral";
 
   public static final String GRANITE_AI_SERVICE = "granite";
+
+  @ConfigProperty(name = "model.default.type")
+  private String defaultModel;
 
   /**
    * Get the AI service class.
@@ -18,14 +22,17 @@ public class AiServicesFactory {
    * @return the AI service class
    */
   public Class<? extends BaseAiService> getAiService(String aiServiceType) {
+
+    aiServiceType = aiServiceType == null ? defaultModel : aiServiceType;
+
     switch (aiServiceType) {
-      case MISTRAL7B_AI_SERVICE:
-        return Mistral7bAiService.class;
+      case MISTRAL_AI_SERVICE:
+        return MistralAiService.class;
       case GRANITE_AI_SERVICE:
         return GraniteAiService.class;
       default:
         throw new RuntimeException("AI service type not found: " + aiServiceType);
     }
   }
-  
+
 }

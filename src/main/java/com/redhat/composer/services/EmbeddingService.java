@@ -1,8 +1,6 @@
 package com.redhat.composer.services;
 
-import org.jboss.logging.Logger;
-
-import com.redhat.composer.config.retriever.embeddingmodel.EmbeddingModelFactory;
+import com.redhat.composer.components.embeddingmodel.EmbeddingModelFactory;
 
 import dev.langchain4j.data.embedding.Embedding;
 import dev.langchain4j.model.embedding.EmbeddingModel;
@@ -30,5 +28,5 @@ public class EmbeddingService {
     Response<Embedding> response = embedding.embed(text);
     return response.content();
   }
-  
+
 }

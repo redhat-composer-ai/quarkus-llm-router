@@ -1,9 +1,9 @@
-package com.redhat.composer.config.retriever.contentretriever;
+package com.redhat.composer.components.contentretriever;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.jboss.logging.Logger;
 
-import com.redhat.composer.config.retriever.contentretriever.custom.WeaviateEmbeddingStoreCustom;
+import com.redhat.composer.components.contentretriever.custom.WeaviateEmbeddingStoreCustom;
 import com.redhat.composer.model.request.RetrieverRequest;
 import com.redhat.composer.model.request.retriever.WeaviateRequest;
 
@@ -51,7 +51,7 @@ public class WeaviateContentRetrieverClient extends BaseContentRetrieverClient {
     String index = weaviateRequest.getIndex() != null ? weaviateRequest.getIndex() : weaviateIndex;
     String textKey = weaviateRequest.getTextKey() != null ? weaviateRequest.getTextKey() : weaviateTextKey;
 
-    
+
     log.info("Attempting to connect to Weaviate at " + scheme + "://" + host + " with index " + index);
 
     WeaviateEmbeddingStoreCustom store = WeaviateEmbeddingStoreCustom.builder()
@@ -65,7 +65,7 @@ public class WeaviateContentRetrieverClient extends BaseContentRetrieverClient {
           .avoidDups(true)
           .textFieldName(textKey)
         .build();
-      
+
 
     // Retrieve the embedding model
     EmbeddingModel embeddingModel = getEmbeddingModel(request.getEmbeddingType());
@@ -77,7 +77,7 @@ public class WeaviateContentRetrieverClient extends BaseContentRetrieverClient {
           .embeddingStore(store)
           .embeddingModel(embeddingModel)
         .build();
-      
+
     return contentRetriever;
   }
 

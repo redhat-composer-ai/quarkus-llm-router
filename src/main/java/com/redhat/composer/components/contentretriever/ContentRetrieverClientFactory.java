@@ -1,4 +1,4 @@
-package com.redhat.composer.config.retriever.contentretriever;
+package com.redhat.composer.components.contentretriever;
 
 import com.redhat.composer.model.enums.ContentRetrieverType;
 
@@ -15,9 +15,6 @@ public class ContentRetrieverClientFactory {
 
   @Inject
   WeaviateContentRetrieverClient weaviateEmbeddingStoreClient;
-
-  @Inject
-  Neo4jContentRetrieverClient neo4jContentRetrieverClient;
 
   @Inject
   ElasticsearchContentRetrieverClient elasticsearchContentRetrieverClient;
@@ -39,8 +36,6 @@ public class ContentRetrieverClientFactory {
     switch (contentRetrieverType) {
       case WEAVIATE:
         return weaviateEmbeddingStoreClient;
-      case NEO4J:
-        return neo4jContentRetrieverClient;
       case ELASTICSEARCH:
         return elasticsearchContentRetrieverClient;
       default:

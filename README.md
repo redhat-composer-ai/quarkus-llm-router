@@ -121,7 +121,7 @@ weaviate.default.apiKey=<API KEY>
 
 ## Embedding Model
 
-Currently the supported models are added to the resources folder and [loaded directly](src/main/java/com/redhat/composer/config/retriever/embeddingmodel/NomicLocalEmbeddingModelClient.java). We would like to move this logic to pull these models using maven as seen [here](https://docs.langchain4j.dev/category/embedding-models)
+Currently the supported models are added to the resources folder and [loaded directly](src/main/java/com/redhat/composer/components/embeddingmodel/NomicLocalEmbeddingModelClient.java). We would like to move this logic to pull these models using maven as seen [here](https://docs.langchain4j.dev/category/embedding-models)
 
 > [!IMPORTANT]
 > The embedding model is too large to check into our repo.

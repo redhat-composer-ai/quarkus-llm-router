@@ -1,4 +1,4 @@
-package com.redhat.composer.config.retriever.contentretriever.custom;
+package com.redhat.composer.components.contentretriever.custom;
 
 import dev.langchain4j.data.document.Metadata;
 import dev.langchain4j.data.embedding.Embedding;
@@ -297,7 +297,7 @@ public class WeaviateEmbeddingStoreCustom implements EmbeddingStore<TextSegment>
                 .properties(props)
                 .build();
     }
-    
+
     private void setMetadata(Map<String, Object> props, Map<String, Object> metadata) {
         if (metadata != null && !metadata.isEmpty()) {
             if(metadataFieldName != null && !metadataFieldName.isEmpty()) {

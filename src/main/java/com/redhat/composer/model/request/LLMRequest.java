@@ -4,31 +4,36 @@ import java.util.Objects;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
-import com.redhat.composer.config.llm.models.streaming.StreamingModelFactory;
-
 @SuppressWarnings("all")
 public class LLMRequest {
 
   private String name;
   private String description;
 
-  private String modelType = StreamingModelFactory.DEFAULT_MODEL;
-  
+  private String servingRuntimeType;
+  private String modelType;
+
   private String url;
   private String apiKey;
   private String modelName;
+
+  private Double tempature;
+  private Integer maxTokens;
 
 
   public LLMRequest() {
   }
 
-  public LLMRequest(String name, String description, String modelType, String url, String apiKey, String modelName) {
+  public LLMRequest(String name, String description, String servingRuntimeType, String modelType, String url, String apiKey, String modelName, Double tempature, Integer maxTokens) {
     this.name = name;
     this.description = description;
+    this.servingRuntimeType = servingRuntimeType;
     this.modelType = modelType;
     this.url = url;
     this.apiKey = apiKey;
     this.modelName = modelName;
+    this.tempature = tempature;
+    this.maxTokens = maxTokens;
   }
 
   public String getName() {
@@ -45,6 +50,14 @@ public class LLMRequest {
 
   public void setDescription(String description) {
     this.description = description;
+  }
+
+  public String getServingRuntimeType() {
+    return this.servingRuntimeType;
+  }
+
+  public void setServingRuntimeType(String servingRuntimeType) {
+    this.servingRuntimeType = servingRuntimeType;
   }
 
   public String getModelType() {
@@ -79,6 +92,22 @@ public class LLMRequest {
     this.modelName = modelName;
   }
 
+  public Double getTempature() {
+    return this.tempature;
+  }
+
+  public void setTempature(Double tempature) {
+    this.tempature = tempature;
+  }
+
+  public Integer getMaxTokens() {
+    return this.maxTokens;
+  }
+
+  public void setMaxTokens(Integer maxTokens) {
+    this.maxTokens = maxTokens;
+  }
+
   public LLMRequest name(String name) {
     setName(name);
     return this;
@@ -86,6 +115,11 @@ public class LLMRequest {
 
   public LLMRequest description(String description) {
     setDescription(description);
+    return this;
+  }
+
+  public LLMRequest servingRuntimeType(String servingRuntimeType) {
+    setServingRuntimeType(servingRuntimeType);
     return this;
   }
 
@@ -109,6 +143,16 @@ public class LLMRequest {
     return this;
   }
 
+  public LLMRequest tempature(Double tempature) {
+    setTempature(tempature);
+    return this;
+  }
+
+  public LLMRequest maxTokens(Integer maxTokens) {
+    setMaxTokens(maxTokens);
+    return this;
+  }
+
   @Override
     public boolean equals(Object o) {
       return EqualsBuilder.reflectionEquals(this, o);
@@ -116,7 +160,7 @@ public class LLMRequest {
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, description, modelType, url, apiKey, modelName);
+    return Objects.hash(name, description, servingRuntimeType, modelType, url, apiKey, modelName, tempature, maxTokens);
   }
 
   @Override
@@ -124,11 +168,15 @@ public class LLMRequest {
     return "{" +
       " name='" + getName() + "'" +
       ", description='" + getDescription() + "'" +
+      ", servingRuntimeType='" + getServingRuntimeType() + "'" +
       ", modelType='" + getModelType() + "'" +
       ", url='" + getUrl() + "'" +
       ", apiKey='" + getApiKey() + "'" +
       ", modelName='" + getModelName() + "'" +
+      ", tempature='" + getTempature() + "'" +
+      ", maxTokens='" + getMaxTokens() + "'" +
       "}";
   }
+
 
 }

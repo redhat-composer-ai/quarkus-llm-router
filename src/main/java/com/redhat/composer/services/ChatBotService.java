@@ -2,9 +2,9 @@ package com.redhat.composer.services;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.redhat.composer.config.llm.aiservices.AiServicesFactory;
-import com.redhat.composer.config.llm.aiservices.BaseAiService;
-import com.redhat.composer.config.llm.models.streaming.StreamingModelFactory;
+import com.redhat.composer.components.aiservices.AiServicesFactory;
+import com.redhat.composer.components.aiservices.BaseAiService;
+import com.redhat.composer.components.servingRuntime.streaming.StreamingServingRuntimeFactory;
 import com.redhat.composer.model.mongo.AssistantEntity;
 import com.redhat.composer.model.mongo.LlmConnectionEntity;
 import com.redhat.composer.model.mongo.RetrieverConnectionEntity;
@@ -45,7 +45,7 @@ public class ChatBotService {
   String defaultSystemMessage;
 
   @Inject
-  StreamingModelFactory modelTemplateFactory;
+  StreamingServingRuntimeFactory modelTemplateFactory;
 
   @Inject
   AiServicesFactory aiServicesFactory;
@@ -125,12 +125,13 @@ public class ChatBotService {
     Log.info("ChatBotService.chat for message: " + request.getMessage() + " traceId: " + traceId);
     validateRequest(request);
 
-    StreamingChatLanguageModel llm = modelTemplateFactory.getModel(request.getModelRequest().getModelType())
-                                                                    .getChatModel(request.getModelRequest());
+    StreamingChatLanguageModel llm = modelTemplateFactory.getServingRuntime(
+                                                        request.getModelRequest().getServingRuntimeType())
+                                                        .getChatModel(request.getModelRequest());
 
     // TODO: Make this configurable
     Class<? extends BaseAiService> aiServiceClass = aiServicesFactory
-                        .getAiService(AiServicesFactory.MISTRAL7B_AI_SERVICE);
+                        .getAiService(request.getModelRequest().getModelType());
 
     BaseAiService aiService = prepareAiService(
         aiServiceClass,

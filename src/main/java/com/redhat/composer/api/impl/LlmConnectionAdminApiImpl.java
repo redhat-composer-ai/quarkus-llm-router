@@ -7,6 +7,8 @@ import com.redhat.composer.api.model.LLMConnection;
 import com.redhat.composer.services.AssistantInfoService;
 import com.redhat.composer.util.mappers.BsonMapper;
 import jakarta.inject.Inject;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
 

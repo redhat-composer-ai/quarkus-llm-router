@@ -1,6 +1,6 @@
-package com.redhat.composer.config.retriever.embeddingmodel;
+package com.redhat.composer.components.embeddingmodel;
 
-import com.redhat.composer.config.application.ContentRetrieverConfig;
+import com.redhat.composer.components.application.ContentRetrieverConfig;
 import dev.langchain4j.model.embedding.EmbeddingModel;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;

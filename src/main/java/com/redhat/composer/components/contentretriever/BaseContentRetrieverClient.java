@@ -1,6 +1,6 @@
-package com.redhat.composer.config.retriever.contentretriever;
+package com.redhat.composer.components.contentretriever;
 
-import com.redhat.composer.config.retriever.embeddingmodel.EmbeddingModelFactory;
+import com.redhat.composer.components.embeddingmodel.EmbeddingModelFactory;
 import com.redhat.composer.model.request.RetrieverRequest;
 
 import dev.langchain4j.model.embedding.EmbeddingModel;
@@ -14,8 +14,8 @@ public class BaseContentRetrieverClient {
 
   @Inject
   EmbeddingModelFactory embeddingModelFactory;
-  
-  /** 
+
+  /**
    * Get Content Retriever.
    * @param request the RetrieverRequest
    * @return ContentRetriever
@@ -24,7 +24,7 @@ public class BaseContentRetrieverClient {
     throw new UnsupportedOperationException("Unimplemented method 'getContentRetriever'");
   }
 
-  /** 
+  /**
    * Get Embedding Model.
    * @param embeddingType the String
    * @return EmbeddingModel

@@ -1,9 +1,8 @@
-package com.redhat.composer.config.llm.models.streaming;
+package com.redhat.composer.components.servingRuntime.streaming;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.jboss.logging.Logger;
 
-import com.redhat.composer.config.retriever.contentretriever.WeaviateContentRetrieverClient;
 import com.redhat.composer.model.request.LLMRequest;
 
 import dev.langchain4j.model.chat.StreamingChatLanguageModel;
@@ -15,18 +14,18 @@ import jakarta.enterprise.context.ApplicationScoped;
  * OpenAI Streaming Model.
  */
 @ApplicationScoped
-public class OpenAiStreamingModel extends StreamingBaseModel {
+public class OpenAiStreamingServingRuntime extends StreamingServingRuntime {
 
-  Logger log = Logger.getLogger(OpenAiStreamingModel.class);
+  Logger log = Logger.getLogger(OpenAiStreamingServingRuntime.class);
 
   @ConfigProperty(name = "openai.default.url")
-  private String mistralDefaultUrl;
+  private String openAiDefaultUrl;
 
   @ConfigProperty(name = "openai.default.apiKey")
-  private String mistralDefaultApiKey;
+  private String openAiDefaultApiKey;
 
   @ConfigProperty(name = "openai.default.modelName")
-  private String mistralDefaultModelName;
+  private String openAiDefaultModelName;
 
   @ConfigProperty(name = "openai.default.temp")
   private double openaiDefaultTemp;
@@ -45,27 +44,13 @@ public class OpenAiStreamingModel extends StreamingBaseModel {
                                       + " with model name: " + request.getModelName());
 
     OpenAiStreamingChatModelBuilder builder = OpenAiStreamingChatModel.builder();
-    builder.baseUrl(request.getUrl() == null ? mistralDefaultUrl : request.getUrl());
-    builder.apiKey(request.getApiKey() == null ? mistralDefaultApiKey : request.getApiKey());
+    builder.baseUrl(request.getUrl() == null ? openAiDefaultUrl : request.getUrl());
+    builder.apiKey(request.getApiKey() == null ? openAiDefaultApiKey : request.getApiKey());
 
-    builder.modelName(request.getModelName() == null ? mistralDefaultModelName : request.getModelName());
-
-    // TODO: Add all the following to the request
-    builder.temperature(openaiDefaultTemp);
+    builder.modelName(request.getModelName() == null ? openAiDefaultModelName : request.getModelName());
+    builder.temperature(request.getTempature() == null ? openaiDefaultTemp : request.getTempature());
 
     builder.maxTokens(openaiDefaultMaxTokens);
-
-
-    // TODO: Fill all this out
-    // if (modelName != null) {
-    //   builder.modelName(modelName);
-    // }
-    // if (maxTokens != null) {
-    //   builder.maxTokens(maxTokens);
-    // }
-    // if (safePrompt != null) {
-    //   builder.safePrompt(safePrompt);
-    // }
 
     return builder.build();
   }
