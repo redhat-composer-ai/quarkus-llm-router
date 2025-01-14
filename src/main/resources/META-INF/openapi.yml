@@ -14,8 +14,8 @@ tags:
     description: APIs to manage Content Retriever connections
   - name: LLM Connection Admin
     description: APIs to manage LLM connections
-security:
-  - OIDC: [ ]
+# security:
+  # - OIDC: [ ]
 paths:
   /admin/assistant:
     get:
@@ -182,7 +182,7 @@ paths:
                   type: string
                 modelType:
                   type: string
-                servingRuntime:
+                servingRuntimeType:
                   type: string
                 url:
                   type: string
