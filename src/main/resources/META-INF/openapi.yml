@@ -190,6 +190,11 @@ paths:
                   type: string
                 modelName:
                   type: string
+                temperature:
+                  type: number
+                  format: double
+                maxTokens:
+                  type: integer
       responses:
         '200':
           description: OK
@@ -522,6 +527,11 @@ components:
           weaviate: '#/components/schemas/WeaviateConnection'
     ElasticsearchConnection:
       type: object
+      required:
+        - textKey
+        - index
+        - scheme
+        - host
       x-discriminator-value: elasticsearch
       allOf:
         - $ref: '#/components/schemas/BaseRetrieverConnection'
@@ -583,6 +593,11 @@ components:
           type: string
         modelName:
           type: string
+        temperature:
+          type: number
+          format: double
+        maxTokens:
+          type: integer
     RetrieverConnection:
       type: object
       properties:

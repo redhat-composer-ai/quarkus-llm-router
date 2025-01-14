@@ -50,7 +50,7 @@ public class OpenAiStreamingServingRuntime extends StreamingServingRuntime {
     builder.modelName(request.getModelName() == null ? openAiDefaultModelName : request.getModelName());
     builder.temperature(request.getTemperature() == null ? openaiDefaultTemp : request.getTemperature());
 
-    builder.maxTokens(openaiDefaultMaxTokens);
+    builder.maxTokens(request.getMaxTokens() == null ? openaiDefaultMaxTokens : request.getMaxTokens());
 
     return builder.build();
   }

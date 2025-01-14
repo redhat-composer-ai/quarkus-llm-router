@@ -2,9 +2,25 @@
 
 Backend includes the ability to dynamically create Assistants, Rag Connections, and LLM Connections
 
-## Content Retriever(RAG) Connction
+## Content Retriever(RAG) Connection
 
 ### Weaviate Example
+
+{
+  "name": "test",
+  "description": "test",
+  "baseRetrieverRequest": {
+    "contentRetrieverType": "elastic",
+    "host": "test",
+    "index": "test",
+    "apiKey": "test",
+    "username": "test",
+    "password": "test",
+    "scheme": "test",
+    "textKey": "test"
+  },
+  "embeddingType": "nomic"
+}
 
 ```json
 {
