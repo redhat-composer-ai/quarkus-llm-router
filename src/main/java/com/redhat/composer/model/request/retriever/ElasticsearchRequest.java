@@ -10,9 +10,6 @@ import com.redhat.composer.model.enums.ContentRetrieverType;
 @SuppressWarnings("all")
 public class ElasticsearchRequest extends BaseRetrieverRequest {
 
-  // Key of the value containing the text used for retrieval and passed into the LLM
-  String textKey;
-
   // List of metadata fields to be retrieved as part of the content
   List<String> metadataFields = List.of("source","title");
 
@@ -26,24 +23,14 @@ public class ElasticsearchRequest extends BaseRetrieverRequest {
 
 
   public ElasticsearchRequest() {
-    contentRetrieverType = ContentRetrieverType.ELASTICSEARCH.getType();
   }
 
-  public ElasticsearchRequest(String textKey, List<String> metadataFields, String index, String host, String user, String password) {
-    this.textKey = textKey;
+  public ElasticsearchRequest(List<String> metadataFields, String index, String host, String user, String password) {
     this.metadataFields = metadataFields;
     this.index = index;
     this.host = host;
     this.user = user;
     this.password = password;
-  }
-
-  public String getTextKey() {
-    return this.textKey;
-  }
-
-  public void setTextKey(String textKey) {
-    this.textKey = textKey;
   }
 
   public List<String> getMetadataFields() {
@@ -74,21 +61,16 @@ public class ElasticsearchRequest extends BaseRetrieverRequest {
     return this.user;
   }
 
-  public String getPassword() {
-    return this.password;
-  }
-
   public void setUser(String user) {
     this.user = user;
   }
 
-  public void setPassword(String password) {
-    this.password = password;
+  public String getPassword() {
+    return this.password;
   }
 
-  public ElasticsearchRequest textKey(String textKey) {
-    setTextKey(textKey);
-    return this;
+  public void setPassword(String password) {
+    this.password = password;
   }
 
   public ElasticsearchRequest metadataFields(List<String> metadataFields) {
@@ -115,6 +97,7 @@ public class ElasticsearchRequest extends BaseRetrieverRequest {
     setPassword(password);
     return this;
   }
+
   @Override
     public boolean equals(Object o) {
       return EqualsBuilder.reflectionEquals(this, o);
@@ -122,21 +105,19 @@ public class ElasticsearchRequest extends BaseRetrieverRequest {
 
   @Override
   public int hashCode() {
-    return Objects.hash(textKey, metadataFields, index, host, user, password);
+    return Objects.hash(metadataFields, index, host, user, password);
   }
 
   @Override
   public String toString() {
     return "{" +
-      " textKey='" + getTextKey() + "'" +
-      ", metadataFields='" + getMetadataFields() + "'" +
+      " metadataFields='" + getMetadataFields() + "'" +
       ", index='" + getIndex() + "'" +
       ", host='" + getHost() + "'" +
       ", user='" + getUser() + "'" +
       ", password='" + getPassword() + "'" +
       "}";
   }
-
 
 
 }
