@@ -1,4 +1,4 @@
-package com.redhat.composer.config.llm.aiservices;
+package com.redhat.composer.components.aiservices;
 
 import dev.langchain4j.service.TokenStream;
 import io.smallrye.mutiny.Multi;
@@ -23,5 +23,5 @@ public interface BaseAiService {
    * @return the Multi of String
    */
   Multi<String> chatStream(String context, String input, String systemMessage);
-  
-} 
+
+}

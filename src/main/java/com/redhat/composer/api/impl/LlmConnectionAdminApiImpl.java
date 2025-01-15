@@ -1,14 +1,15 @@
 package com.redhat.composer.api.impl;
 
+import java.util.List;
+
 import com.redhat.composer.api.LlmConnectionAdminApi;
 import com.redhat.composer.api.mapper.LlmConnectionAdminMapper;
 import com.redhat.composer.api.model.CreateLlmConnectionRequest;
 import com.redhat.composer.api.model.LLMConnection;
 import com.redhat.composer.services.AssistantInfoService;
 import com.redhat.composer.util.mappers.BsonMapper;
-import jakarta.inject.Inject;
 
-import java.util.List;
+import jakarta.inject.Inject;
 
 /**
  * Admin API for Creating and Managing Assistants.

@@ -1,9 +1,9 @@
 package com.redhat.composer.services;
 
 import com.redhat.composer.config.application.ContentRetrieverConfig;
-import com.redhat.composer.config.retriever.contentretriever.BaseContentRetrieverClient;
-import com.redhat.composer.config.retriever.contentretriever.ContentRetrieverClientFactory;
-import com.redhat.composer.config.retriever.embeddingmodel.EmbeddingModelFactory;
+import com.redhat.composer.components.contentretriever.BaseContentRetrieverClient;
+import com.redhat.composer.components.contentretriever.ContentRetrieverClientFactory;
+import com.redhat.composer.components.embeddingmodel.EmbeddingModelFactory;
 import com.redhat.composer.model.enums.ContentRetrieverType;
 import com.redhat.composer.model.request.RetrieverRequest;
 import dev.langchain4j.data.document.Document;

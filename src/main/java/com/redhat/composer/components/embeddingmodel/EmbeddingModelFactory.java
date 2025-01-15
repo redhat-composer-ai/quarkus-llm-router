@@ -1,4 +1,4 @@
-package com.redhat.composer.config.retriever.embeddingmodel;
+package com.redhat.composer.components.embeddingmodel;
 
 import com.redhat.composer.config.application.ContentRetrieverConfig;
 import dev.langchain4j.model.embedding.EmbeddingModel;

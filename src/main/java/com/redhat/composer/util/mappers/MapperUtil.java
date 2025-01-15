@@ -10,12 +10,10 @@ import com.redhat.composer.model.mongo.LlmConnectionEntity;
 import com.redhat.composer.model.mongo.RetrieverConnectionEntity;
 import com.redhat.composer.model.mongo.contentretrieverentites.BaseRetrieverConnectionEntity;
 import com.redhat.composer.model.mongo.contentretrieverentites.ElasticsearchConnectionEntity;
-import com.redhat.composer.model.mongo.contentretrieverentites.Neo4jEntity;
 import com.redhat.composer.model.mongo.contentretrieverentites.WeaviateConnectionEntity;
 import com.redhat.composer.model.request.LLMRequest;
 import com.redhat.composer.model.request.RetrieverRequest;
 import com.redhat.composer.model.request.retriever.BaseRetrieverRequest;
-import com.redhat.composer.model.request.retriever.Neo4JRequest;
 import com.redhat.composer.model.request.retriever.WeaviateRequest;
 import com.redhat.composer.model.request.retriever.ElasticsearchRequest;
 
@@ -41,7 +39,7 @@ public interface MapperUtil {
 
   /**
    * Maps a LLMRequest to a LLMConnectionEntity.
-   * 
+   *
    * @param request the LLMRequest to map
    * @return the LLMConnectionEntity
    */
@@ -50,7 +48,7 @@ public interface MapperUtil {
 
   /**
    * Maps a RetrieverConnectionEntity to a RetrieverRequest.
-   * 
+   *
    * @param entity the RetrieverConnectionEntity to map
    * @return the RetrieverRequest
    */
@@ -60,7 +58,7 @@ public interface MapperUtil {
 
   /**
    * Maps a LLMConnectionEntity to a LLMRequest.
-   * 
+   *
    * @param entity the LLMConnectionEntity to map
    * @return the LLMRequest
    */
@@ -68,7 +66,7 @@ public interface MapperUtil {
 
   /**
    * Maps a BaseRetrieverRequest to a BaseRetrieverConnectionEntity.
-   * 
+   *
    * @param request the BaseRetrieverRequest to map
    * @return the BaseRetrieverConnectionEntity
    */
@@ -81,8 +79,6 @@ public interface MapperUtil {
     switch (ContentRetrieverType.fromString(request.getContentRetrieverType())) {
       case WEAVIATE:
         return retrieverConnectionMapper.toEntity((WeaviateRequest) request);
-      case NEO4J:
-        return retrieverConnectionMapper.toEntity((Neo4JRequest) request);
       case ELASTICSEARCH:
         return retrieverConnectionMapper.toEntity((ElasticsearchRequest) request);
       default:
@@ -92,7 +88,7 @@ public interface MapperUtil {
 
   /**
    * Maps a BaseRetrieverConnectionEntity to a BaseRetrieverRequest.
-   * 
+   *
    * @param entity the BaseRetrieverConnectionEntity to map
    * @return the BaseRetrieverRequest
    */
@@ -105,8 +101,6 @@ public interface MapperUtil {
     switch (entity.getContentRetrieverType()) {
       case WEAVIATE:
         return retrieverConnectionMapper.toRequest((WeaviateConnectionEntity) entity);
-      case NEO4J:
-        return retrieverConnectionMapper.toRequest((Neo4jEntity) entity);
       case ELASTICSEARCH:
         return retrieverConnectionMapper.toRequest((ElasticsearchConnectionEntity) entity);
       default:

@@ -1,4 +1,4 @@
-package com.redhat.composer.config.retriever.embeddingmodel;
+package com.redhat.composer.components.embeddingmodel;
 
 import java.util.concurrent.Executor;
 
@@ -22,14 +22,14 @@ public class BaseLocalEmbeddingModelClient extends AbstractInProcessEmbeddingMod
   static String MODEL_NAME = "model.onnx";
   static String TOKENIZER_NAME = "tokenizer.json";
 
-  
+
 
   @Override
   protected OnnxBertBiEncoder model() {
     // TODO Auto-generated method stub
     throw new UnsupportedOperationException("Unimplemented method 'model'");
   }
-  
 
-  
+
+
 }

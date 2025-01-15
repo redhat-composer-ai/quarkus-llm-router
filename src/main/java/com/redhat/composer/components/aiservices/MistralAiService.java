@@ -1,4 +1,4 @@
-package com.redhat.composer.config.llm.aiservices;
+package com.redhat.composer.components.aiservices;
 
 import dev.langchain4j.service.SystemMessage;
 import dev.langchain4j.service.TokenStream;
@@ -11,15 +11,14 @@ import io.smallrye.mutiny.Multi;
  * Mistral7BAiService.
  */
 @SuppressWarnings("LineLengthCheck")
-public interface GraniteAiService extends BaseAiService {
+public interface MistralAiService extends BaseAiService {
 
-  // Note: Handling history is a little more complex than just passing it as a string
-  // See: https://www.ibm.com/granite/docs/models/granite/#using-the-multi-round-chat-example-finance 
   static final String userMessage = """
-    <|start_of_role|>system<|end_of_role|>{{systemMessage}}<|end_of_text|>
-    {context}
-    <|start_of_role|>user<|end_of_role|>{{input}}<|end_of_text|>
-    <|start_of_role|>assistant<|end_of_role|>
+    {{systemMessage}}
+    <<<
+    Context: {context}
+    User Message: {input}
+    >>>
       """;
 
   /**
@@ -42,5 +41,5 @@ public interface GraniteAiService extends BaseAiService {
   @SystemMessage("{{systemMessage}}")
   @UserMessage(userMessage)
   Multi<String> chatStream(@V("context") String context, @V("input") String input, @V("systemMessage") String systemMessage);
-  
-} 
+
+}

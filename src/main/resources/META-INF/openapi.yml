@@ -14,8 +14,8 @@ tags:
     description: APIs to manage Content Retriever connections
   - name: LLM Connection Admin
     description: APIs to manage LLM connections
-security:
-  - OIDC: [ ]
+# security:
+  # - OIDC: [ ]
 paths:
   /admin/assistant:
     get:
@@ -182,12 +182,19 @@ paths:
                   type: string
                 modelType:
                   type: string
+                servingRuntimeType:
+                  type: string
                 url:
                   type: string
                 apiKey:
                   type: string
                 modelName:
                   type: string
+                temperature:
+                  type: number
+                  format: double
+                maxTokens:
+                  type: integer
       responses:
         '200':
           description: OK
@@ -450,7 +457,6 @@ components:
       type: string
       enum:
         - weaviate
-        - neo4j
         - elasticsearch
 
     # Domain IDs
@@ -513,16 +519,19 @@ components:
           $ref: '#/components/schemas/ContentRetrieverType'
       oneOf:
         - $ref: '#/components/schemas/ElasticsearchConnection'
-        - $ref: '#/components/schemas/Neo4JConnection'
         - $ref: '#/components/schemas/WeaviateConnection'
       discriminator:
         propertyName: contentRetrieverType
         mapping:
           elasticsearch: '#/components/schemas/ElasticsearchConnection'
-          neo4j: '#/components/schemas/Neo4JConnection'
           weaviate: '#/components/schemas/WeaviateConnection'
     ElasticsearchConnection:
       type: object
+      required:
+        - textKey
+        - index
+        - scheme
+        - host
       x-discriminator-value: elasticsearch
       allOf:
         - $ref: '#/components/schemas/BaseRetrieverConnection'
@@ -545,12 +554,6 @@ components:
               type: string
             password:
               type: string
-    Neo4JConnection:
-      type: object
-      x-discriminator-value: neo4j
-      allOf:
-        - $ref: '#/components/schemas/BaseRetrieverConnection'
-        - properties: { }
     WeaviateConnection:
       type: object
       x-discriminator-value: weaviate
@@ -582,12 +585,19 @@ components:
           type: string
         modelType:
           type: string
+        servingRuntimeType:
+          type: string
         url:
           type: string
         apiKey:
           type: string
         modelName:
           type: string
+        temperature:
+          type: number
+          format: double
+        maxTokens:
+          type: integer
     RetrieverConnection:
       type: object
       properties:
@@ -682,7 +692,8 @@ components:
     CommonDeleteResponse:
       description: Empty response, since DELETE method disallows content body
       # Note: A lack of the `content` property here indicates that there is no response body.
-  securitySchemes:
-    OIDC:
-      type: openIdConnect
-      description: Authentication via OpenID Connect
+  # securitySchemes:
+  #   OIDC:
+  #     openIdConnectUrl: example.com
+  #     type: openIdConnect
+  #     description: Authentication via OpenID Connect
