@@ -1,0 +1,16 @@
+# Creates Rag Assistants specific to Red Hat Documentation
+databaseChangeLog:
+  - property:
+      name: rc.rhel.id
+      value: "new ObjectId('66ed89833baf3b4ab30da4e2')"
+  - changeSet:
+      id: rhel-assistant
+      author: quarkus
+      comment: Create rhel assistant and retriever connection
+      changes:
+        - insertOne:
+            collectionName: retriever_connection
+            document: "{_id: ${rc.rhel.id}, name: 'rhel_9_default' , description: 'Red Hat Enterprise Linux 9 Default Connection', 'connectionEntity': { '_t': 'elasticsearch', 'index': 'red_hat_enterprise_linux_en_us_9'}}"
+        - insertOne:
+            collectionName: assistant
+            document: "{name: 'default_rhel' , displayName: 'Default Red Hat Enterprise Linux Assistant', _id: new ObjectId('66edae19c9a1bd1c8905b865'), retrieverConnectionId: ${rc.rhel.id}, llmConnectionId: ${llm.default.id}, userPrompt: '${generic.system.prompt}', exampleQuestions:['question1','question2']}"

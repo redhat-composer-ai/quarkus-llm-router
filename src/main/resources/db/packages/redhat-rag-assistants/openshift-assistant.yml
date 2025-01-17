@@ -1,0 +1,17 @@
+# Creates Rag Assistants specific to Red Hat Documentation
+databaseChangeLog:
+  - property:
+      name: rc.ocp.id
+      value: "new ObjectId('66ec94c319c6d4b0c5a27cee')"
+  # Create default assistants for elasticsearch
+  - changeSet:
+      id: openshift-assistant
+      author: quarkus
+      comment: Create Openshift Assistant and Retriever Connection
+      changes:
+        - insertOne:
+            collectionName: retriever_connection
+            document: "{_id: ${rc.ocp.id}, name: 'ocp_4_17_default' , description: 'Openshift Container Platform Default Connection', 'connectionEntity': { '_t': 'elasticsearch', 'index': 'openshift_container_platform_en_us_4_17'}}"
+        - insertOne:
+            collectionName: assistant
+            document: "{name: 'default_ocp', displayName: 'Default Openshift Container Platform Assistant', _id: new ObjectId('66edae0a18642fee8cb88587'), retrieverConnectionId: ${rc.ocp.id}, llmConnectionId: ${llm.default.id}, userPrompt: '${generic.system.prompt}', exampleQuestions: ['how can I allow external access to my pod?','what can I use to externalize secrets?']}"

@@ -1,0 +1,19 @@
+# Creates Rag Assistants specific to Red Hat Documentation
+databaseChangeLog:
+  - property:
+      name: rc.ansible.id
+      value: "new ObjectId('66ed8cb7bfed0c6c6d324dc6')"
+
+  - changeSet:
+      id: redhat-rag-assistants
+      author: quarkus
+      comment: Create Ansible Assistant and Retriever Connection
+      changes:
+
+        - insertOne:
+            collectionName: retriever_connection
+            document: "{_id: ${rc.ansible.id}, name: 'ansible_2_5_default' , description: 'Ansible Automation Platform 2.5 Default Connection''connectionEntity': { '_t': 'elasticsearch', 'index': 'red_hat_ansible_automation_platform_en_us_2_5'}}"
+
+        - insertOne:
+            collectionName: assistant
+            document: "{name: 'default_ansible' , displayName: 'Default Ansible Automation Platform Assistant', _id: new ObjectId('66edae2255ce9f7058f2c472'), retrieverConnectionId: ${rc.ansible.id}, llmConnectionId: ${llm.default.id}, userPrompt: '${generic.system.prompt}'}"
