@@ -1,0 +1,17 @@
+# Creates Default LLM
+databaseChangeLog:
+  # Create a default LLM connection
+  - property:
+      name: llm.default.id
+      value: "new ObjectId('66edae13e03073de9ef24204')"
+
+  - changeSet:
+      id: llm-default
+      author: quarkus
+      labels: llm-load
+      comment: Create a default LLM connection
+      changes:
+        - insertOne:
+            collectionName: llm_connection
+            document: "{_id: new ObjectId('66edae13e03073de9ef24204'), name: 'llm_default' , description: 'Default LLM Connection'}"
+

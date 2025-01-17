@@ -1,0 +1,17 @@
+# Base DB Setup
+databaseChangeLog:
+  - changeSet:
+      id: create-collections
+      author: quarkus
+      comment: Creates the base collections required for the application
+      changes:
+
+        # Create collection for retriever connection entities
+        - createCollection:
+            collectionName: retriever_connection
+        # Create Assistants collection
+        - createCollection:
+            collectionName: assistant
+        # Create LLM Connection collection
+        - createCollection:
+            collectionName: llm_connection
