@@ -5,7 +5,6 @@ import java.util.List;
 import com.redhat.composer.model.request.RetrieverRequest;
 import com.redhat.composer.model.response.SourceResponse;
 import com.redhat.composer.services.RetrieveService;
-import com.redhat.composer.util.mappers.MapperUtil;
 
 import dev.langchain4j.rag.content.Content;
 import jakarta.inject.Inject;
@@ -21,9 +20,6 @@ public class VectorRetriverApi {
 
   @Inject
   RetrieveService retrieveService;
-
-  @Inject
-  MapperUtil mapperUtil;
 
   /**
    * Retrieve sources.

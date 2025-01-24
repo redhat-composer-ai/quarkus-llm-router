@@ -6,6 +6,7 @@ import com.redhat.composer.model.mongo.LlmConnectionEntity;
 import com.redhat.composer.util.mappers.BsonMapper;
 import com.redhat.composer.util.mappers.QuarkusMapperConfig;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 /**
  * MapStruct mapper to facilitate decoupling of REST interface from internal processing models
@@ -33,6 +34,8 @@ public interface LlmConnectionAdminMapper {
    * @param llmConnectionEntity the internal entity
    * @return a REST representation of the entity
    */
+  // TODO: Scrubbing sensitive information should be done in the service layer probably
+  @Mapping(target = "apiKey", ignore = true)
   LLMConnection toRest(LlmConnectionEntity llmConnectionEntity);
 
 }

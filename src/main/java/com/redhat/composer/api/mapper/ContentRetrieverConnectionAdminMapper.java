@@ -16,6 +16,8 @@ import com.redhat.composer.model.request.retriever.WeaviateRequest;
 import com.redhat.composer.util.mappers.BsonMapper;
 import com.redhat.composer.util.mappers.QuarkusMapperConfig;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
 import org.mapstruct.SubclassMapping;
 
 /**
@@ -64,6 +66,10 @@ public interface ContentRetrieverConnectionAdminMapper {
    */
   @SubclassMapping(target = ElasticsearchConnection.class, source = ElasticsearchConnectionEntity.class)
   @SubclassMapping(target = WeaviateConnection.class, source = WeaviateConnectionEntity.class)
+  @Mappings({
+    @Mapping(target = "apiKey", ignore = true),
+    @Mapping(target = "password", ignore = true)
+  })
   BaseRetrieverConnection toRest(BaseRetrieverConnectionEntity baseEntity);
 
 }

@@ -4,23 +4,24 @@ Backend includes the ability to dynamically create Assistants, Rag Connections, 
 
 ## Content Retriever(RAG) Connection
 
-### Weaviate Example
+### Elastic Example
 
+```json
 {
-  "name": "test",
-  "description": "test",
   "baseRetrieverRequest": {
-    "contentRetrieverType": "elastic",
-    "host": "test",
-    "index": "test",
-    "apiKey": "test",
-    "username": "test",
-    "password": "test",
-    "scheme": "test",
-    "textKey": "test"
+    "contentRetrieverType": "elasticsearch",
+    "index": "my_custom_index",
+    "user": "test_user",
+    "host": "my-elastic-instance.svc:8080",
+    "password" : "ABCDE12345"
   },
-  "embeddingType": "nomic"
+  "embeddingType": "nomic",
+  "name": "Example Elastic Rag Connection",
+  "description": "Example Elastic of a rag connection"
 }
+```
+
+### Weaviate Example
 
 ```json
 {
