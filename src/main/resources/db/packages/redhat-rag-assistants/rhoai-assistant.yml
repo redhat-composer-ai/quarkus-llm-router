@@ -1,0 +1,17 @@
+# Creates Rag Assistants specific to Red Hat Documentation
+databaseChangeLog:
+  - property:
+      name: rc.rhoai.id
+      value: "new ObjectId('66ed8cc3ad4df17295dc7a16')"
+
+  - changeSet:
+      id: redhat-rag-assistants
+      author: quarkus
+      comment: RHOAI Assistant and Retriever Connection
+      changes:
+        - insertOne:
+            collectionName: retriever_connection
+            document: "{_id: ${rc.rhoai.id}, name: 'rhoia_2_14_default' , description: 'Red Hat Openshift AI Self Managed 2.14 Default Connection''connectionEntity': { '_t': 'elasticsearch', 'index': 'red_hat_openshift_ai_self_managed_en_us_2_14'}}"
+        - insertOne:
+            collectionName: assistant
+            document: "{name: 'default_rhoai' , displayName: 'Default Red Hat Openshift AI Self Managed Assistant', _id: new ObjectId('66edae2738a7f2388fb02cd8'), retrieverConnectionId: ${rc.rhoai.id}, llmConnectionId: ${llm.default.id}, userPrompt: '${generic.system.prompt}', exampleQuestions:['question1','question2']}"

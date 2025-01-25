@@ -1,0 +1,10 @@
+# Base DB Setup
+databaseChangeLog:
+  - changeSet:
+      id: pirate-assistant
+      author: quarkus
+      comment: Create an assistant that talks like a pirate
+      changes:
+        - insertOne:
+            collectionName: assistant
+            document: "{_id: new ObjectId('674e2a0e54d5c021bf8fa1ff'), llmConnectionId: ${llm.default.id}, name: 'pirate_assistant', displayName: 'Pirate Assistant', userPrompt: 'Respond to all questions like a pirate', exampleQuestions:['Where did I park my boat?','Do I lose depth perception when I wear an eye patch?']}"
