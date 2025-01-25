@@ -25,8 +25,10 @@ databaseChangeLog:
       relativeToChangelogFile: true
       labels: llm
 
-  - includeAll:
-      path: packages/redhat-rag-assistants
+  # Should be include all once the following issue is resolved
+  # https://github.com/quarkusio/quarkus/issues/16292
+  - include:
+      file: packages/redhat-rag-assistants.yml
       relativeToChangelogFile: true
       # https://docs.liquibase.com/concepts/changelogs/attributes/contexts.html
       # Context based on `quarkus.liquibase-mongodb.contexts` property
@@ -44,8 +46,8 @@ databaseChangeLog:
         - generic
         - assistants
 
-  - includeAll:
-      path: packages/generic-assistants
+  - include:
+      file: packages/generic-assistants.yml
       relativeToChangelogFile: true
       contextFilter: "!lab"
       labels: 

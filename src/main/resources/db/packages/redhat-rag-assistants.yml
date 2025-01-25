@@ -1,0 +1,11 @@
+# This is required because native build does not support the includeAll tag
+# https://github.com/quarkusio/quarkus/issues/16292
+databaseChangeLog:
+  - include:
+      file: db/packages/redhat-rag-assistants/ansible-assistant.yml
+  - include:
+      file: db/packages/redhat-rag-assistants/openshift-assistant.yml
+  - include:
+      file: db/packages/redhat-rag-assistants/rhel-assistant.yml
+  - include:
+      file: db/packages/redhat-rag-assistants/rhoai-assistant.yml

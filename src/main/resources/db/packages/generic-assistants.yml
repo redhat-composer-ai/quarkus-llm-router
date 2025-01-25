@@ -1,0 +1,11 @@
+# This is required because native build does not support the includeAll tag
+# https://github.com/quarkusio/quarkus/issues/16292
+databaseChangeLog:
+  - include:
+      file: db/packages/generic-assistants/email-drafter-assistant.yml
+  - include:
+      file: db/packages/generic-assistants/email-summary-assistant.yml
+  - include:
+      file: db/packages/generic-assistants/meeting-minutes-assistant.yml
+  - include:
+      file: db/packages/generic-assistants/pirate-assistant.yml
