@@ -18,6 +18,7 @@ public class LlmConnectionEntity extends BaseEntity {
   private String name;
   private String description;
 
+  private String servingRuntimeType;
   private String modelType;
   
   private String url;
@@ -27,13 +28,13 @@ public class LlmConnectionEntity extends BaseEntity {
   private Double temperature;
   private Integer maxTokens;
 
-
   public LlmConnectionEntity() {
   }
 
-  public LlmConnectionEntity(String name, String description, String modelType, String url, String apiKey, String modelName, Double temperature, Integer maxTokens) {
+  public LlmConnectionEntity(String name, String description, String servingRuntimeType, String modelType, String url, String apiKey, String modelName, Double temperature, Integer maxTokens) {
     this.name = name;
     this.description = description;
+    this.servingRuntimeType = servingRuntimeType;
     this.modelType = modelType;
     this.url = url;
     this.apiKey = apiKey;
@@ -56,6 +57,14 @@ public class LlmConnectionEntity extends BaseEntity {
 
   public void setDescription(String description) {
     this.description = description;
+  }
+
+  public String getServingRuntimeType() {
+    return this.servingRuntimeType;
+  }
+
+  public void setServingRuntimeType(String servingRuntimeType) {
+    this.servingRuntimeType = servingRuntimeType;
   }
 
   public String getModelType() {
@@ -116,6 +125,11 @@ public class LlmConnectionEntity extends BaseEntity {
     return this;
   }
 
+  public LlmConnectionEntity servingRuntimeType(String servingRuntimeType) {
+    setServingRuntimeType(servingRuntimeType);
+    return this;
+  }
+
   public LlmConnectionEntity modelType(String modelType) {
     setModelType(modelType);
     return this;
@@ -153,7 +167,7 @@ public class LlmConnectionEntity extends BaseEntity {
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, description, modelType, url, apiKey, modelName, temperature, maxTokens);
+    return Objects.hash(name, description, servingRuntimeType, modelType, url, apiKey, modelName, temperature, maxTokens);
   }
 
   @Override
@@ -161,6 +175,7 @@ public class LlmConnectionEntity extends BaseEntity {
     return "{" +
       " name='" + getName() + "'" +
       ", description='" + getDescription() + "'" +
+      ", servingRuntimeType='" + getServingRuntimeType() + "'" +
       ", modelType='" + getModelType() + "'" +
       ", url='" + getUrl() + "'" +
       ", apiKey='" + getApiKey() + "'" +
@@ -169,6 +184,5 @@ public class LlmConnectionEntity extends BaseEntity {
       ", maxTokens='" + getMaxTokens() + "'" +
       "}";
   }
-
 
 }
