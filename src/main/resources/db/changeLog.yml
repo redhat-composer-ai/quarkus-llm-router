@@ -38,13 +38,14 @@ databaseChangeLog:
         - assistants
   
   # For lab profile only load the rhoai assistant 
-  - include:
-      file: packages/redhat-rag-assistants/rhoai-assistant.yml
-      relativeToChangelogFile: true
-      contextFilter: "@lab"
-      labels: 
-        - generic
-        - assistants
+  # Removing the RHOAI assistant from the lab for now so users can recreate it
+  # - include:
+  #     file: packages/redhat-rag-assistants/rhoai-assistant.yml
+  #     relativeToChangelogFile: true
+  #     contextFilter: "@lab"
+  #     labels: 
+  #       - generic
+  #       - assistants
 
   - include:
       file: packages/generic-assistants.yml
