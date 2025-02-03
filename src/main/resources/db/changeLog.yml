@@ -54,3 +54,13 @@ databaseChangeLog:
       labels: 
         - generic
         - assistants
+
+  # Create a default assistant 
+  - changeSet:
+      id: default-assistant
+      author: quarkus
+      comment: Create an assistant that talks like a pirate
+      changes:
+        - insertOne:
+            collectionName: assistant
+            document: "{_id: new ObjectId('674e2a0e54d5c021bf8fa1ff'), llmConnectionId: ${llm.default.id}, name: 'default_assistant', displayName: 'Default Assistant'"
