@@ -63,4 +63,4 @@ databaseChangeLog:
       changes:
         - insertOne:
             collectionName: assistant
-            document: "{_id: new ObjectId('674e2a0e54d5c021bf8fa1ff'), llmConnectionId: ${llm.default.id}, name: 'default_assistant', displayName: 'Default Assistant'"
+            document: "{_id: new ObjectId('67a114e7a8da310bfc7bb412'), llmConnectionId: ${llm.default.id}, name: 'default_assistant', displayName: 'Default Assistant'}"
