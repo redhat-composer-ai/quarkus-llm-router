@@ -12,6 +12,8 @@ import com.redhat.composer.model.enums.ContentRetrieverType;
 public class BaseRetrieverConnectionEntity {
 
   ContentRetrieverType contentRetrieverType;
+  Integer maxResults;
+  Double  minScore;
 
   /**
    * Constructor.
@@ -48,5 +50,29 @@ public class BaseRetrieverConnectionEntity {
     setContentRetrieverType(contentRetrieverType);
     return this;
   }
+
+  public Integer getMaxResults() {
+    return maxResults;
+  }
+
+  public void setMaxResults(Integer maxResults) {
+    this.maxResults = maxResults;
+  }
+
+  public Double getMinScore() {
+    return minScore;
+  }
+
+  public void setMinScore(Double minScore) {
+    this.minScore = minScore;
+  }
+
+  @Override
+  public String toString() {
+    return "BaseRetrieverConnectionEntity [contentRetrieverType=" + contentRetrieverType + ", maxResults=" + maxResults
+        + ", minScore=" + minScore + "]";
+  }
+
+  
   
 }

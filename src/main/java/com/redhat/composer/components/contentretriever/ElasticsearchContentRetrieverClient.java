@@ -42,6 +42,13 @@ public class ElasticsearchContentRetrieverClient extends BaseContentRetrieverCli
   @ConfigProperty(name = "elasticsearch.default.index")
   private String elasticIndex;
 
+  @ConfigProperty(name = "elasticsearch.default.maxResults")
+  private Integer elasticMaxResults;
+
+  @ConfigProperty(name = "elasticsearch.default.minScore")
+  private Double elasticMinScore;
+
+
   /**
    * Get the Content Retriever.
    * @param request the RetrieverRequest
@@ -52,10 +59,13 @@ public class ElasticsearchContentRetrieverClient extends BaseContentRetrieverCli
     if (elasticsearchRequest == null) {
       elasticsearchRequest = new ElasticsearchRequest();
     }
-    String host = elasticsearchRequest.getHost() != null ? elasticsearchRequest.getHost() : elasticHost;
-    String user = elasticsearchRequest.getUser() != null ? elasticsearchRequest.getUser() : elasticUser;
-    String pass = elasticsearchRequest.getPassword() != null ? elasticsearchRequest.getPassword() : elasticPassword;
-    String index = elasticsearchRequest.getIndex() != null ? elasticsearchRequest.getIndex() : elasticIndex;
+    String host        = elasticsearchRequest.getHost()       != null ? elasticsearchRequest.getHost() : elasticHost;
+    String user        = elasticsearchRequest.getUser()       != null ? elasticsearchRequest.getUser() : elasticUser;
+    String pass        = elasticsearchRequest.getPassword()   != null ? elasticsearchRequest.getPassword() : elasticPassword;
+    String index       = elasticsearchRequest.getIndex()      != null ? elasticsearchRequest.getIndex()    : elasticIndex;
+    Integer maxResults = elasticsearchRequest.getMaxResults() != null ? elasticsearchRequest.getMaxResults() : elasticMaxResults;
+    Double  minScore   = elasticsearchRequest.getMinScore()   != null ? elasticsearchRequest.getMinScore()   : elasticMinScore;
+
 
     // TODO: Make this configurable for different authentication types
     final CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
@@ -83,6 +93,8 @@ public class ElasticsearchContentRetrieverClient extends BaseContentRetrieverCli
     ContentRetriever contentRetriever = EmbeddingStoreContentRetriever.builder()
           .embeddingStore(store)
           .embeddingModel(embeddingModel)
+          .maxResults( maxResults )
+          .minScore(  minScore   )
         .build();
 
     return contentRetriever;

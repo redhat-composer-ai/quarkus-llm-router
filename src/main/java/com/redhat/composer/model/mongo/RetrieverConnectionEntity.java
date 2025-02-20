@@ -21,6 +21,8 @@ public class RetrieverConnectionEntity extends BaseEntity {
 
   String name;
   String description;
+  Integer maxResults;
+  Double  minScore;
 
   public RetrieverConnectionEntity() {
   }
@@ -30,6 +32,8 @@ public class RetrieverConnectionEntity extends BaseEntity {
     this.embeddingType = embeddingType;
     this.name = name;
     this.description = description;
+    this.maxResults  = connectionEntity.getMaxResults();
+    this.minScore    = connectionEntity.getMinScore();
   }
 
   public BaseRetrieverConnectionEntity getConnectionEntity() {
