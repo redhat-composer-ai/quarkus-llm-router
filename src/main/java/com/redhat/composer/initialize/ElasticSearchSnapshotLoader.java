@@ -55,7 +55,7 @@ public class ElasticSearchSnapshotLoader {
     }
   }
 
-  private void createRepository() throws ElasticsearchException, IOException{
+  private void createRepository() throws ElasticsearchException, IOException {
     logger.info("Creating new repository for snapshot...");
     SharedFileSystemRepositorySettings settings = SharedFileSystemRepositorySettings.of(r ->
                                                     r.location(snapshotLocation)
@@ -71,7 +71,7 @@ public class ElasticSearchSnapshotLoader {
     esClient.snapshot().createRepository(request);
   }
 
-  private void restoreSnapshot() throws Throwable, IOException{
+  private void restoreSnapshot() throws Throwable, IOException {
     logger.info(String.format("Restoring snapshot - Repo: %s, Snapshot: %s", repoName, snapshotLocation));
 
     // https://github.com/elastic/elasticsearch-java/issues/891.  Resolved in ES 8.15.x
