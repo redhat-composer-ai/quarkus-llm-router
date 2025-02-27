@@ -2,7 +2,6 @@ package com.redhat.composer.config.application;
 
 import io.smallrye.config.ConfigMapping;
 import io.smallrye.config.WithDefault;
-import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 
@@ -37,21 +36,18 @@ public interface ContentRetrieverConfig {
 
     /**
      * The maximum number of results when content retrieving across an uploaded document.
-     *
+     * Defaults set in application.properties: conductor.retriever.document.max-results
      * @return a max number of results
      */
-    @WithDefault("5")
-    @Min(1)
-    Integer defaultMaxResults();
+    Integer maxResults();
 
     /**
      * The minimum score for results when content retrieving across an uploaded document.
-     *
+     * Defaults set in application.properties: conductor.retriever.document.min-score
      * @return a minimum result score
      */
-    @WithDefault("0.75")
-    @DecimalMin("0.01")
-    Double defaultMinScore();
+    Double minScore();
+
 
     /**
      * Configuration specific to how uploaded documents are split during ingestion.

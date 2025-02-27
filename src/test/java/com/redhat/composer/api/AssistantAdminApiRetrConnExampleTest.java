@@ -30,7 +30,7 @@ class AssistantAdminApiRetrConnExampleTest {
   },
   "embeddingType": "nomic",
   "name": "Example Elastic Rag Connection",
-  "description": "Example Elastic of a rag connection"
+  "description": "Example of an ElasticSearch rag connection"
 }    
 """;
 

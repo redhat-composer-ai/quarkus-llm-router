@@ -2,8 +2,15 @@ package com.redhat.composer.model.mongo.contentretrieverentites;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.bson.codecs.pojo.annotations.BsonDiscriminator;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import com.redhat.composer.model.enums.ContentRetrieverType;
+
+import io.quarkus.logging.Log;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Singleton;
+
+//import jakarta.resource.spi.ConfigProperty;
 
 import java.util.List;
 import java.util.Objects;
@@ -13,6 +20,7 @@ import java.util.Objects;
  */
 @SuppressWarnings("all")
 @BsonDiscriminator("elasticsearch")
+@ApplicationScoped
 public class ElasticsearchConnectionEntity extends BaseRetrieverConnectionEntity {
 
   // Key of the value containing the text used for retrieval and passed into the LLM
@@ -28,8 +36,11 @@ public class ElasticsearchConnectionEntity extends BaseRetrieverConnectionEntity
   String user;
 
   String password;
+  
 
   public ElasticsearchConnectionEntity() {
+    Log.debugf( "%n~~~~~~~~~~~~~~ maxResults[%d]  minScore[%f] %n", maxResults, minScore);
+
     contentRetrieverType = ContentRetrieverType.ELASTICSEARCH;
   }
 
