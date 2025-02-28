@@ -29,6 +29,7 @@ After implementation of the solution of the story, configuration properties for 
 
 
 **Recommended Approach** 
+
 Using Microprofile ConfigMapping already written: _ContentRetrieverConfig.java_, remove the annotations that define the defaults from that file.  The reason is that Microprofile config already handles missing configurations in application.properties, or any of the other configuration environments that may exist.
 
 For example, in the application.properties file, max-results and min-score are defined with environmental values to be overridden, or defaults as the values following the colon (5) or (0.0) as below:
