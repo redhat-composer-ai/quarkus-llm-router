@@ -6,15 +6,17 @@
 
 **Configuration Update**
 
-2025-Feb-26 
+#### 2025-Feb-26 
 
 Discovered that for some reason, CDI (ArC) was not injecting the interface config definitions nor the @ConfigProperty values from _application.properties_ into the base class _BaseRetrieverConnectionEntity.java_.  Also @PostConstuct was not being called.  This also occurred in sample code using the Quarkus QuickStarts sample file “develop-config”.  
 
 As a workaround, the injection happens in the _AssistantInfoService#createUpdateRetrieverConnectionEntity_
 and in this method if **maxResults** and **minScore** are null, the  default values are applied.
 
+Please see the tests within _AssistantAdminApiRetrConnExampleTest.java_ for examples of how the methods are tested.
 
-2025-Feb-25
+
+#### 2025-Feb-25
 
 See [REDSAIA-135](https://issues.redhat.com/browse/REDSAIA-135) for more information on this story.
 
