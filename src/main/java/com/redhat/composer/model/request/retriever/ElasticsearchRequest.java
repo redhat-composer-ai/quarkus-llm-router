@@ -99,6 +99,22 @@ public class ElasticsearchRequest extends BaseRetrieverRequest {
     this.password = password;
   }
 
+  public Integer getMaxResults() {
+    return this.maxResults;
+  }
+
+  public void setMaxResults(Integer maxResults) {
+    this.maxResults = maxResults;
+  }
+
+  public Double getMinScore() {
+    return this.minScore;
+  }
+
+  public void setMinScore(Double minScore) {
+    this.minScore = minScore;
+  }
+
   public ElasticsearchRequest metadataFields(List<String> metadataFields) {
     setMetadataFields(metadataFields);
     return this;
@@ -123,6 +139,9 @@ public class ElasticsearchRequest extends BaseRetrieverRequest {
     setPassword(password);
     return this;
   }
+
+
+
 
   @Override
     public boolean equals(Object o) {
