@@ -1,5 +1,6 @@
 package com.redhat.composer.services;
 
+import com.redhat.composer.config.application.ContentRetrieverConfig;
 import com.redhat.composer.model.mongo.AssistantEntity;
 import com.redhat.composer.model.mongo.LlmConnectionEntity;
 import com.redhat.composer.model.mongo.RetrieverConnectionEntity;
@@ -7,11 +8,14 @@ import com.redhat.composer.model.request.AssistantCreationRequest;
 import com.redhat.composer.model.request.RetrieverRequest;
 import com.redhat.composer.model.response.AssistantResponse;
 import com.redhat.composer.util.mappers.MapperUtil;
+
+import io.quarkus.logging.Log;
 import io.quarkus.runtime.util.StringUtil;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.NotFoundException;
 import org.bson.types.ObjectId;
+
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -24,6 +28,9 @@ public class AssistantInfoService {
 
   @Inject
   MapperUtil mapperUtil;
+
+  @Inject 
+  ContentRetrieverConfig config;
 
   /**
    * Create an Assistant.
@@ -128,6 +135,19 @@ public class AssistantInfoService {
    */
   public RetrieverConnectionEntity createUpdateRetrieverConnectionEntity(RetrieverRequest request) {
     RetrieverConnectionEntity entity = mapperUtil.toEntity(request);
+
+    //````````````````````````` Very annoying Workaround for lack of CDI for config, if null, then set defaults here.
+    if ( (entity.getConnectionEntity() != null) && (entity.getConnectionEntity().getMaxResults() == null) ) {
+      entity.getConnectionEntity().setMaxResults( config.document().maxResults() );
+    }
+    if ( (entity.getConnectionEntity() != null) && (entity.getConnectionEntity().getMinScore() == null) ) {  
+      entity.getConnectionEntity().setMinScore(   config.document().minScore()   );
+    }  
+    Log.debugf( "%n~~~~~~~~~~~~~~ createUpdateRetriever maxResults[%d]  minScore[%f] %n", 
+        entity.getConnectionEntity() != null ? entity.getConnectionEntity().getMaxResults() : null,
+        entity.getConnectionEntity() != null ? entity.getConnectionEntity().getMinScore()   : null );
+  
+    
     if (!StringUtil.isNullOrEmpty(request.getId())) {
       entity.id = new ObjectId(request.getId());
       entity.update();

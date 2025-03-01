@@ -14,10 +14,21 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 public class BaseRetrieverRequest {
 
   String contentRetrieverType;
-
+  Integer maxResults;
+  Double  minScore;
 
   public BaseRetrieverRequest() {
   }
+
+
+  
+  public BaseRetrieverRequest(String contentRetrieverType, Integer maxResults, Double minScore) {
+    this.contentRetrieverType = contentRetrieverType;
+    this.maxResults = maxResults;
+    this.minScore = minScore;
+  }
+
+
 
   public BaseRetrieverRequest(String contentRetrieverType) {
     this.contentRetrieverType = contentRetrieverType;
@@ -34,6 +45,23 @@ public class BaseRetrieverRequest {
   public BaseRetrieverRequest contentRetrieverType(String contentRetrieverType) {
     setContentRetrieverType(contentRetrieverType);
     return this;
+  }
+
+  
+  public Integer getMaxResults() {
+    return maxResults;
+  }
+
+  public void setMaxResults(Integer maxResults) {
+    this.maxResults = maxResults;
+  }
+
+  public Double getMinScore() {
+    return minScore;
+  }
+
+  public void setMinScore(Double minScore) {
+    this.minScore = minScore;
   }
 
   @Override

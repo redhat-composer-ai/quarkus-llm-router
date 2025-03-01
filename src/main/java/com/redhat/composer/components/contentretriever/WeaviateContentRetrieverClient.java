@@ -35,6 +35,12 @@ public class WeaviateContentRetrieverClient extends BaseContentRetrieverClient {
   @ConfigProperty(name = "weaviate.default.textKey")
   private String weaviateTextKey;
 
+  @ConfigProperty(name = "weaviate.default.maxResults")
+  private Integer weaviateMaxResults;
+
+  @ConfigProperty(name = "weaviate.default.minScore")
+  private Double weaviateMinScore;
+
   /**
    * Get the Content Retriever.
    * @param request the RetrieverRequest
@@ -50,6 +56,8 @@ public class WeaviateContentRetrieverClient extends BaseContentRetrieverClient {
     String apiKey = weaviateRequest.getApiKey() != null ? weaviateRequest.getApiKey() : weaviateApiKey;
     String index = weaviateRequest.getIndex() != null ? weaviateRequest.getIndex() : weaviateIndex;
     String textKey = weaviateRequest.getTextKey() != null ? weaviateRequest.getTextKey() : weaviateTextKey;
+    Integer maxResults = weaviateRequest.getMaxResults() != null ? weaviateRequest.getMaxResults() : weaviateMaxResults;
+    Double  minScore   = weaviateRequest.getMinScore()   != null ? weaviateRequest.getMinScore()   : weaviateMinScore;
 
 
     log.info("Attempting to connect to Weaviate at " + scheme + "://" + host + " with index " + index);
@@ -76,6 +84,8 @@ public class WeaviateContentRetrieverClient extends BaseContentRetrieverClient {
     ContentRetriever contentRetriever = EmbeddingStoreContentRetriever.builder()
           .embeddingStore(store)
           .embeddingModel(embeddingModel)
+          .maxResults( maxResults )
+          .minScore(   minScore   )
         .build();
 
     return contentRetriever;

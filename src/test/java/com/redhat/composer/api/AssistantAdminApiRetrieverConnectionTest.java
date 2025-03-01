@@ -86,7 +86,7 @@ class AssistantAdminApiRetrieverConnectionTest {
 
   @Test
   @Order(35)
-  public void noyExistingRetrieverConnection() {
+  public void notExistingRetrieverConnection() {
     given()
         .contentType(ContentType.JSON)
         .and()
@@ -95,8 +95,7 @@ class AssistantAdminApiRetrieverConnectionTest {
         .get("/{retrieverConnectionId}")
         .then()
         .assertThat()
-        .statusCode(
-            Response.Status.NOT_FOUND.getStatusCode());
+        .statusCode( Response.Status.NOT_FOUND.getStatusCode());
   }
 
   @Test

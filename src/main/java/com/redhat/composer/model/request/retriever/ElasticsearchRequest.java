@@ -23,14 +23,40 @@ public class ElasticsearchRequest extends BaseRetrieverRequest {
 
 
   public ElasticsearchRequest() {
+    super();
   }
 
   public ElasticsearchRequest(List<String> metadataFields, String index, String host, String user, String password) {
+    super();
     this.metadataFields = metadataFields;
     this.index = index;
     this.host = host;
     this.user = user;
     this.password = password;
+  }
+
+  public ElasticsearchRequest(String contentRetrieverType, Integer maxResults, Double minScore,
+      List<String> metadataFields, String index, String host, String user, String password) {
+    super(contentRetrieverType, maxResults, minScore);
+    this.metadataFields = metadataFields;
+    this.index = index;
+    this.host = host;
+    this.user = user;
+    this.password = password;
+  }
+
+  public ElasticsearchRequest(String contentRetrieverType, List<String> metadataFields, String index, String host,
+      String user, String password) {
+    super(contentRetrieverType);
+    this.metadataFields = metadataFields;
+    this.index = index;
+    this.host = host;
+    this.user = user;
+    this.password = password;
+  }
+
+  public ElasticsearchRequest(String contentRetrieverType) {
+    super(contentRetrieverType);
   }
 
   public List<String> getMetadataFields() {
@@ -73,6 +99,22 @@ public class ElasticsearchRequest extends BaseRetrieverRequest {
     this.password = password;
   }
 
+  public Integer getMaxResults() {
+    return this.maxResults;
+  }
+
+  public void setMaxResults(Integer maxResults) {
+    this.maxResults = maxResults;
+  }
+
+  public Double getMinScore() {
+    return this.minScore;
+  }
+
+  public void setMinScore(Double minScore) {
+    this.minScore = minScore;
+  }
+
   public ElasticsearchRequest metadataFields(List<String> metadataFields) {
     setMetadataFields(metadataFields);
     return this;
@@ -98,6 +140,9 @@ public class ElasticsearchRequest extends BaseRetrieverRequest {
     return this;
   }
 
+
+
+
   @Override
     public boolean equals(Object o) {
       return EqualsBuilder.reflectionEquals(this, o);
@@ -110,14 +155,11 @@ public class ElasticsearchRequest extends BaseRetrieverRequest {
 
   @Override
   public String toString() {
-    return "{" +
-      " metadataFields='" + getMetadataFields() + "'" +
-      ", index='" + getIndex() + "'" +
-      ", host='" + getHost() + "'" +
-      ", user='" + getUser() + "'" +
-      ", password='" + getPassword() + "'" +
-      "}";
+    return "ElasticsearchRequest [metadataFields=" + metadataFields + ", index=" + index + ", host=" + host + ", user="
+        + user + ", password=" + password + ", contentRetrieverType=" + contentRetrieverType + ", maxResults="
+        + maxResults + ", minScore=" + minScore + "]";
   }
+
 
 
 }
