@@ -2,6 +2,7 @@ package com.redhat.composer.config.application;
 
 import io.smallrye.config.ConfigMapping;
 import io.smallrye.config.WithDefault;
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 
@@ -39,6 +40,7 @@ public interface ContentRetrieverConfig {
      * Defaults set in application.properties: conductor.retriever.document.max-results
      * @return a max number of results
      */
+    @Min(1)
     Integer maxResults();
 
     /**
@@ -46,6 +48,7 @@ public interface ContentRetrieverConfig {
      * Defaults set in application.properties: conductor.retriever.document.min-score
      * @return a minimum result score
      */
+    @DecimalMin("0.01")
     Double minScore();
 
 
