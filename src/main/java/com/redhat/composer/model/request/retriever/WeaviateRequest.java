@@ -86,6 +86,23 @@ public class WeaviateRequest extends BaseRetrieverRequest {
     this.apiKey = apiKey;
   }
 
+  public Integer getMaxResults() {
+    return this.maxResults;
+  }
+
+  public void setMaxResults(Integer maxResults) {
+    this.maxResults = maxResults;
+  }
+
+  public Double getMinScore() {
+    return this.minScore;
+  }
+
+  public void setMinScore(Double minScore) {
+    this.minScore = minScore;
+  }
+
+
   public WeaviateRequest textKey(String textKey) {
     setTextKey(textKey);
     return this;

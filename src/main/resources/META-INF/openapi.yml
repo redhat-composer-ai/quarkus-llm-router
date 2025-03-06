@@ -517,6 +517,12 @@ components:
           $ref: '#/components/schemas/RetrieverConnectionId'
         contentRetrieverType:
           $ref: '#/components/schemas/ContentRetrieverType'
+        #### Additional base class properties 
+        maxResults:
+          type: integer
+        minScore: 
+          type: number
+          format: double
       oneOf:
         - $ref: '#/components/schemas/ElasticsearchConnection'
         - $ref: '#/components/schemas/WeaviateConnection'
