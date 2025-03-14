@@ -30,7 +30,7 @@ public class ContentRetrieverClientFactory {
    */
   public BaseContentRetrieverClient getContentRetrieverClient(ContentRetrieverType contentRetrieverType) {
     if (contentRetrieverType == null) {
-      contentRetrieverType = ContentRetrieverType.fromString(defaultContentRetrieverType);;
+      contentRetrieverType = ContentRetrieverType.fromString(defaultContentRetrieverType);
     }
 
     switch (contentRetrieverType) {

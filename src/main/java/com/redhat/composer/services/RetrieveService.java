@@ -198,10 +198,10 @@ public class RetrieveService {
         .embeddingStore(embeddingStore)
         .maxResults(Objects.requireNonNullElseGet(
             maxResults,
-            contentRetrieverConfig.document()::defaultMaxResults))
+            contentRetrieverConfig.document()::maxResults ))
         .minScore(Objects.requireNonNullElseGet(
             minScore,
-            contentRetrieverConfig.document()::defaultMinScore))
+            contentRetrieverConfig.document()::minScore ))
         .build();
   }
 

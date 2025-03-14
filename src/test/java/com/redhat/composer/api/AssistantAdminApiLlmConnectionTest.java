@@ -94,8 +94,8 @@ class AssistantAdminApiLlmConnectionTest {
 
   @Test
   @Order(35)
-  public void noyExistingLlmConnection() {
-    given()
+  public void noExistingLlmConnection() {
+      given()
         .contentType(ContentType.JSON)
         .and()
         .when()
@@ -121,7 +121,7 @@ class AssistantAdminApiLlmConnectionTest {
         .statusCode(
             Response.Status.NO_CONTENT.getStatusCode());
 
-    given()
+      given()
         .contentType(ContentType.JSON)
         .and()
         .when()
