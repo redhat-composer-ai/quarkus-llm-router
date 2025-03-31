@@ -10,11 +10,9 @@ import com.redhat.composer.model.mongo.LlmConnectionEntity;
 import com.redhat.composer.model.mongo.RetrieverConnectionEntity;
 import com.redhat.composer.model.mongo.contentretrieverentites.BaseRetrieverConnectionEntity;
 import com.redhat.composer.model.mongo.contentretrieverentites.ElasticsearchConnectionEntity;
-import com.redhat.composer.model.mongo.contentretrieverentites.WeaviateConnectionEntity;
 import com.redhat.composer.model.request.LLMRequest;
 import com.redhat.composer.model.request.RetrieverRequest;
 import com.redhat.composer.model.request.retriever.BaseRetrieverRequest;
-import com.redhat.composer.model.request.retriever.WeaviateRequest;
 import com.redhat.composer.model.request.retriever.ElasticsearchRequest;
 
 import jakarta.enterprise.inject.Default;
@@ -77,8 +75,8 @@ public interface MapperUtil {
     }
 
     switch (ContentRetrieverType.fromString(request.getContentRetrieverType())) {
-      case WEAVIATE:
-        return retrieverConnectionMapper.toEntity((WeaviateRequest) request);
+      // case WEAVIATE:
+      //   return retrieverConnectionMapper.toEntity((WeaviateRequest) request);
       case ELASTICSEARCH:
         return retrieverConnectionMapper.toEntity((ElasticsearchRequest) request);
       default:
@@ -99,8 +97,6 @@ public interface MapperUtil {
     }
 
     switch (entity.getContentRetrieverType()) {
-      case WEAVIATE:
-        return retrieverConnectionMapper.toRequest((WeaviateConnectionEntity) entity);
       case ELASTICSEARCH:
         return retrieverConnectionMapper.toRequest((ElasticsearchConnectionEntity) entity);
       default:

@@ -1,24 +1,22 @@
 package com.redhat.composer.api.mapper;
 
-import com.redhat.composer.api.model.BaseRetrieverConnection;
-import com.redhat.composer.api.model.CreateRetrieverConnectionRequest;
-import com.redhat.composer.api.model.ElasticsearchConnection;
-import com.redhat.composer.api.model.RetrieverConnection;
-import com.redhat.composer.api.model.WeaviateConnection;
-import com.redhat.composer.model.mongo.RetrieverConnectionEntity;
-import com.redhat.composer.model.mongo.contentretrieverentites.BaseRetrieverConnectionEntity;
-import com.redhat.composer.model.mongo.contentretrieverentites.ElasticsearchConnectionEntity;
-import com.redhat.composer.model.mongo.contentretrieverentites.WeaviateConnectionEntity;
-import com.redhat.composer.model.request.RetrieverRequest;
-import com.redhat.composer.model.request.retriever.BaseRetrieverRequest;
-import com.redhat.composer.model.request.retriever.ElasticsearchRequest;
-import com.redhat.composer.model.request.retriever.WeaviateRequest;
-import com.redhat.composer.util.mappers.BsonMapper;
-import com.redhat.composer.util.mappers.QuarkusMapperConfig;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 import org.mapstruct.SubclassMapping;
+
+import com.redhat.composer.api.model.BaseRetrieverConnection;
+import com.redhat.composer.api.model.CreateRetrieverConnectionRequest;
+import com.redhat.composer.api.model.ElasticsearchConnection;
+import com.redhat.composer.api.model.RetrieverConnection;
+import com.redhat.composer.model.mongo.RetrieverConnectionEntity;
+import com.redhat.composer.model.mongo.contentretrieverentites.BaseRetrieverConnectionEntity;
+import com.redhat.composer.model.mongo.contentretrieverentites.ElasticsearchConnectionEntity;
+import com.redhat.composer.model.request.RetrieverRequest;
+import com.redhat.composer.model.request.retriever.BaseRetrieverRequest;
+import com.redhat.composer.model.request.retriever.ElasticsearchRequest;
+import com.redhat.composer.util.mappers.BsonMapper;
+import com.redhat.composer.util.mappers.QuarkusMapperConfig;
 
 /**
  * MapStruct mapper to facilitate decoupling of REST interface from internal processing models
@@ -47,7 +45,6 @@ public interface ContentRetrieverConnectionAdminMapper {
    * @return the internal representation of a request
    */
   @SubclassMapping(target = ElasticsearchRequest.class, source = ElasticsearchConnection.class)
-  @SubclassMapping(target = WeaviateRequest.class, source = WeaviateConnection.class)
   BaseRetrieverRequest fromRest(BaseRetrieverConnection request);
 
   /**
@@ -65,7 +62,6 @@ public interface ContentRetrieverConnectionAdminMapper {
    * @return a REST representation of the entity
    */
   @SubclassMapping(target = ElasticsearchConnection.class, source = ElasticsearchConnectionEntity.class)
-  @SubclassMapping(target = WeaviateConnection.class, source = WeaviateConnectionEntity.class)
   @Mappings({
     @Mapping(target = "apiKey", ignore = true),
     @Mapping(target = "password", ignore = true)

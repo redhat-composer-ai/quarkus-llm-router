@@ -14,9 +14,6 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 public class ContentRetrieverClientFactory {
 
   @Inject
-  WeaviateContentRetrieverClient weaviateEmbeddingStoreClient;
-
-  @Inject
   ElasticsearchContentRetrieverClient elasticsearchContentRetrieverClient;
 
   @ConfigProperty(name = "vector.store.default.type", defaultValue = "ELASTICSEARCH")
@@ -34,8 +31,6 @@ public class ContentRetrieverClientFactory {
     }
 
     switch (contentRetrieverType) {
-      case WEAVIATE:
-        return weaviateEmbeddingStoreClient;
       case ELASTICSEARCH:
         return elasticsearchContentRetrieverClient;
       default:

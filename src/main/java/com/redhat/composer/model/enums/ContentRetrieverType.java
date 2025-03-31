@@ -5,7 +5,6 @@ package com.redhat.composer.model.enums;
  */
 public enum ContentRetrieverType {
 
-  WEAVIATE("weaviate"),
   ELASTICSEARCH("elasticsearch");
 
   private final String type;

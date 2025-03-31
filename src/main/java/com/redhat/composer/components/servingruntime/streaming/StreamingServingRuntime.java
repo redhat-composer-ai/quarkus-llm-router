@@ -1,6 +1,6 @@
 package com.redhat.composer.components.servingruntime.streaming;
 
-import org.testcontainers.shaded.org.apache.commons.lang3.NotImplementedException;
+import org.apache.commons.lang3.NotImplementedException;
 
 import com.redhat.composer.model.request.LLMRequest;
 

@@ -144,7 +144,7 @@ public class ChatBotService {
       String systemMessage = request.getSystemMessage() == null ? defaultSystemMessage : request.getSystemMessage();
       Multi<String> multi = Multi.createFrom().emitter(em -> {
         aiService.chatToken(request.getContext(), request.getMessage(), systemMessage)
-        .onNext(em::emit)
+        .onPartialResponse(em::emit)
         .onRetrieved(sources -> {
           try {
             em.emit("START_SOURCES_STRING\n");
@@ -155,7 +155,7 @@ public class ChatBotService {
           }
         })
         .onError(em::fail)
-        .onComplete(response -> {
+        .onCompleteResponse(response -> {
           em.complete();
         })
             .start();
